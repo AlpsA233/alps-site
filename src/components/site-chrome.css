@@ -1,0 +1,585 @@
+.studio-shell .site-header.site-chrome {
+  position: fixed;
+  inset: 0 0 auto;
+  z-index: 40;
+  height: 84px;
+  padding: 0 clamp(22px, 3.4vw, 64px);
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 36px;
+  border: 0;
+  border-bottom: 1px solid transparent;
+  background: var(--studio-cream, #f5f0e7);
+  color: var(--studio-ink, #211f1a);
+  transition: border-color 180ms ease;
+}
+
+.studio-shell .site-chrome[data-scrolled="true"],
+.studio-shell .site-chrome.menu-is-open {
+  border-bottom-color: var(--studio-ink, #211f1a);
+}
+
+.studio-shell .site-chrome .wordmark {
+  width: fit-content;
+  min-width: 0;
+}
+
+.studio-shell .site-chrome .brand-logo {
+  gap: 6px;
+}
+
+.studio-shell .site-chrome .brand-logo-mark {
+  width: 28px;
+  height: 28px;
+  color: inherit;
+}
+
+.studio-shell .site-chrome .brand-logo-word {
+  width: 100px;
+  height: 40px;
+}
+
+.studio-shell .site-chrome .brand-logo-mark {
+  transition: transform 320ms cubic-bezier(0.22, 0.68, 0.18, 1);
+}
+
+.studio-shell .site-chrome .wordmark:hover .brand-logo-mark,
+.studio-shell .site-chrome .wordmark:focus-visible .brand-logo-mark {
+  transform: rotate(90deg);
+}
+
+.studio-shell .site-chrome .site-nav {
+  justify-self: end;
+  display: block;
+  min-width: 0;
+  padding: 0;
+  border-radius: 0;
+  background: transparent;
+}
+
+.studio-shell .site-chrome .site-nav-links {
+  display: flex;
+  align-items: center;
+  gap: clamp(22px, 3vw, 44px);
+}
+
+.studio-shell .site-chrome .site-nav a {
+  position: relative;
+  width: fit-content;
+  padding: 8px 0;
+  border-radius: 0;
+  background: transparent;
+  color: inherit;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1.6;
+  white-space: nowrap;
+}
+
+.studio-shell .site-chrome .site-nav-links a::after {
+  position: absolute;
+  inset: auto 0 4px;
+  height: 1px;
+  content: "";
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform 220ms ease;
+}
+
+.studio-shell .site-chrome .site-nav-links a.active::after,
+.studio-shell .site-chrome .site-nav-links a:hover::after,
+.studio-shell .site-chrome .site-nav-links a:focus-visible::after {
+  transform: scaleX(1);
+  transform-origin: left;
+}
+
+.studio-shell .site-chrome .site-nav-eyebrow,
+.studio-shell .site-chrome .site-nav-number,
+.studio-shell .site-chrome .site-nav-note,
+.studio-shell .site-chrome .header-contact {
+  display: none;
+}
+
+.studio-shell .site-chrome .menu-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 22px;
+  min-height: 44px;
+  padding: 8px 0 8px 20px;
+  border: 0;
+  border-left: 1px solid currentColor;
+  border-radius: 0;
+  background: transparent;
+  color: inherit;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.studio-shell .site-chrome .menu-toggle[hidden] {
+  display: none;
+}
+
+.studio-shell .site-chrome .menu-toggle-mark {
+  position: relative;
+  width: 17px;
+  height: 17px;
+}
+
+.studio-shell .site-chrome .menu-toggle-mark > span {
+  position: absolute;
+  top: 8px;
+  left: 0;
+  width: 17px;
+  height: 1px;
+  background: currentColor;
+  transition: transform 220ms ease;
+}
+
+.studio-shell .site-chrome .menu-toggle-mark > span:last-child {
+  transform: rotate(90deg);
+}
+
+.studio-shell .site-chrome.menu-is-open .menu-toggle-mark > span:first-child {
+  transform: rotate(45deg);
+}
+
+.studio-shell .site-chrome.menu-is-open .menu-toggle-mark > span:last-child {
+  transform: rotate(-45deg);
+}
+
+.studio-shell .site-chrome .site-nav.is-open {
+  position: absolute;
+  inset: 84px clamp(22px, 3.4vw, 64px) auto auto;
+  width: min(520px, calc(100vw - 44px));
+  max-height: calc(100svh - 106px);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: 28px 30px 24px;
+  border: 1px solid var(--studio-ink, #211f1a);
+  background: var(--studio-cream, #f5f0e7);
+  box-shadow: 8px 8px 0 var(--studio-red, #e6462d);
+  animation: studio-menu-arrive 180ms ease-out both;
+}
+
+.studio-shell .site-chrome .site-nav.is-open .site-nav-eyebrow {
+  display: block;
+  margin: 0 0 28px;
+  font-size: 9px;
+  font-weight: 500;
+  letter-spacing: 0.09em;
+  overflow-wrap: anywhere;
+}
+
+.studio-shell .site-chrome .site-nav.is-open .site-nav-links {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px 30px;
+}
+
+.studio-shell .site-chrome .site-nav.is-open .site-nav-links a {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 12px;
+  font-size: 34px;
+  font-weight: 500;
+  letter-spacing: -0.055em;
+}
+
+.studio-shell .site-chrome .site-nav.is-open .site-nav-number {
+  display: inline;
+  color: var(--studio-red, #e6462d);
+  font-size: 10px;
+  letter-spacing: 0;
+}
+
+.studio-shell .site-chrome .site-nav.is-open .header-contact {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 32px;
+  font-size: 12px;
+}
+
+.studio-shell .site-chrome .site-nav.is-open .site-nav-note {
+  display: block;
+  margin: 23px 0 0;
+  padding-top: 18px;
+  border-top: 1px solid currentColor;
+  font-size: 10px;
+  line-height: 1.9;
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+
+.studio-shell .site-chrome :focus-visible {
+  outline-color: var(--studio-red, #e6462d);
+}
+
+.studio-shell .contact-footer {
+  position: relative;
+  isolation: isolate;
+  width: 100vw;
+  margin-left: calc(50% - 50vw);
+  margin-top: 100px;
+  padding: 32px clamp(22px, 4.4vw, 84px) 24px;
+  background: var(--studio-red, #e6462d);
+  color: var(--studio-footer-ink, #12110e);
+}
+
+.studio-shell .contact-footer-topline {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 24px;
+  padding-bottom: 24px;
+  border-bottom: 1px solid currentColor;
+  font-size: 9px;
+  line-height: 1.8;
+  letter-spacing: 0.04em;
+}
+
+.studio-shell .contact-footer-label {
+  margin: 0;
+}
+
+.studio-shell .contact-footer-topline > span {
+  max-width: 45%;
+  overflow-wrap: anywhere;
+  text-align: right;
+}
+
+.studio-shell .contact-footer-stage {
+  position: relative;
+  padding: 34px 0 48px;
+}
+
+.studio-shell .contact-footer-title {
+  margin: 0;
+  font-family: var(--sans);
+  font-size: clamp(72px, 13vw, 224px);
+  font-weight: 800;
+  line-height: 0.86;
+  letter-spacing: -0.085em;
+}
+
+.studio-shell .contact-footer-line {
+  width: fit-content;
+  max-width: 100%;
+}
+
+.studio-shell .contact-footer-line:nth-child(2) {
+  margin-left: 18%;
+}
+
+.studio-shell .contact-footer-line:nth-child(3) {
+  margin-left: 4%;
+}
+
+.studio-shell .contact-footer-note {
+  position: absolute;
+  top: 44px;
+  right: 7%;
+  width: clamp(150px, 15vw, 205px);
+  padding: 18px 18px 17px;
+  background: var(--studio-cream, #f5f0e7);
+  box-shadow: 4px 4px 0 #211f1a24;
+  transform: rotate(-7deg);
+}
+
+.studio-shell .contact-footer-note > span:first-child {
+  display: block;
+  margin-bottom: 18px;
+  font-size: 32px;
+  line-height: 1;
+}
+
+.studio-shell .contact-footer-note p {
+  margin: 0 0 18px;
+  font-size: clamp(18px, 1.6vw, 23px);
+  font-weight: 500;
+  line-height: 1.65;
+  letter-spacing: -0.03em;
+}
+
+.studio-shell .contact-footer-note-caption {
+  font-size: 7px;
+  letter-spacing: 0.06em;
+}
+
+.studio-shell .contact-footer-details {
+  display: grid;
+  grid-template-columns: minmax(150px, 0.7fr) minmax(0, 2fr) auto;
+  align-items: end;
+  gap: 40px;
+  padding: 28px 0;
+  border-top: 1px solid currentColor;
+  border-bottom: 1px solid currentColor;
+}
+
+.studio-shell .contact-footer-details > p {
+  margin: 0;
+  font-size: 10px;
+  line-height: 1.9;
+}
+
+.studio-shell .contact-footer-email {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  min-width: 0;
+  padding-bottom: 2px;
+  font-size: clamp(19px, 3.1vw, 48px);
+  font-weight: 500;
+  line-height: 1.4;
+  letter-spacing: -0.055em;
+}
+
+.studio-shell .contact-footer-email > span {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.studio-shell .contact-footer-email svg,
+.studio-shell .contact-footer-github svg {
+  flex-shrink: 0;
+  transition: transform 240ms ease;
+}
+
+.studio-shell .contact-footer-email:hover svg,
+.studio-shell .contact-footer-email:focus-visible svg,
+.studio-shell .contact-footer-github:hover svg,
+.studio-shell .contact-footer-github:focus-visible svg {
+  transform: translate(3px, -3px);
+}
+
+.studio-shell .contact-footer-github {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 0;
+  font-size: 11px;
+}
+
+.studio-shell .contact-footer-base {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto auto;
+  align-items: center;
+  gap: 35px;
+  padding-top: 23px;
+  font-size: 8px;
+  line-height: 1.8;
+}
+
+.studio-shell .contact-footer-base .brand-logo {
+  gap: 4px;
+}
+
+.studio-shell .contact-footer-base .brand-logo-mark {
+  width: 24px;
+  height: 24px;
+  color: inherit;
+}
+
+.studio-shell .contact-footer-base .brand-logo-word {
+  width: 78px;
+  height: 31px;
+}
+
+.studio-shell .contact-footer-base p {
+  margin: 0;
+}
+
+.studio-shell .contact-footer-signature {
+  letter-spacing: 0.04em;
+}
+
+.studio-shell .contact-footer-top {
+  display: inline-flex;
+  align-items: center;
+  gap: 18px;
+  padding: 10px 0;
+  font-size: 10px;
+}
+
+.studio-shell .contact-footer-top > span {
+  font-size: 20px;
+  line-height: 1;
+}
+
+.studio-shell .contact-footer :focus-visible {
+  outline-color: var(--studio-ink, #211f1a);
+}
+
+@keyframes studio-menu-arrive {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 900px) {
+  .studio-shell .site-header.site-chrome {
+    gap: 25px;
+  }
+  .studio-shell .site-chrome .site-nav-links {
+    gap: 20px;
+  }
+  .studio-shell .contact-footer-details {
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 20px;
+  }
+  .studio-shell .contact-footer-details > p {
+    grid-column: 1 / -1;
+  }
+  .studio-shell .contact-footer-base {
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    gap: 24px;
+  }
+  .studio-shell .contact-footer-signature {
+    display: none;
+  }
+}
+
+@media (max-width: 700px) {
+  .studio-shell .site-header.site-chrome {
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 20px;
+  }
+  .studio-shell .site-chrome .brand-logo-mark {
+    width: 24px;
+    height: 24px;
+  }
+  .studio-shell .site-chrome .brand-logo-word {
+    width: 90px;
+    height: 36px;
+  }
+  .studio-shell .site-chrome[data-ready="true"] .site-nav {
+    display: none;
+  }
+  .studio-shell .site-chrome .site-nav.is-open {
+    display: block;
+    inset: 84px 22px auto;
+    width: auto;
+    padding: 25px 24px 22px;
+  }
+  .studio-shell .site-chrome .site-nav.is-open .site-nav-links a {
+    font-size: 30px;
+  }
+  .studio-shell .site-chrome .menu-toggle {
+    gap: 15px;
+    padding-left: 16px;
+  }
+  .studio-shell .site-chrome:not([data-ready="true"]) {
+    height: auto;
+    min-height: 84px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    row-gap: 4px;
+  }
+  .studio-shell .site-chrome:not([data-ready="true"]) .site-nav {
+    grid-column: 1 / -1;
+    justify-self: start;
+  }
+  .studio-shell .site-chrome:not([data-ready="true"]) .site-nav-links {
+    gap: 22px;
+  }
+  .studio-shell .site-chrome:not([data-ready="true"]) .site-nav a {
+    font-size: 10px;
+    padding: 4px 0;
+  }
+  .studio-shell .contact-footer {
+    margin-top: 64px;
+    padding: 25px 22px 20px;
+  }
+  .studio-shell .contact-footer-topline {
+    gap: 16px;
+    font-size: 7px;
+    padding-bottom: 20px;
+  }
+  .studio-shell .contact-footer-stage {
+    padding-top: 29px;
+    padding-bottom: 28px;
+  }
+  .studio-shell .contact-footer-title {
+    font-size: clamp(40px, 10.8vw, 76px);
+    line-height: 0.98;
+    letter-spacing: -0.075em;
+  }
+  .studio-shell .contact-footer-line:nth-child(2) {
+    margin-left: 22%;
+  }
+  .studio-shell .contact-footer-line:nth-child(3) {
+    margin-left: 0;
+  }
+  .studio-shell .contact-footer-note {
+    position: relative;
+    top: auto;
+    right: auto;
+    width: 168px;
+    margin: 25px 9px 10px auto;
+    padding: 14px 16px;
+    transform: rotate(-5deg);
+  }
+  .studio-shell .contact-footer-note > span:first-child {
+    margin-bottom: 12px;
+    font-size: 25px;
+  }
+  .studio-shell .contact-footer-note p {
+    margin-bottom: 10px;
+    font-size: 18px;
+  }
+  .studio-shell .contact-footer-details {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 22px;
+    padding: 22px 0;
+  }
+  .studio-shell .contact-footer-email {
+    font-size: clamp(22px, 6.8vw, 40px);
+    gap: 14px;
+  }
+  .studio-shell .contact-footer-github {
+    justify-self: start;
+  }
+  .studio-shell .contact-footer-base {
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 14px 20px;
+    padding-top: 19px;
+  }
+  .studio-shell .contact-footer-base p {
+    grid-column: 1;
+    grid-row: 2;
+    font-size: 8px;
+  }
+  .studio-shell .contact-footer-top {
+    grid-column: 2;
+    grid-row: 1 / 3;
+    align-self: center;
+    gap: 12px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .studio-shell .site-chrome *,
+  .studio-shell .contact-footer * {
+    animation: none !important;
+    transition: none !important;
+  }
+  .studio-shell .site-chrome .wordmark:hover .brand-logo-mark,
+  .studio-shell .site-chrome .wordmark:focus-visible .brand-logo-mark,
+  .studio-shell .contact-footer-email:hover svg,
+  .studio-shell .contact-footer-email:focus-visible svg,
+  .studio-shell .contact-footer-github:hover svg,
+  .studio-shell .contact-footer-github:focus-visible svg {
+    transform: none;
+  }
+}

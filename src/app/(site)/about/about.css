@@ -1,0 +1,298 @@
+.about-editorial {
+  padding: 68px 0 100px;
+}
+
+.about-editorial .about-editorial-heading {
+  position: relative;
+  isolation: isolate;
+  margin-bottom: 48px;
+}
+
+.about-editorial .about-editorial-kicker {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  font-size: 11px;
+  letter-spacing: 0.09em;
+}
+
+.about-editorial .about-editorial-kicker p {
+  margin: 0;
+}
+
+.about-editorial .about-editorial-kicker span {
+  white-space: nowrap;
+}
+
+.about-editorial .about-editorial-title {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(220px, 0.45fr);
+  gap: 60px;
+  align-items: end;
+}
+
+.about-editorial .about-editorial-title h1 {
+  font-family: var(--serif);
+  font-size: clamp(108px, 16vw, 210px);
+  line-height: 0.88;
+  letter-spacing: -0.07em;
+  font-weight: 400;
+  margin: 36px 0 0;
+  overflow-wrap: anywhere;
+}
+
+.about-editorial .about-editorial-title > p {
+  font-size: clamp(18px, 2vw, 27px);
+  line-height: 1.75;
+  letter-spacing: -0.03em;
+  margin: 0 0 4px;
+}
+
+.about-editorial .about-editorial-landscape {
+  margin: 0;
+}
+
+.about-editorial .about-editorial-image {
+  overflow: hidden;
+  background: #dad8ce;
+}
+
+.about-editorial .about-editorial-image img {
+  width: 100%;
+  height: auto;
+}
+
+.about-editorial .about-editorial-landscape figcaption {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 18px 0;
+  border-bottom: 1px solid var(--line);
+  font-size: 10px;
+  letter-spacing: 0.1em;
+}
+
+.about-editorial .about-editorial-story {
+  display: grid;
+  grid-template-columns: minmax(0, 0.55fr) minmax(0, 1fr);
+  gap: clamp(65px, 9vw, 130px);
+  align-items: start;
+  margin-top: 100px;
+}
+
+.about-editorial .about-editorial-specs > .brand-icon {
+  color: #52643a;
+  margin-bottom: 36px;
+}
+
+.about-editorial .about-editorial-specs dl {
+  margin: 0;
+}
+
+.about-editorial .about-editorial-specs dl > div {
+  padding: 20px 0;
+  border-top: 1px solid var(--line);
+}
+
+.about-editorial .about-editorial-specs dt {
+  color: #62685a;
+  font-size: 11px;
+  letter-spacing: 0.05em;
+  margin-bottom: 10px;
+}
+
+.about-editorial .about-editorial-specs dd {
+  font-size: 14px;
+  line-height: 1.8;
+  overflow-wrap: anywhere;
+  margin: 0;
+}
+
+.about-editorial .about-editorial-status {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.about-editorial .about-editorial-status > span {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #58702c;
+  flex-shrink: 0;
+}
+
+.about-editorial .about-editorial-biography {
+  max-width: 680px;
+  min-width: 0;
+}
+
+.about-editorial .about-editorial-section-label {
+  color: #62685a;
+  font-size: 12px;
+  margin: 0 0 20px;
+}
+
+.about-editorial .about-editorial-biography > h2 {
+  font-size: clamp(25px, 3vw, 34px);
+  font-weight: 400;
+  line-height: 1.6;
+  letter-spacing: -0.035em;
+  margin: 0 0 34px;
+}
+
+.about-editorial .about-editorial-biography .prose {
+  font-size: 17px;
+  line-height: 2;
+}
+
+.about-editorial .about-editorial-contact {
+  border-top: 1px solid var(--line);
+  padding-top: 30px;
+  margin-top: 40px;
+}
+
+.about-editorial .about-editorial-contact > p {
+  color: #62685a;
+  font-size: 14px;
+  line-height: 1.9;
+  margin: 0 0 18px;
+}
+
+.about-editorial .about-editorial-contact > a {
+  display: inline-flex;
+  align-items: center;
+  gap: 18px;
+  max-width: 100%;
+  font-size: 16px;
+  line-height: 1.8;
+  overflow-wrap: anywhere;
+  text-decoration: underline;
+  text-underline-offset: 7px;
+  text-decoration-thickness: 1px;
+}
+
+.about-editorial .about-editorial-signature {
+  font-family: var(--hand);
+  font-size: 31px;
+  text-align: right;
+  margin: 43px 8px 0;
+  transform: rotate(-5deg);
+}
+
+@media (max-width: 860px) {
+  .about-editorial .about-editorial-title {
+    grid-template-columns: minmax(0, 1fr) minmax(160px, 0.5fr);
+    gap: 30px;
+  }
+
+  .about-editorial .about-editorial-title h1 {
+    font-size: clamp(90px, 17vw, 150px);
+  }
+
+  .about-editorial .about-editorial-story {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 50px;
+    margin-top: 65px;
+  }
+
+  .about-editorial .about-editorial-specs > .brand-icon {
+    width: 52px;
+    height: 52px;
+    margin-bottom: 24px;
+  }
+
+  .about-editorial .about-editorial-specs dl {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 24px;
+  }
+
+  .about-editorial .about-editorial-biography {
+    width: 100%;
+    justify-self: end;
+  }
+}
+
+@media (max-width: 540px) {
+  .about-editorial {
+    padding: 43px 0 68px;
+  }
+
+  .about-editorial .about-editorial-heading {
+    margin-bottom: 30px;
+  }
+
+  .about-editorial .about-editorial-kicker {
+    font-size: 9px;
+    gap: 10px;
+  }
+
+  .about-editorial .about-editorial-title {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 22px;
+  }
+
+  .about-editorial .about-editorial-title h1 {
+    font-size: clamp(94px, 28vw, 150px);
+    margin-top: 26px;
+  }
+
+  .about-editorial .about-editorial-title > p {
+    font-size: 17px;
+    line-height: 1.75;
+  }
+
+  .about-editorial .about-editorial-title > p br {
+    display: none;
+  }
+
+  .about-editorial .about-editorial-landscape figcaption {
+    font-size: 9px;
+    letter-spacing: 0.06em;
+    padding: 13px 0;
+  }
+
+  .about-editorial .about-editorial-story {
+    margin-top: 46px;
+    gap: 40px;
+  }
+
+  .about-editorial .about-editorial-specs dl {
+    display: block;
+  }
+
+  .about-editorial .about-editorial-specs dl > div {
+    display: grid;
+    grid-template-columns: 100px minmax(0, 1fr);
+    gap: 18px;
+    padding: 15px 0;
+  }
+
+  .about-editorial .about-editorial-specs dt {
+    margin-bottom: 0;
+    line-height: 1.9;
+  }
+
+  .about-editorial .about-editorial-biography > h2 {
+    font-size: 25px;
+    margin-bottom: 26px;
+  }
+
+  .about-editorial .about-editorial-biography .prose {
+    font-size: 16px;
+    line-height: 1.95;
+  }
+
+  .about-editorial .about-editorial-contact {
+    padding-top: 24px;
+    margin-top: 30px;
+  }
+
+  .about-editorial .about-editorial-signature {
+    font-size: 28px;
+    margin-top: 30px;
+  }
+}

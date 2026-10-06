@@ -1,0 +1,210 @@
+{
+  "name": "ALPS editorial identity",
+  "version": 2,
+  "author": "Alps",
+  "license": "Original project artwork; available for use in this website",
+  "palette": {
+    "ink": "#211f1a",
+    "paper": "#f5f0e7",
+    "red": "#e6462d"
+  },
+  "sprite": "/brand/alps-sprite.svg",
+  "symbols": [
+    {
+      "id": "alps-mark",
+      "viewBox": "0 0 64 64"
+    },
+    {
+      "id": "alps-wordmark",
+      "viewBox": "0 0 160 64"
+    },
+    {
+      "id": "alps-ridge",
+      "viewBox": "0 0 128 64"
+    },
+    {
+      "id": "alps-stamp",
+      "viewBox": "0 0 100 100"
+    },
+    {
+      "id": "alps-compass",
+      "viewBox": "0 0 24 24"
+    },
+    {
+      "id": "alps-work",
+      "viewBox": "0 0 24 24"
+    },
+    {
+      "id": "alps-writing",
+      "viewBox": "0 0 24 24"
+    },
+    {
+      "id": "alps-profile",
+      "viewBox": "0 0 24 24"
+    },
+    {
+      "id": "alps-mail",
+      "viewBox": "0 0 24 24"
+    },
+    {
+      "id": "alps-arrow",
+      "viewBox": "0 0 24 24"
+    },
+    {
+      "id": "alps-menu",
+      "viewBox": "0 0 24 24"
+    },
+    {
+      "id": "alps-close",
+      "viewBox": "0 0 24 24"
+    },
+    {
+      "id": "alps-exit",
+      "viewBox": "0 0 24 24"
+    },
+    {
+      "id": "alps-draft",
+      "viewBox": "0 0 24 24"
+    }
+  ],
+  "atlas": {
+    "src": "/brand/alps-atlas.svg",
+    "width": 512,
+    "height": 160,
+    "items": [
+      {
+        "id": "alps-mark",
+        "x": 0,
+        "y": 0,
+        "width": 64,
+        "height": 64
+      },
+      {
+        "id": "alps-wordmark",
+        "x": 80,
+        "y": 0,
+        "width": 160,
+        "height": 64
+      },
+      {
+        "id": "alps-ridge",
+        "x": 256,
+        "y": 0,
+        "width": 128,
+        "height": 64
+      },
+      {
+        "id": "alps-stamp",
+        "x": 400,
+        "y": 0,
+        "width": 100,
+        "height": 100
+      },
+      {
+        "id": "alps-compass",
+        "x": 0,
+        "y": 128,
+        "width": 24,
+        "height": 24
+      },
+      {
+        "id": "alps-work",
+        "x": 48,
+        "y": 128,
+        "width": 24,
+        "height": 24
+      },
+      {
+        "id": "alps-writing",
+        "x": 96,
+        "y": 128,
+        "width": 24,
+        "height": 24
+      },
+      {
+        "id": "alps-profile",
+        "x": 144,
+        "y": 128,
+        "width": 24,
+        "height": 24
+      },
+      {
+        "id": "alps-mail",
+        "x": 192,
+        "y": 128,
+        "width": 24,
+        "height": 24
+      },
+      {
+        "id": "alps-arrow",
+        "x": 240,
+        "y": 128,
+        "width": 24,
+        "height": 24
+      },
+      {
+        "id": "alps-menu",
+        "x": 288,
+        "y": 128,
+        "width": 24,
+        "height": 24
+      },
+      {
+        "id": "alps-close",
+        "x": 336,
+        "y": 128,
+        "width": 24,
+        "height": 24
+      },
+      {
+        "id": "alps-exit",
+        "x": 384,
+        "y": 128,
+        "width": 24,
+        "height": 24
+      },
+      {
+        "id": "alps-draft",
+        "x": 432,
+        "y": 128,
+        "width": 24,
+        "height": 24
+      }
+    ],
+    "png": "/brand/alps-atlas.png",
+    "png2x": "/brand/alps-atlas@2x.png"
+  },
+  "exports": [
+    "alps-logo.svg",
+    "alps-logo-light.svg",
+    "alps-logo-red.svg",
+    "alps-mark.svg",
+    "alps-wordmark.svg",
+    "alps-ridge.svg",
+    "alps-stamp.svg",
+    "alps-compass.svg",
+    "alps-work.svg",
+    "alps-writing.svg",
+    "alps-profile.svg",
+    "alps-mail.svg",
+    "alps-arrow.svg",
+    "alps-menu.svg",
+    "alps-close.svg",
+    "alps-exit.svg",
+    "alps-draft.svg",
+    "alps-favicon.svg",
+    "alps-atlas.svg",
+    "preview.svg",
+    "alps-atlas.png",
+    "alps-atlas@2x.png",
+    "alps-logo.png",
+    "alps-logo-light.png",
+    "alps-logo-red.png",
+    "alps-mark.png",
+    "favicon-16.png",
+    "favicon-32.png",
+    "apple-touch-icon.png",
+    "preview.png",
+    "alps-atlas.css"
+  ]
+}
