@@ -25,6 +25,7 @@ import {
   readFileSync,
   rmSync,
   statSync,
+  existsSync,
 } from "node:fs";
 import { tmpdir } from "node:os";
 import { resolve } from "node:path";
@@ -333,7 +334,7 @@ test("cover validation accepts old content and local raster paths while rejectin
     false,
   );
 });
-test("admin setup preserves an environment file with no terminal newline and protects credentials", () => {
+test("one-character admin setup preserves an environment file with no terminal newline and protects credentials", async () => {
   const temp = mkdtempSync(resolve(tmpdir(), "alps-setup-test-"));
   try {
     writeFileSync(
@@ -342,7 +343,7 @@ test("admin setup preserves an environment file with no terminal newline and pro
     );
     execFileSync(process.execPath, [resolve("scripts/setup-admin.mjs")], {
       cwd: temp,
-      env: { ...process.env, ALPS_ADMIN_PASSWORD: "local-test-password-only" },
+      env: { NODE_ENV: "test", ALPS_ADMIN_PASSWORD: "x" },
       stdio: "pipe",
     });
     const env = readFileSync(resolve(temp, ".env.local"), "utf8");
@@ -350,11 +351,36 @@ test("admin setup preserves an environment file with no terminal newline and pro
       env,
       /DATABASE_PATH=data\/custom.sqlite\nADMIN_PASSWORD_HASH=[a-f0-9]{32}:[a-f0-9]{128}\n/,
     );
+    const credential = env.match(/^ADMIN_PASSWORD_HASH=(.+)$/m)?.[1];
+    assert.ok(credential);
+    assert.equal(await verifyPassword("x", credential), true);
     assert.equal(statSync(resolve(temp, ".env.local")).mode & 0o777, 0o600);
     assert.equal(
       statSync(resolve(temp, "data/admin-access.txt")).mode & 0o777,
       0o600,
     );
+  } finally {
+    rmSync(temp, { recursive: true, force: true });
+  }
+});
+
+test("admin setup rejects explicit empty and oversized passwords without writing credential files", () => {
+  const temp = mkdtempSync(resolve(tmpdir(), "alps-setup-invalid-test-"));
+  const envPath = resolve(temp, ".env.local");
+  const original = "DATABASE_PATH=data/custom.sqlite";
+  try {
+    writeFileSync(envPath, original);
+    for (const password of ["", "x".repeat(257)]) {
+      assert.throws(() =>
+        execFileSync(process.execPath, [resolve("scripts/setup-admin.mjs")], {
+          cwd: temp,
+          env: { NODE_ENV: "test", ALPS_ADMIN_PASSWORD: password },
+          stdio: "pipe",
+        }),
+      );
+      assert.equal(readFileSync(envPath, "utf8"), original);
+      assert.equal(existsSync(resolve(temp, "data/admin-access.txt")), false);
+    }
   } finally {
     rmSync(temp, { recursive: true, force: true });
   }

@@ -44,10 +44,10 @@ export function describeResetTarget(config) {
 function validatePassword(password) {
   if (
     typeof password !== "string" ||
-    password.length < 12 ||
+    password.length < 1 ||
     password.length > 256
   ) {
-    throw new AdminResetError("新密码长度需在 12–256 个字符之间。");
+    throw new AdminResetError("新密码不能为空，且不能超过 256 个字符。");
   }
 }
 
@@ -129,7 +129,7 @@ export async function main(args = process.argv.slice(2), io = {}) {
   if (supplied !== undefined) validatePassword(supplied);
   else if (!input.isTTY || !output.isTTY) {
     throw new AdminResetError(
-      "非交互终端不会读取明文密码；请使用交互终端，或通过 ALPS_ADMIN_PASSWORD 提供 12–256 位新密码。未连接数据库。",
+      "非交互终端不会读取明文密码；请使用交互终端，或通过 ALPS_ADMIN_PASSWORD 提供非空且最多 256 个字符的新密码。未连接数据库。",
     );
   }
 
@@ -146,7 +146,9 @@ export async function main(args = process.argv.slice(2), io = {}) {
 
   let password = supplied;
   if (password === undefined) {
-    password = await ask("新密码（12–256 位，输入隐藏）：", { secret: true });
+    password = await ask("新密码（非空，最多 256 个字符，输入隐藏）：", {
+      secret: true,
+    });
     validatePassword(password);
     const confirmation = await ask("再次输入新密码（输入隐藏）：", {
       secret: true,

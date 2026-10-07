@@ -86,15 +86,15 @@ export function PasswordChangeForm() {
       <PasswordInput
         name="newPassword"
         label="新密码"
-        minLength={12}
+        minLength={1}
         autoComplete="new-password"
-        hint="12–256 个字符，可使用字母、数字或符号。"
+        hint="可使用字母、数字或符号，最多 256 个字符。"
         pending={pending}
       />
       <PasswordInput
         name="confirmPassword"
         label="再次输入新密码"
-        minLength={12}
+        minLength={1}
         autoComplete="new-password"
         pending={pending}
       />

@@ -134,6 +134,61 @@ test("password mismatch fails before a connection, even after confirming the tar
   }
 });
 
+test("empty and oversized CLI passwords are rejected without asking or connecting", async () => {
+  const fixture = temporaryEnvironment();
+  try {
+    for (const password of ["", "x".repeat(257)]) {
+      const output = capturedOutput();
+      let connections = 0;
+      let questions = 0;
+      await assert.rejects(
+        reset.main(["--env", fixture.envPath], {
+          output: output.output,
+          environment: { ALPS_ADMIN_PASSWORD: password },
+          ask: async () => {
+            questions++;
+            return "yes";
+          },
+          connect: async () => {
+            connections++;
+            throw new Error("Must not connect");
+          },
+        }),
+        reset.AdminResetError,
+      );
+      assert.equal(questions, 0);
+      assert.equal(connections, 0);
+      assert.equal(existsSync(fixture.path), false);
+      assert.equal(readFileSync(fixture.envPath, "utf8"), fixture.original);
+    }
+  } finally {
+    fixture.close();
+  }
+});
+
+test("confirmed CLI accepts a one-character password in an isolated database", async () => {
+  const fixture = temporaryEnvironment();
+  const output = capturedOutput();
+  let client;
+  try {
+    const result = await reset.main(["--env", fixture.envPath], {
+      output: output.output,
+      environment: { ALPS_ADMIN_PASSWORD: "x" },
+      ask: async () => "yes",
+    });
+    assert.equal(result.changed, true);
+    client = createClient({ url: pathToFileURL(fixture.path).href });
+    const credential = await getAdminCredential(client, initialHash);
+    assert.ok(credential);
+    assert.equal(await verifyPassword("x", credential), true);
+    assert.equal(readFileSync(fixture.envPath, "utf8"), fixture.original);
+    assert.equal(output.text().includes(credential), false);
+  } finally {
+    client?.close();
+    fixture.close();
+  }
+});
+
 test("non-TTY CLI rejects piped plaintext passwords before connecting", () => {
   const fixture = temporaryEnvironment();
   try {

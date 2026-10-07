@@ -46,10 +46,10 @@ export async function changeAdminPassword(
     return { ok: false, error: "请输入有效的当前密码。" };
   if (
     typeof newPassword !== "string" ||
-    newPassword.length < 12 ||
+    newPassword.length < 1 ||
     newPassword.length > 256
   )
-    return { ok: false, error: "新密码长度需在 12–256 个字符之间。" };
+    return { ok: false, error: "新密码不能为空，且不能超过 256 个字符。" };
   if (newPassword !== confirmPassword)
     return { ok: false, error: "两次输入的新密码不一致。" };
   if (newPassword === currentPassword)

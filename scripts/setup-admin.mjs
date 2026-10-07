@@ -3,9 +3,9 @@ import { promisify } from "node:util";
 import { readFileSync, writeFileSync, mkdirSync, chmodSync } from "node:fs";
 import { resolve } from "node:path";
 const password =
-  process.env.ALPS_ADMIN_PASSWORD || randomBytes(16).toString("base64url");
-if (password.length < 12 || password.length > 256) {
-  console.error("密码长度需在 12–256 个字符之间。");
+  process.env.ALPS_ADMIN_PASSWORD ?? randomBytes(16).toString("base64url");
+if (password.length < 1 || password.length > 256) {
+  console.error("密码不能为空，且不能超过 256 个字符。");
   process.exit(1);
 }
 const salt = randomBytes(16);

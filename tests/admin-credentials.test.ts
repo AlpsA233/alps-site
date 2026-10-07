@@ -37,6 +37,11 @@ before(async () => {
   replacementHash = await hashPassword(replacementPassword);
 });
 
+test("password hashing rejects empty and oversized passwords", async () => {
+  await assert.rejects(hashPassword(""));
+  await assert.rejects(hashPassword("x".repeat(257)));
+});
+
 async function fixture() {
   const directory = mkdtempSync(
     resolve(tmpdir(), "alps-admin-credential-test-"),
@@ -179,6 +184,55 @@ test("password rotation is immediate across clients, survives reconnecting, igno
   }
 });
 
+test("one-character and eleven-character passwords rotate successfully across clients and revoke previous sessions", async () => {
+  const value = await fixture();
+  try {
+    let credential = await getAdminCredential(value.first, originalHash);
+    assert.ok(credential);
+    let currentPassword = originalPassword;
+    for (const newPassword of ["x", "y".repeat(11)]) {
+      const currentToken = await createSession(value.first, credential);
+      const otherToken = await createSession(value.second, credential);
+      assert.deepEqual(
+        await changeAdminPassword(
+          value.first,
+          originalHash,
+          passwordInput(currentToken, {
+            currentPassword,
+            newPassword,
+            confirmPassword: newPassword,
+          }),
+        ),
+        { ok: true },
+      );
+      const rotated = await getAdminCredential(value.second, originalHash);
+      assert.ok(rotated && rotated !== credential);
+      assert.equal(await verifyPassword(newPassword, rotated), true);
+      assert.equal(await verifyPassword(currentPassword, rotated), false);
+      assert.equal(
+        await validSession(value.first, currentToken, rotated),
+        false,
+      );
+      assert.equal(
+        await validSession(value.second, otherToken, rotated),
+        false,
+      );
+      assert.equal(
+        (await value.first.execute("SELECT token_hash FROM sessions")).rows
+          .length,
+        0,
+      );
+      credential = rotated;
+      currentPassword = newPassword;
+    }
+    assert.ok(
+      (await getAdminCredential(value.connect(), undefined)) === credential,
+    );
+  } finally {
+    value.close();
+  }
+});
+
 test("wrong current password and missing, malformed, or expired sessions cannot rotate a credential", async () => {
   const value = await fixture();
   try {
@@ -213,7 +267,7 @@ test("wrong current password and missing, malformed, or expired sessions cannot 
   }
 });
 
-test("mismatched confirmation, short, oversized, repeated and non-string passwords leave the credential and current session intact", async () => {
+test("mismatched confirmation, empty, oversized, repeated and non-string passwords leave the credential and current session intact", async () => {
   const value = await fixture();
   try {
     await getAdminCredential(value.first, originalHash);
@@ -221,7 +275,7 @@ test("mismatched confirmation, short, oversized, repeated and non-string passwor
     const before = await rows(value.first);
     for (const patch of [
       { confirmPassword: "fixture-other-confirmation" },
-      { newPassword: "x".repeat(11), confirmPassword: "x".repeat(11) },
+      { newPassword: "", confirmPassword: "" },
       { newPassword: "x".repeat(257), confirmPassword: "x".repeat(257) },
       { newPassword: originalPassword, confirmPassword: originalPassword },
       { newPassword: 123, confirmPassword: 123 },
