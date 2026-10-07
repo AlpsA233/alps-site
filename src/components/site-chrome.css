@@ -5,7 +5,7 @@
   height: 84px;
   padding: 0 clamp(22px, 3.4vw, 64px);
   display: grid;
-  grid-template-columns: auto minmax(0, 1fr) auto;
+  grid-template-columns: minmax(0, 1fr) auto;
   align-items: center;
   gap: 36px;
   border: 0;
@@ -15,18 +15,24 @@
   transition: border-color 180ms ease;
 }
 
-.studio-shell .site-chrome[data-scrolled="true"],
-.studio-shell .site-chrome.menu-is-open {
+.studio-shell .site-chrome[data-scrolled="true"] {
   border-bottom-color: var(--studio-ink, #211f1a);
 }
 
 .studio-shell .site-chrome .wordmark {
   width: fit-content;
+  max-width: 100%;
   min-width: 0;
 }
 
 .studio-shell .site-chrome .brand-logo {
+  max-width: 100%;
+  min-width: 0;
   gap: 6px;
+}
+
+.studio-shell .site-chrome .brand-logo-name {
+  min-width: 0;
 }
 
 .studio-shell .site-chrome .brand-logo-mark {
@@ -50,12 +56,16 @@
 }
 
 .studio-shell .site-chrome .site-nav {
+  position: static;
+  inset: auto;
   justify-self: end;
   display: block;
   min-width: 0;
   padding: 0;
   border-radius: 0;
+  border: 0;
   background: transparent;
+  box-shadow: none;
 }
 
 .studio-shell .site-chrome .site-nav-links {
@@ -66,7 +76,12 @@
 
 .studio-shell .site-chrome .site-nav a {
   position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
   width: fit-content;
+  min-height: 44px;
   padding: 8px 0;
   border-radius: 0;
   background: transparent;
@@ -93,127 +108,6 @@
 .studio-shell .site-chrome .site-nav-links a:focus-visible::after {
   transform: scaleX(1);
   transform-origin: left;
-}
-
-.studio-shell .site-chrome .site-nav-eyebrow,
-.studio-shell .site-chrome .site-nav-number,
-.studio-shell .site-chrome .site-nav-note,
-.studio-shell .site-chrome .header-contact {
-  display: none;
-}
-
-.studio-shell .site-chrome .menu-toggle {
-  display: inline-flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 22px;
-  min-height: 44px;
-  padding: 8px 0 8px 20px;
-  border: 0;
-  border-left: 1px solid currentColor;
-  border-radius: 0;
-  background: transparent;
-  color: inherit;
-  font-size: 11px;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
-}
-
-.studio-shell .site-chrome .menu-toggle[hidden] {
-  display: none;
-}
-
-.studio-shell .site-chrome .menu-toggle-mark {
-  position: relative;
-  width: 17px;
-  height: 17px;
-}
-
-.studio-shell .site-chrome .menu-toggle-mark > span {
-  position: absolute;
-  top: 8px;
-  left: 0;
-  width: 17px;
-  height: 1px;
-  background: currentColor;
-  transition: transform 220ms ease;
-}
-
-.studio-shell .site-chrome .menu-toggle-mark > span:last-child {
-  transform: rotate(90deg);
-}
-
-.studio-shell .site-chrome.menu-is-open .menu-toggle-mark > span:first-child {
-  transform: rotate(45deg);
-}
-
-.studio-shell .site-chrome.menu-is-open .menu-toggle-mark > span:last-child {
-  transform: rotate(-45deg);
-}
-
-.studio-shell .site-chrome .site-nav.is-open {
-  position: absolute;
-  inset: 84px clamp(22px, 3.4vw, 64px) auto auto;
-  width: min(520px, calc(100vw - 44px));
-  max-height: calc(100svh - 106px);
-  overflow-y: auto;
-  overscroll-behavior: contain;
-  padding: 28px 30px 24px;
-  border: 1px solid var(--studio-ink, #211f1a);
-  background: var(--studio-cream, #f5f0e7);
-  box-shadow: 8px 8px 0 var(--studio-red, #e6462d);
-  animation: studio-menu-arrive 180ms ease-out both;
-}
-
-.studio-shell .site-chrome .site-nav.is-open .site-nav-eyebrow {
-  display: block;
-  margin: 0 0 28px;
-  font-size: 9px;
-  font-weight: 500;
-  letter-spacing: 0.09em;
-  overflow-wrap: anywhere;
-}
-
-.studio-shell .site-chrome .site-nav.is-open .site-nav-links {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 12px 30px;
-}
-
-.studio-shell .site-chrome .site-nav.is-open .site-nav-links a {
-  display: inline-flex;
-  align-items: baseline;
-  gap: 12px;
-  font-size: 34px;
-  font-weight: 500;
-  letter-spacing: -0.055em;
-}
-
-.studio-shell .site-chrome .site-nav.is-open .site-nav-number {
-  display: inline;
-  color: var(--studio-red, #e6462d);
-  font-size: 10px;
-  letter-spacing: 0;
-}
-
-.studio-shell .site-chrome .site-nav.is-open .header-contact {
-  display: inline-flex;
-  align-items: center;
-  gap: 12px;
-  margin-top: 32px;
-  font-size: 12px;
-}
-
-.studio-shell .site-chrome .site-nav.is-open .site-nav-note {
-  display: block;
-  margin: 23px 0 0;
-  padding-top: 18px;
-  border-top: 1px solid currentColor;
-  font-size: 10px;
-  line-height: 1.9;
-  white-space: normal;
-  overflow-wrap: anywhere;
 }
 
 .studio-shell .site-chrome :focus-visible {
@@ -416,17 +310,6 @@
   outline-color: var(--studio-ink, #211f1a);
 }
 
-@keyframes studio-menu-arrive {
-  from {
-    opacity: 0;
-    transform: translateY(6px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
 @media (max-width: 900px) {
   .studio-shell .site-header.site-chrome {
     gap: 25px;
@@ -452,50 +335,33 @@
 
 @media (max-width: 700px) {
   .studio-shell .site-header.site-chrome {
-    grid-template-columns: minmax(0, 1fr) auto;
-    gap: 20px;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 2px;
+    padding: 8px 22px;
   }
   .studio-shell .site-chrome .brand-logo-mark {
-    width: 24px;
-    height: 24px;
+    width: 20px;
+    height: 20px;
   }
   .studio-shell .site-chrome .brand-logo-word {
-    width: 90px;
-    height: 36px;
+    width: 70px;
+    height: 28px;
   }
-  .studio-shell .site-chrome[data-ready="true"] .site-nav {
-    display: none;
+  .studio-shell .site-chrome .brand-logo-name {
+    max-width: min(240px, calc(100vw - 72px));
+    font-size: 28px;
   }
-  .studio-shell .site-chrome .site-nav.is-open {
-    display: block;
-    inset: 84px 22px auto;
-    width: auto;
-    padding: 25px 24px 22px;
+  .studio-shell .site-chrome .site-nav {
+    justify-self: stretch;
   }
-  .studio-shell .site-chrome .site-nav.is-open .site-nav-links a {
-    font-size: 30px;
+  .studio-shell .site-chrome .site-nav-links {
+    justify-content: space-between;
+    gap: 8px;
   }
-  .studio-shell .site-chrome .menu-toggle {
-    gap: 15px;
-    padding-left: 16px;
-  }
-  .studio-shell .site-chrome:not([data-ready="true"]) {
-    height: auto;
-    min-height: 84px;
-    padding-top: 10px;
-    padding-bottom: 10px;
-    row-gap: 4px;
-  }
-  .studio-shell .site-chrome:not([data-ready="true"]) .site-nav {
-    grid-column: 1 / -1;
-    justify-self: start;
-  }
-  .studio-shell .site-chrome:not([data-ready="true"]) .site-nav-links {
-    gap: 22px;
-  }
-  .studio-shell .site-chrome:not([data-ready="true"]) .site-nav a {
-    font-size: 10px;
-    padding: 4px 0;
+  .studio-shell .site-chrome .site-nav a {
+    min-width: 44px;
+    min-height: 36px;
+    padding: 8px;
   }
   .studio-shell .contact-footer {
     margin-top: 64px;

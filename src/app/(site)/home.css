@@ -56,7 +56,8 @@
   font-size: calc(clamp(150px, 25.3vw, 370px) * var(--name-fit, 1));
   font-weight: 800;
   line-height: 0.89;
-  letter-spacing: -0.08em;
+  /* Each flex item is one glyph; negative tracking clips the final letter. */
+  letter-spacing: 0;
   white-space: nowrap;
 }
 .editorial-home .poster-name > span {
@@ -719,7 +720,6 @@
   .editorial-home .poster-name {
     top: 98px;
     font-size: calc(24vw * var(--name-fit, 1));
-    letter-spacing: -0.09em;
   }
   .editorial-home .poster-object {
     width: 122%;

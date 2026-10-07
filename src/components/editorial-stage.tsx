@@ -73,7 +73,7 @@ export function EditorialStage({ children }: { children: ReactNode }) {
       const rect = hero.getBoundingClientRect();
       targetProgress =
         innerWidth > 700
-          ? clamp((84 - rect.top) / Math.max(1, rect.height - viewport + 84))
+          ? clamp(-rect.top / Math.max(1, rect.height - viewport + 84))
           : 0;
       progressBar?.style.setProperty(
         "--reading-progress",
