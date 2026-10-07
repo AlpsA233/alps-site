@@ -207,7 +207,7 @@
 
 .studio-shell .contact-footer-details {
   display: grid;
-  grid-template-columns: minmax(150px, 0.7fr) minmax(0, 2fr) auto;
+  grid-template-columns: minmax(150px, 0.7fr) minmax(0, 2fr);
   align-items: end;
   gap: 40px;
   padding: 28px 0;
@@ -239,25 +239,14 @@
   overflow-wrap: anywhere;
 }
 
-.studio-shell .contact-footer-email svg,
-.studio-shell .contact-footer-github svg {
+.studio-shell .contact-footer-email svg {
   flex-shrink: 0;
   transition: transform 240ms ease;
 }
 
 .studio-shell .contact-footer-email:hover svg,
-.studio-shell .contact-footer-email:focus-visible svg,
-.studio-shell .contact-footer-github:hover svg,
-.studio-shell .contact-footer-github:focus-visible svg {
+.studio-shell .contact-footer-email:focus-visible svg {
   transform: translate(3px, -3px);
-}
-
-.studio-shell .contact-footer-github {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  padding: 10px 0;
-  font-size: 11px;
 }
 
 .studio-shell .contact-footer-base {
@@ -318,7 +307,7 @@
     gap: 20px;
   }
   .studio-shell .contact-footer-details {
-    grid-template-columns: minmax(0, 1fr) auto;
+    grid-template-columns: minmax(0, 1fr);
     gap: 20px;
   }
   .studio-shell .contact-footer-details > p {
@@ -413,9 +402,6 @@
     font-size: clamp(22px, 6.8vw, 40px);
     gap: 14px;
   }
-  .studio-shell .contact-footer-github {
-    justify-self: start;
-  }
   .studio-shell .contact-footer-base {
     grid-template-columns: minmax(0, 1fr) auto;
     gap: 14px 20px;
@@ -443,9 +429,7 @@
   .studio-shell .site-chrome .wordmark:hover .brand-logo-mark,
   .studio-shell .site-chrome .wordmark:focus-visible .brand-logo-mark,
   .studio-shell .contact-footer-email:hover svg,
-  .studio-shell .contact-footer-email:focus-visible svg,
-  .studio-shell .contact-footer-github:hover svg,
-  .studio-shell .contact-footer-github:focus-visible svg {
+  .studio-shell .contact-footer-email:focus-visible svg {
     transform: none;
   }
 }

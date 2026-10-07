@@ -44,14 +44,6 @@ export function SiteFooter({ profile }: { profile: Profile }) {
           <span>{profile.email}</span>
           <BrandIcon name="arrow" size={28} />
         </a>
-        <a
-          className="contact-footer-github"
-          href={profile.github}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          GitHub <BrandIcon name="arrow" size={18} />
-        </a>
       </div>
       <div className="contact-footer-base">
         <Link
