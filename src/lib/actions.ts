@@ -6,6 +6,7 @@ import { requireAdmin, SESSION_COOKIE } from "./auth";
 import { db, saveEntry, deleteEntry, getEntry, saveProfile } from "./db";
 import { entrySchema, profileSchema } from "./content";
 import { verifyPassword } from "./password";
+import { changeAdminPassword, getAdminCredential } from "./admin-credentials";
 import {
   createSession,
   revokeSession,
@@ -18,9 +19,6 @@ export async function loginAction(
   _: ActionState,
   form: FormData,
 ): Promise<ActionState> {
-  const hash = process.env.ADMIN_PASSWORD_HASH;
-  if (!hash)
-    return { error: "后台还未初始化，请在项目目录运行 npm run admin:setup。" };
   const password = form.get("password");
   if (
     typeof password !== "string" ||
@@ -29,6 +27,15 @@ export async function loginAction(
   )
     return { error: "请输入有效密码。" };
   const database = await db();
+  const hash = await getAdminCredential(
+    database,
+    process.env.ADMIN_PASSWORD_HASH,
+  );
+  if (!hash)
+    return {
+      error:
+        "后台还未初始化，请配置初始密码，或运行 npm run admin:reset 恢复访问。",
+    };
   if (!(await claimLoginAttempt(database)))
     return { error: "尝试次数较多，请在 10 分钟后重试。" };
   if (!(await verifyPassword(password, hash)))
@@ -52,14 +59,42 @@ export async function loginAction(
 export async function logoutAction() {
   const cookieStore = await cookies();
   const token = cookieStore.get(SESSION_COOKIE)?.value;
-  if (token)
-    await revokeSession(
-      await db(),
-      token,
-      process.env.ADMIN_PASSWORD_HASH || "",
+  if (token) {
+    const database = await db();
+    const credential = await getAdminCredential(
+      database,
+      process.env.ADMIN_PASSWORD_HASH,
     );
+    if (credential) await revokeSession(database, token, credential);
+  }
   cookieStore.delete(SESSION_COOKIE);
   redirect("/admin/login");
+}
+export async function changePasswordAction(
+  _: ActionState,
+  form: FormData,
+): Promise<ActionState> {
+  await requireAdmin();
+  const cookieStore = await cookies();
+  const sessionToken = cookieStore.get(SESSION_COOKIE)?.value || "";
+  let result;
+  try {
+    result = await changeAdminPassword(
+      await db(),
+      process.env.ADMIN_PASSWORD_HASH,
+      {
+        sessionToken,
+        currentPassword: form.get("currentPassword"),
+        newPassword: form.get("newPassword"),
+        confirmPassword: form.get("confirmPassword"),
+      },
+    );
+  } catch {
+    return { error: "修改失败，请稍后重试。" };
+  }
+  if (!result.ok) return { error: result.error };
+  cookieStore.delete(SESSION_COOKIE);
+  redirect("/admin/login?passwordChanged=1");
 }
 export async function saveEntryAction(
   _: ActionState,

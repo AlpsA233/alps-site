@@ -11,6 +11,7 @@
     "start": "next start --hostname 127.0.0.1",
     "typecheck": "next typegen && tsc --noEmit",
     "admin:setup": "node scripts/setup-admin.mjs",
+    "admin:reset": "node --import tsx scripts/reset-admin-password.mjs",
     "deploy:config": "node scripts/deployment-config.mjs",
     "deploy:migrate": "node --import tsx scripts/migrate-to-turso.mjs",
     "brand:generate": "node scripts/export-brand-images.mjs",

@@ -1261,3 +1261,111 @@
     display: none;
   }
 }
+
+.security-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 560px) minmax(200px, 1fr);
+  align-items: start;
+  gap: 34px;
+  max-width: 940px;
+}
+.password-change-form {
+  min-width: 0;
+}
+.password-change-field {
+  margin-bottom: 24px;
+}
+.password-change-form .password-field {
+  margin-bottom: 0;
+}
+.password-change-form .password-field input {
+  margin-bottom: 0;
+  padding: 13px 54px 13px 14px;
+}
+.password-change-form .password-field button {
+  top: 50%;
+  right: 5px;
+  transform: translateY(-50%);
+  width: 42px;
+  height: 42px;
+  display: grid;
+  place-items: center;
+  border-radius: 3px;
+}
+.password-change-form .password-field button:hover:not(:disabled) {
+  background: #edf0e4;
+  color: var(--ink);
+}
+.password-change-form .password-field button:disabled {
+  cursor: wait;
+  opacity: 0.6;
+}
+.password-field-hint {
+  margin: 9px 0 0;
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.8;
+}
+.password-change-submit {
+  width: 100%;
+  gap: 9px;
+  font-size: 14px;
+  padding: 13px 18px;
+}
+.security-note {
+  padding: 27px 0;
+}
+.security-note-label {
+  display: block;
+  color: var(--muted);
+  font-size: 12px;
+  margin-bottom: 18px;
+}
+.security-note h2 {
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 1.6;
+  margin: 0 0 14px;
+}
+.security-note p {
+  font-size: 14px;
+  color: var(--muted);
+  line-height: 1.9;
+  margin: 0 0 14px;
+}
+@media (max-width: 900px) {
+  .security-layout {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 20px;
+    max-width: 620px;
+  }
+  .security-note {
+    border-top: 1px solid var(--line);
+    padding: 22px 0 0;
+  }
+}
+@media (max-width: 650px) {
+  .admin-sidebar nav {
+    justify-content: flex-start;
+    width: 100%;
+    max-width: 100%;
+    overflow-x: auto;
+    overflow-y: hidden;
+    overscroll-behavior-x: contain;
+    scrollbar-width: thin;
+    padding: 4px 2px;
+    scroll-padding-inline: 4px;
+  }
+  .admin-sidebar nav a {
+    flex: 0 0 auto;
+  }
+  .admin-sidebar nav a svg {
+    flex-shrink: 0;
+  }
+  .password-change-form .password-field input {
+    font-size: 16px;
+  }
+  .security-note h2 {
+    font-size: 17px;
+  }
+}

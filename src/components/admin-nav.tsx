@@ -1,6 +1,7 @@
 "use client";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { KeyRound } from "lucide-react";
 import { BrandIcon, BrandLogo } from "@/components/brand";
 import { logoutAction } from "@/lib/actions";
 const items = [
@@ -8,6 +9,7 @@ const items = [
   { href: "/admin/projects", label: "作品管理", icon: "work" },
   { href: "/admin/posts", label: "文章管理", icon: "writing" },
   { href: "/admin/profile", label: "个人资料", icon: "profile" },
+  { href: "/admin/security", label: "账号安全", icon: "security" },
 ] as const;
 export function AdminNav({ name }: { name: string }) {
   const pathname = usePathname();
@@ -36,7 +38,11 @@ export function AdminNav({ name }: { name: string }) {
                 : ""
             }
           >
-            <BrandIcon name={item.icon} size={18} />
+            {item.icon === "security" ? (
+              <KeyRound size={18} aria-hidden="true" />
+            ) : (
+              <BrandIcon name={item.icon} size={18} />
+            )}
             {item.label}
           </Link>
         ))}

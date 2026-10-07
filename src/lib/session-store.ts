@@ -1,5 +1,5 @@
 import { createHash, randomBytes } from "node:crypto";
-import type { Client } from "@libsql/client";
+import type { Client, Transaction } from "@libsql/client";
 export const SESSION_SECONDS = 60 * 60 * 24 * 7;
 export const LOGIN_WINDOW_MS = 10 * 60 * 1000;
 export const LOGIN_MAX_ATTEMPTS = 8;
@@ -27,7 +27,7 @@ export async function createSession(
   return token;
 }
 export async function validSession(
-  database: Client,
+  database: Pick<Transaction, "execute">,
   token: string,
   credential: string,
   now = Date.now(),
@@ -53,18 +53,33 @@ export async function claimLoginAttempt(
   database: Client,
   now = Date.now(),
 ): Promise<boolean> {
+  return claimAttempt(database, "login_attempts", now);
+}
+
+export async function claimPasswordChangeAttempt(
+  database: Client,
+  now = Date.now(),
+): Promise<boolean> {
+  return claimAttempt(database, "password_change_attempts", now);
+}
+
+async function claimAttempt(
+  database: Client,
+  table: "login_attempts" | "password_change_attempts",
+  now: number,
+): Promise<boolean> {
   // Claim and increment atomically, including across separate serverless instances.
   const result = await database.execute({
-    sql: `INSERT INTO login_attempts (id,count,started_at) VALUES (1,1,$now)
+    sql: `INSERT INTO ${table} (id,count,started_at) VALUES (1,1,$now)
       ON CONFLICT(id) DO UPDATE SET
         count=CASE
-          WHEN excluded.started_at-login_attempts.started_at >= $window THEN 1
-          ELSE login_attempts.count+1 END,
+          WHEN excluded.started_at-${table}.started_at >= $window THEN 1
+          ELSE ${table}.count+1 END,
         started_at=CASE
-          WHEN excluded.started_at-login_attempts.started_at >= $window THEN excluded.started_at
-          ELSE login_attempts.started_at END
-      WHERE excluded.started_at-login_attempts.started_at >= $window
-        OR login_attempts.count < $maximum
+          WHEN excluded.started_at-${table}.started_at >= $window THEN excluded.started_at
+          ELSE ${table}.started_at END
+      WHERE excluded.started_at-${table}.started_at >= $window
+        OR ${table}.count < $maximum
       RETURNING count`,
     args: {
       now,
@@ -77,4 +92,10 @@ export async function claimLoginAttempt(
 
 export async function clearLoginAttempts(database: Client): Promise<void> {
   await database.execute("DELETE FROM login_attempts WHERE id=1");
+}
+
+export async function clearPasswordChangeAttempts(
+  database: Client,
+): Promise<void> {
+  await database.execute("DELETE FROM password_change_attempts WHERE id=1");
 }

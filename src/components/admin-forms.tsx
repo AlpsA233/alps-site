@@ -28,11 +28,20 @@ function Feedback({ state }: { state: ActionState }) {
     </div>
   );
 }
-export function LoginForm() {
+export function LoginForm({
+  passwordChanged = false,
+}: {
+  passwordChanged?: boolean;
+}) {
   const [state, action, pending] = useActionState(loginAction, {});
   const [show, setShow] = useState(false);
   return (
     <form action={action} className="login-form">
+      {passwordChanged && (
+        <p role="status" className="form-message message-success">
+          密码已修改，请使用新密码登录。
+        </p>
+      )}
       <label htmlFor="password">后台密码</label>
       <div className="password-field">
         <input

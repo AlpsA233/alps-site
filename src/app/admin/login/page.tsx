@@ -5,9 +5,14 @@ import { isAdmin } from "@/lib/auth";
 import { LoginForm } from "@/components/admin-forms";
 import { BrandLogo } from "@/components/brand";
 import { getProfile } from "@/lib/db";
-export default async function Login() {
+export default async function Login({
+  searchParams,
+}: {
+  searchParams: Promise<{ passwordChanged?: string | string[] }>;
+}) {
   if (await isAdmin()) redirect("/admin");
   const profile = await getProfile();
+  const passwordChanged = (await searchParams).passwordChanged === "1";
   return (
     <main className="login-page">
       <aside className="login-art">
@@ -54,7 +59,7 @@ export default async function Login() {
           <p className="eyebrow">YOUR PERSONAL STUDIO</p>
           <h2>欢迎回来。</h2>
           <p className="muted">登录后，继续写你的故事。</p>
-          <LoginForm />
+          <LoginForm passwordChanged={passwordChanged} />
         </div>
         <p className="login-bottom">
           {profile.name.toUpperCase()} / CONTENT STUDIO
