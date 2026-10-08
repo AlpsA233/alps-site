@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { requireAdmin } from "@/lib/auth";
 import { EntryForm } from "@/components/admin-forms";
+import { isMediaConfigured } from "@/lib/media";
 export default async function New({
   searchParams,
 }: {
@@ -24,7 +25,11 @@ export default async function New({
           <h1>一个新的{kind === "project" ? "作品" : "故事"}。</h1>
         </div>
       </div>
-      <EntryForm kind={kind} />
+      <EntryForm
+        key={`${kind}:new`}
+        kind={kind}
+        mediaReady={isMediaConfigured()}
+      />
     </>
   );
 }

@@ -1,8 +1,24 @@
 import type { NextConfig } from "next";
+import { normalizeMediaPublicBase } from "./src/lib/media-policy";
+const mediaBase = normalizeMediaPublicBase(process.env.MEDIA_PUBLIC_BASE_URL);
 const config: NextConfig = {
   distDir: process.env.ALPS_BUILD_DIR || ".next",
   poweredByHeader: false,
   devIndicators: false,
+  images: {
+    maximumRedirects: 0,
+    remotePatterns: mediaBase
+      ? [
+          {
+            protocol: "https",
+            hostname: new URL(mediaBase).hostname,
+            port: "",
+            pathname: "/media/**",
+            search: "",
+          },
+        ]
+      : [],
+  },
   serverExternalPackages: ["better-sqlite3", "@libsql/client"],
   async headers() {
     return [

@@ -7,6 +7,8 @@ import { db, saveEntry, deleteEntry, getEntry, saveProfile } from "./db";
 import { entrySchema, profileSchema } from "./content";
 import { verifyPassword } from "./password";
 import { changeAdminPassword, getAdminCredential } from "./admin-credentials";
+import { getMediaPublicBase } from "./media";
+import { isManagedImageUrl } from "./media-policy";
 import {
   createSession,
   revokeSession,
@@ -118,6 +120,11 @@ export async function saveEntryAction(
   const parsed = entrySchema.safeParse(raw);
   if (!parsed.success)
     return { error: parsed.error.issues[0]?.message || "请检查输入内容。" };
+  if (
+    parsed.data.coverPath.startsWith("https://") &&
+    !isManagedImageUrl(parsed.data.coverPath, getMediaPublicBase())
+  )
+    return { error: "封面地址不属于当前配置的图床，请重新上传。" };
   let id: string;
   try {
     id = await saveEntry(parsed.data);

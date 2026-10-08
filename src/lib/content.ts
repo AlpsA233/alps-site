@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { hasPendingImageUpload, isManagedImageAddress } from "./media-policy";
 
 export const entrySchema = z.object({
   id: z.string().max(80).optional(),
@@ -13,7 +14,15 @@ export const entrySchema = z.object({
   category: z.string().trim().min(1, "请填写分类").max(40),
   year: z.string().regex(/^20\d{2}$/, "请填写四位年份"),
   summary: z.string().trim().min(1, "请填写摘要").max(600),
-  body: z.string().trim().min(1, "请填写正文").max(50000),
+  body: z
+    .string()
+    .trim()
+    .min(1, "请填写正文")
+    .max(50000)
+    .refine(
+      (body) => !hasPendingImageUpload(body),
+      "请等待图片上传完成，或移除失败的图片后再保存。",
+    ),
   tags: z.string().trim().max(180),
   status: z.enum(["draft", "published"]),
   theme: z.enum(["lime", "ink", "paper"]),
@@ -22,10 +31,13 @@ export const entrySchema = z.object({
       z.literal(""),
       z
         .string()
-        .max(300)
-        .regex(
-          /^\/images\/(?:[A-Za-z0-9_-]+\/)*[A-Za-z0-9_-]+\.(?:avif|webp|png|jpe?g)$(?![\s\S])/,
-          "封面需使用 /images/ 下的本地图片路径（WebP、PNG、JPEG 或 AVIF）",
+        .max(2000)
+        .refine(
+          (value) =>
+            /^\/images\/(?:[A-Za-z0-9_-]+\/)*[A-Za-z0-9_-]+\.(?:avif|webp|png|jpe?g)$(?![\s\S])/.test(
+              value,
+            ) || isManagedImageAddress(value),
+          "请选择内置封面，或上传一张封面图片。",
         ),
     ])
     .default(""),

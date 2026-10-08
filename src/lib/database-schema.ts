@@ -10,6 +10,7 @@ export const SCHEMA_STATEMENTS = [
   "CREATE TABLE IF NOT EXISTS sessions (token_hash TEXT PRIMARY KEY, expires_at INTEGER NOT NULL)",
   "CREATE TABLE IF NOT EXISTS login_attempts (id INTEGER PRIMARY KEY CHECK(id = 1), count INTEGER NOT NULL, started_at INTEGER NOT NULL)",
   "CREATE TABLE IF NOT EXISTS password_change_attempts (id INTEGER PRIMARY KEY CHECK(id = 1), count INTEGER NOT NULL, started_at INTEGER NOT NULL)",
+  "CREATE TABLE IF NOT EXISTS media_upload_attempts (id INTEGER PRIMARY KEY CHECK(id = 1), count INTEGER NOT NULL, started_at INTEGER NOT NULL)",
   "CREATE TABLE IF NOT EXISTS admin_credentials (id INTEGER PRIMARY KEY CHECK(id = 1), password_hash TEXT NOT NULL, updated_at TEXT NOT NULL)",
   "CREATE TABLE IF NOT EXISTS migrations (key TEXT PRIMARY KEY, applied_at TEXT NOT NULL)",
 ] as const;

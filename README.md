@@ -34,9 +34,9 @@ npm run dev
 - 响应式桌面与移动布局，手机导航，键盘焦点与减少动态效果支持。
 - 后台密码登录、总览、作品和文章的新建/修改/删除、草稿与发布。
 - 后台“账号安全”支持验证当前密码后设置新密码；凭据保存在共享数据库，立即对所有实例生效，全部设备退出后使用新密码登录，无需重新部署。
-- Markdown 正文编辑和实时预览。
+- Markdown 正文编辑和实时预览；配置图床后可直接粘贴或选择图片，自动上传并插入 Markdown，支持重试与取消。
 - 文字文章与后台文章预览共享手稿式 Markdown；作品详情及作品预览保留普通排版。`/reading-lab` 提供独立阅读样张和可展开的 Markdown 源码，不修改文章内容，也不进入 sitemap。
-- 作品与文章可选择六张原创封面、编辑图片说明或移除封面，所选封面保存到 SQLite。
+- 作品与文章可选择六张原创封面、上传图片并按 3:2 / 16:9 / 1:1 / 4:5 裁剪、编辑图片说明或移除封面；图片存 R2，URL 保存到 SQLite/Turso。
 - 首页首屏的朱红拼贴物件支持鼠标拖动旋转、点击旋转与左右方向键 / Home 复位；平滑指针位移与旋转惯性使用带时间修正的阻尼。滚动控制站名字母展开、抬升与物件姿态。
 - 首页宣言随滚动逐句加深墨色；精选作品采用带缩放的 sticky 卡片堆叠，手机改为纵向卡片。
 - `/work` 作品目录使用双列封面网格，手机为单列；支持关键词、分类、年份筛选及新旧顺序。SQLite 在服务端筛选、计数并每页取 12 条，网址保留条件，分页支持浏览器返回。分类和年份选项来自全部已发布作品；草稿和文章不进入目录或筛选统计。
@@ -72,6 +72,10 @@ npm run dev
 ## 作品与文字封面
 
 后台的作品、文章编辑页都有“封面图片”下拉选择与预览，可修改“图片说明”，选择“不使用封面”可恢复纯文字版式。六张封面的母题分别是阅读桌、植物笔记、黑白山径、午后小路、折纸与玻璃、手工尺与草稿；每张为 1400×933 WebP，由内置图像生成工具单独生成。
+
+配置 Cloudflare R2 后，还可上传自己的封面，在裁剪弹窗选择比例、拖动和缩放；正文支持粘贴图片文件或点击“添加图片”。上传时保留可重试的占位符，处理完成才可保存。图片统一压缩为静态 WebP，移除 EXIF；前台直接读取图片 Worker 地址。未配置图床时，内置封面与普通写作继续可用。
+
+没有域名可先用免费的 `workers.dev` 地址。完整的桶、密钥、Worker、本地与 Vercel 配置，以及免费额度和维护说明见 [Cloudflare 图床配置](cloudflare/README.md)。
 
 现有数据库首次应用 `content-covers-v1` 迁移时，只为标题仍与示例一致且完全没有封面字段的旧示例补齐封面。已经编辑的内容、明确选择的空封面与更新时间会保留。迁移只执行一次；升级前的本地数据库备份位于 `data/backups/`。
 
@@ -121,7 +125,7 @@ npm run admin:reset -- --env .env.deploy.local
 
 ## 部署到 Vercel + Turso
 
-Vercel 运行 Next.js 页面和后台 Server Actions；Turso 持久保存个人资料、作品、文章、登录会话和登录限流记录。`public/` 下现有图片与 Logo 随源码部署，不需要额外对象存储。尚未提供用户上传功能；将来增加上传时应再接入对象存储。
+Vercel 运行 Next.js 页面、后台 Server Actions 和受保护的图片上传 API；Turso 持久保存个人资料、作品、文章、登录会话和限流记录。`public/` 下现有图片与 Logo 随源码部署；自行上传的图片使用可选的 Cloudflare R2 + 图片 Worker，配置见 [图床说明](cloudflare/README.md)。
 
 数据库使用 **Turso Cloud 的 libSQL 引擎**，与 `@libsql/client` 兼容。若通过 CLI 创建，使用 `turso db create alps-site`，不加 `--tursodb`。也可使用 [Vercel Marketplace 的 Turso Cloud](https://vercel.com/marketplace/tursocloud) 集成。引擎区别见 [Turso 官方快速开始](https://docs.turso.tech/quickstart)，远程驱动选择见 [Turso 的 Vercel 部署说明](https://docs.turso.tech/integrations/vercel)。
 

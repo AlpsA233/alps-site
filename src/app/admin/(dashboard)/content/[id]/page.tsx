@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { requireAdmin } from "@/lib/auth";
 import { getEntry } from "@/lib/db";
 import { EntryForm } from "@/components/admin-forms";
+import { isMediaConfigured } from "@/lib/media";
 export default async function Editor({
   params,
   searchParams,
@@ -34,6 +35,7 @@ export default async function Editor({
         entry={entry}
         kind={entry.kind}
         created={(await searchParams).created === "1"}
+        mediaReady={isMediaConfigured()}
       />
     </>
   );

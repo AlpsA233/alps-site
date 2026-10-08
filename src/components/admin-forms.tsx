@@ -1,9 +1,13 @@
 "use client";
-import { useActionState, useState, type ChangeEvent } from "react";
+import { useActionState, useRef, useState, type ChangeEvent } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { Markdown } from "@/components/markdown";
-import { Eye, EyeOff, Save } from "lucide-react";
+import { Eye, EyeOff, Save, ImagePlus } from "lucide-react";
+import { CoverUpload } from "@/components/cover-upload";
+import { useMarkdownImages } from "@/components/use-markdown-images";
+import { IMAGE_MIME_TYPES, isManagedImageAddress } from "@/lib/media-policy";
+import "./media-editor.css";
 import {
   loginAction,
   saveEntryAction,
@@ -77,16 +81,28 @@ export function EntryForm({
   entry,
   kind,
   created = false,
+  mediaReady = false,
 }: {
   entry?: Entry;
   kind: Entry["kind"];
   created?: boolean;
+  mediaReady?: boolean;
 }) {
   const [state, action, pending] = useActionState(
     saveEntryAction,
     created ? { success: "新内容已创建，可以继续编辑。" } : {},
   );
   const [body, setBody] = useState(entry?.body || "");
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
+  const imageInputRef = useRef<HTMLInputElement>(null);
+  const [coverBusy, setCoverBusy] = useState(false);
+  const [uploadFeedback, setUploadFeedback] = useState("");
+  const images = useMarkdownImages({
+    body,
+    setBody,
+    textareaRef,
+    enabled: mediaReady && !pending,
+  });
   const [preview, setPreview] = useState(false);
   const [fields, setFields] = useState({
     title: entry?.title || "",
@@ -121,6 +137,12 @@ export function EntryForm({
         action={action}
         className="entry-form"
         onReset={(event) => event.preventDefault()}
+        onSubmit={(event) => {
+          if (coverBusy || images.hasUnfinished) {
+            event.preventDefault();
+            setUploadFeedback("请先完成图片上传，或移除失败的图片后再保存。");
+          } else setUploadFeedback("");
+        }}
       >
         <input type="hidden" name="kind" value={kind} />
         {entry && <input type="hidden" name="id" value={entry.id} />}
@@ -184,16 +206,90 @@ export function EntryForm({
               </div>
             </div>
             <textarea
+              ref={textareaRef}
               id="body"
               name="body"
               rows={18}
               value={body}
               onChange={(event) => setBody(event.target.value)}
+              onPaste={images.onPaste}
               maxLength={50000}
               required
               className={preview ? "visually-hidden" : "markdown-input"}
               placeholder="## 一个新的开始\n\n写下你的故事…"
             />
+            <div className="editor-image-tools">
+              <button
+                type="button"
+                className="editor-add-image"
+                disabled={!mediaReady || pending}
+                onClick={() => imageInputRef.current?.click()}
+              >
+                <ImagePlus size={15} /> 添加图片
+              </button>
+              <input
+                ref={imageInputRef}
+                type="file"
+                hidden
+                multiple
+                accept={IMAGE_MIME_TYPES.join(",")}
+                onChange={images.onPickFiles}
+              />
+              <span>
+                {mediaReady
+                  ? "可粘贴图片，自动插入 Markdown；上传后为静态 WebP。"
+                  : "配置图床后可上传、粘贴图片。"}
+              </span>
+            </div>
+            {images.error && (
+              <p role="alert" className="form-message message-error">
+                {images.error}
+                <button
+                  type="button"
+                  className="image-task-action"
+                  onClick={images.clearError}
+                >
+                  关闭
+                </button>
+              </p>
+            )}
+            {images.tasks.length > 0 && (
+              <ul
+                className="editor-image-tasks"
+                aria-label="图片上传任务"
+                aria-live="polite"
+              >
+                {images.tasks.map((task) => (
+                  <li key={task.id}>
+                    <div>
+                      <strong>{task.name}</strong>
+                      <span>
+                        {task.status === "uploading"
+                          ? "正在处理与上传…"
+                          : task.error}
+                      </span>
+                    </div>
+                    {task.status === "error" && (
+                      <button
+                        type="button"
+                        className="image-task-action"
+                        onClick={() => images.retryTask(task.id)}
+                        disabled={!mediaReady || pending}
+                      >
+                        重试
+                      </button>
+                    )}
+                    <button
+                      type="button"
+                      className="image-task-action"
+                      onClick={() => images.removeTask(task.id)}
+                    >
+                      移除
+                    </button>
+                  </li>
+                ))}
+              </ul>
+            )}
             {preview && (
               <div className="markdown-preview">
                 {body ? (
@@ -269,10 +365,28 @@ export function EntryForm({
               placeholder="Next.js, 设计, 日常"
             />
             <label htmlFor="coverPath">封面图片</label>
+            <CoverUpload
+              disabled={!mediaReady || pending}
+              onBusyChange={setCoverBusy}
+              onUploaded={(image) =>
+                setFields((previous) => ({
+                  ...previous,
+                  coverPath: image.url,
+                  coverAlt:
+                    previous.coverAlt || `${previous.title || "内容"}的封面`,
+                }))
+              }
+            />
+            {!mediaReady && (
+              <p className="editor-media-help">
+                图床尚未配置，仍可使用下方的内置封面。
+              </p>
+            )}
             <select
               id="coverPath"
               name="coverPath"
               value={fields.coverPath}
+              disabled={coverBusy || pending}
               onChange={(event) => {
                 const path = event.target.value;
                 const selected = contentCoverOptions.find(
@@ -289,11 +403,7 @@ export function EntryForm({
               {fields.coverPath &&
                 !contentCoverOptions.some(
                   (cover) => cover.path === fields.coverPath,
-                ) && (
-                  <option value={fields.coverPath}>
-                    当前图片 · {fields.coverPath}
-                  </option>
-                )}
+                ) && <option value={fields.coverPath}>已上传的封面</option>}
               {contentCoverOptions.map((cover) => (
                 <option key={cover.path} value={cover.path}>
                   {cover.label}
@@ -304,6 +414,7 @@ export function EntryForm({
               <div className="editor-cover-preview">
                 <Image
                   src={fields.coverPath}
+                  unoptimized={isManagedImageAddress(fields.coverPath)}
                   alt={fields.coverAlt}
                   fill
                   sizes="(max-width: 820px) 90vw, 260px"
@@ -343,10 +454,20 @@ export function EntryForm({
               </>
             )}
             <Feedback state={state} />
+            {uploadFeedback && (coverBusy || images.hasUnfinished) && (
+              <p role="alert" className="form-message message-error">
+                {uploadFeedback}
+              </p>
+            )}
+            {(coverBusy || images.hasUnfinished) && (
+              <p className="editor-media-help" role="status">
+                图片就绪后即可保存；失败的上传可重试或移除。
+              </p>
+            )}
             <button
               type="submit"
               className="button button-dark save-button"
-              disabled={pending}
+              disabled={pending || coverBusy || images.hasUnfinished}
             >
               <Save size={16} />
               {pending ? "保存中…" : "保存内容"}

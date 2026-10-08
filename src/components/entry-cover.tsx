@@ -1,6 +1,7 @@
 import Image from "next/image";
 import type { Entry } from "@/lib/content";
 import { MotionMedia } from "@/components/motion-media";
+import { isManagedImageAddress } from "@/lib/media-policy";
 
 export function EntryCover({
   entry,
@@ -23,6 +24,7 @@ export function EntryCover({
     >
       <Image
         src={entry.coverPath}
+        unoptimized={isManagedImageAddress(entry.coverPath)}
         alt={entry.coverAlt || `${entry.title}的封面`}
         fill
         sizes={sizes}

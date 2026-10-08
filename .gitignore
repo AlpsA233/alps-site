@@ -10,3 +10,5 @@ data/
 *.tsbuildinfo
 .DS_Store
 /work/
+cloudflare/wrangler.local.jsonc
+cloudflare/.wrangler/
