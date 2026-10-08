@@ -1,0 +1,248 @@
+/* Keep the studio's paper accents while the surrounding page becomes warm ink. */
+html[data-site-theme="dark"] .studio-shell .site-header.site-chrome {
+  background: var(--theme-paper);
+  color: var(--theme-text);
+}
+
+html[data-site-theme="dark"] .studio-shell .site-chrome[data-scrolled="true"] {
+  border-bottom-color: var(--line);
+}
+
+html[data-site-theme="dark"] .studio-shell .site-chrome .site-nav a {
+  background: transparent;
+  color: var(--theme-text);
+}
+
+html[data-site-theme="dark"] .studio-shell .site-chrome .site-nav a.active,
+html[data-site-theme="dark"] .studio-shell .site-chrome .site-nav a:hover,
+html[data-site-theme="dark"]
+  .studio-shell
+  .site-chrome
+  .site-nav
+  a:focus-visible {
+  color: var(--theme-coral);
+  background: transparent;
+}
+
+html[data-site-theme="dark"] .studio-shell .site-chrome :focus-visible,
+html[data-site-theme="dark"] .studio-shell .editorial-home :focus-visible {
+  outline-color: var(--theme-coral);
+}
+
+html[data-site-theme="dark"] .studio-shell .editorial-home {
+  background: var(--theme-paper);
+  color: var(--theme-text);
+}
+
+html[data-site-theme="dark"] .studio-shell .poster-topline,
+html[data-site-theme="dark"] .studio-shell .poster-edition {
+  color: var(--muted);
+}
+
+html[data-site-theme="dark"] .studio-shell .poster-availability i {
+  background: var(--theme-coral);
+  box-shadow: 0 0 0 4px #e6462d26;
+}
+
+html[data-site-theme="dark"] .studio-shell .poster-object-button img {
+  filter: drop-shadow(0 15px 22px #0000004d) drop-shadow(0 0 1px #be96744d);
+}
+
+html[data-site-theme="dark"] .studio-shell .poster-play-note {
+  color: var(--theme-coral);
+}
+
+html[data-site-theme="dark"] .studio-shell .poster-sticker {
+  background: var(--theme-cream);
+  color: var(--theme-ink);
+  border-color: #dbc6ad;
+  box-shadow: 3px 5px 0 #00000026;
+}
+
+html[data-site-theme="dark"]
+  .studio-shell
+  .poster-sticker
+  > .brand-icon:first-child {
+  color: var(--studio-red);
+}
+
+html[data-site-theme="dark"] .studio-shell .poster-explore-icon {
+  border-color: #897963;
+  color: var(--theme-text);
+}
+
+html[data-site-theme="dark"]
+  .studio-shell
+  .poster-explore:hover
+  .poster-explore-icon,
+html[data-site-theme="dark"]
+  .studio-shell
+  .poster-explore:focus-visible
+  .poster-explore-icon {
+  background: var(--studio-red);
+  border-color: var(--studio-red);
+  color: var(--theme-cream);
+}
+
+html[data-site-theme="dark"] .studio-shell .editorial-ticker {
+  background: var(--studio-red);
+  color: var(--theme-cream);
+}
+
+html[data-site-theme="dark"] .studio-shell .manifesto-red,
+html[data-site-theme="dark"] .studio-shell .manifesto-bottom > span {
+  color: var(--theme-coral);
+}
+
+/* These sections intentionally use a dark canvas in both themes. */
+html[data-site-theme="dark"] .studio-shell .editorial-work {
+  background: #171512;
+  color: var(--theme-text);
+  border-block: 1px solid #393126;
+}
+
+html[data-site-theme="dark"] .studio-shell .editorial-line-link:hover,
+html[data-site-theme="dark"] .studio-shell .editorial-line-link:focus-visible {
+  color: var(--theme-coral);
+}
+
+html[data-site-theme="dark"] .studio-shell .editorial-line-link sup {
+  color: var(--muted);
+  opacity: 1;
+}
+
+html[data-site-theme="dark"] .studio-shell .editorial-project {
+  background: var(--theme-raised);
+  color: var(--theme-text);
+  box-shadow:
+    0 -8px 32px #0000003d,
+    inset 0 0 0 1px var(--line);
+}
+
+html[data-site-theme="dark"] .studio-shell .editorial-project-bar {
+  color: var(--muted);
+  border-bottom-color: var(--line);
+}
+
+html[data-site-theme="dark"] .studio-shell .editorial-project-image {
+  background: #393129;
+}
+
+html[data-site-theme="dark"] .studio-shell .editorial-project-caption {
+  background: var(--theme-cream);
+  color: var(--theme-ink);
+}
+
+html[data-site-theme="dark"] .studio-shell .editorial-project-number,
+html[data-site-theme="dark"] .studio-shell .editorial-project-open {
+  color: var(--theme-coral);
+}
+
+html[data-site-theme="dark"] .studio-shell .editorial-project-placeholder {
+  background: var(--studio-red);
+  color: var(--theme-cream);
+}
+
+html[data-site-theme="dark"] .studio-shell .editorial-work-end {
+  color: var(--muted);
+  opacity: 1;
+}
+
+html[data-site-theme="dark"] .studio-shell .editorial-note {
+  border-top-color: var(--line);
+}
+
+html[data-site-theme="dark"] .studio-shell .editorial-note:last-child {
+  border-bottom-color: var(--line);
+}
+
+html[data-site-theme="dark"] .studio-shell .editorial-note-number,
+html[data-site-theme="dark"] .studio-shell .editorial-note:hover h3,
+html[data-site-theme="dark"] .studio-shell .editorial-note:focus-visible h3,
+html[data-site-theme="dark"]
+  .studio-shell
+  .editorial-note:hover
+  .editorial-note-arrow,
+html[data-site-theme="dark"]
+  .studio-shell
+  .editorial-note:focus-visible
+  .editorial-note-arrow {
+  color: var(--theme-coral);
+}
+
+html[data-site-theme="dark"] .studio-shell .editorial-note-preview {
+  box-shadow: 0 12px 28px #00000066;
+  outline: 1px solid var(--line);
+}
+
+html[data-site-theme="dark"] .studio-shell .editorial-person-art {
+  background: var(--theme-raised);
+  border-color: #924b36;
+}
+
+html[data-site-theme="dark"] .studio-shell .editorial-person-micro {
+  color: var(--theme-text);
+}
+
+html[data-site-theme="dark"] .studio-shell .editorial-person-hand {
+  color: var(--theme-coral);
+}
+
+html[data-site-theme="dark"] .studio-shell .studio-motion-toggle {
+  background: var(--theme-raised);
+  color: var(--muted);
+  border-color: var(--line);
+}
+
+html[data-site-theme="dark"] .studio-shell .studio-motion-toggle::before {
+  background: var(--theme-coral);
+}
+
+html[data-site-theme="dark"] .studio-shell .contact-footer {
+  background: #913628;
+  color: var(--theme-text);
+}
+
+html[data-site-theme="dark"] .studio-shell .contact-footer-topline,
+html[data-site-theme="dark"] .studio-shell .contact-footer-details {
+  border-color: #c38b754d;
+}
+
+html[data-site-theme="dark"] .studio-shell .contact-footer-note {
+  background: var(--theme-cream);
+  color: var(--theme-ink);
+  box-shadow:
+    4px 5px 0 #35130f4d,
+    0 12px 28px #35130f26;
+}
+
+html[data-site-theme="dark"]
+  .studio-shell
+  .contact-footer-note
+  > span:first-child {
+  color: var(--studio-red);
+}
+
+html[data-site-theme="dark"] .studio-shell .contact-footer-note-caption {
+  color: #796859;
+}
+
+html[data-site-theme="dark"] .studio-shell .contact-footer-email:hover,
+html[data-site-theme="dark"] .studio-shell .contact-footer-email:focus-visible,
+html[data-site-theme="dark"] .studio-shell .contact-footer-top:hover {
+  color: var(--theme-cream);
+}
+
+html[data-site-theme="dark"] .studio-shell .contact-footer :focus-visible {
+  outline-color: var(--theme-cream);
+}
+
+/* The transition is currently a sibling of the shell; both placements stay site scoped. */
+html[data-site-theme="dark"] .studio-shell .site-transition__ridge,
+html[data-site-theme="dark"]
+  .studio-shell
+  ~ .site-transition
+  .site-transition__ridge {
+  background: #913628;
+  color: #f5f0e7;
+}

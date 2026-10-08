@@ -1,0 +1,760 @@
+/* Public content surfaces. The shell scope keeps admin Markdown previews intact. */
+html[data-site-theme="dark"] .studio-shell .content-cover,
+html[data-site-theme="dark"] .studio-shell .work-gallery__frame,
+html[data-site-theme="dark"]
+  .studio-shell
+  .about-editorial
+  .about-editorial-image,
+html[data-site-theme="dark"] .studio-shell .about-photo {
+  background: var(--theme-raised);
+}
+
+html[data-site-theme="dark"] .studio-shell .archive-motion-toggle {
+  color: var(--theme-text);
+  background: var(--theme-raised);
+  border-color: var(--line);
+  box-shadow: 0 3px 12px #00000030;
+}
+
+html[data-site-theme="dark"] .studio-shell .archive-motion-toggle::before {
+  background: var(--theme-coral);
+}
+
+html[data-site-theme="dark"] .studio-shell .work-gallery__open {
+  background: var(--theme-cream);
+  color: var(--theme-ink);
+}
+
+html[data-site-theme="dark"] .studio-shell .work-gallery__navigation button {
+  background: var(--theme-raised);
+  color: var(--theme-text);
+  border-color: var(--line);
+}
+
+html[data-site-theme="dark"]
+  .studio-shell
+  .work-gallery__navigation
+  button:hover:not(:disabled) {
+  background: var(--theme-cream);
+  color: var(--theme-ink);
+}
+
+html[data-site-theme="dark"] .studio-shell .work-gallery__fallback,
+html[data-site-theme="dark"]
+  .studio-shell
+  .work-gallery
+  .theme-paper
+  .work-gallery__fallback {
+  background: var(--theme-raised);
+  color: var(--theme-text);
+}
+
+html[data-site-theme="dark"]
+  .studio-shell
+  .work-gallery
+  .theme-ink
+  .work-gallery__fallback {
+  background: var(--theme-ink);
+  color: var(--theme-cream);
+}
+
+html[data-site-theme="dark"]
+  .studio-shell
+  .work-gallery
+  .theme-lime
+  .work-gallery__fallback {
+  background: var(--studio-red);
+  color: #12110e;
+}
+
+/* Charcoal walls around the original photographs and red exhibition artwork. */
+html[data-site-theme="dark"] .studio-shell .work-exhibition__edition,
+html[data-site-theme="dark"] .studio-shell .work-exhibition__index-count,
+html[data-site-theme="dark"]
+  .studio-shell
+  .work-exhibition
+  .work-catalog__number,
+html[data-site-theme="dark"]
+  .studio-shell
+  .work-exhibition
+  .work-catalog__search-input
+  > svg {
+  color: var(--theme-coral);
+}
+
+html[data-site-theme="dark"] .studio-shell .work-exhibition__enter,
+html[data-site-theme="dark"] .studio-shell .work-exhibition__hero-foot,
+html[data-site-theme="dark"]
+  .studio-shell
+  .work-exhibition
+  .work-catalog__arrow,
+html[data-site-theme="dark"]
+  .studio-shell
+  .work-exhibition
+  .work-catalog__pagination,
+html[data-site-theme="dark"]
+  .studio-shell
+  .work-exhibition
+  .work-catalog__empty-link {
+  border-color: var(--line);
+}
+
+html[data-site-theme="dark"] .studio-shell .work-exhibition__enter:hover,
+html[data-site-theme="dark"]
+  .studio-shell
+  .work-exhibition
+  .work-catalog__clear:hover,
+html[data-site-theme="dark"]
+  .studio-shell
+  .work-exhibition
+  .work-catalog__pagination
+  a:hover {
+  color: var(--theme-coral);
+}
+
+html[data-site-theme="dark"] .studio-shell .work-exhibition__installation {
+  color: #12110e;
+}
+
+html[data-site-theme="dark"] .studio-shell .work-exhibition__installation-art {
+  border-color: var(--theme-ink);
+  box-shadow: 9px 10px 0 #0e0c0a;
+}
+
+html[data-site-theme="dark"] .studio-shell .work-exhibition__collage-card {
+  background: var(--theme-cream);
+  color: var(--theme-ink);
+  border-color: var(--theme-ink);
+  box-shadow: 2px 3px 0 #00000035;
+}
+
+html[data-site-theme="dark"]
+  .studio-shell
+  .work-exhibition__installation-control {
+  color: var(--theme-cream);
+}
+
+html[data-site-theme="dark"]
+  .studio-shell
+  .work-exhibition__installation-control
+  > span {
+  background: var(--theme-ink);
+}
+
+html[data-site-theme="dark"]
+  .studio-shell
+  .work-exhibition__installation-control
+  > .brand-icon {
+  border-color: var(--theme-cream);
+}
+
+html[data-site-theme="dark"] .studio-shell .work-exhibition__ticker {
+  background: var(--theme-ink);
+  color: var(--theme-cream);
+  border-color: var(--line);
+}
+
+html[data-site-theme="dark"]
+  .studio-shell
+  .work-exhibition
+  .work-catalog__filters,
+html[data-site-theme="dark"]
+  .studio-shell
+  .work-exhibition
+  .work-catalog__empty {
+  background: var(--theme-raised);
+  border-color: var(--line);
+}
+
+html[data-site-theme="dark"]
+  .studio-shell
+  :is(.work-catalog__field, .journal-filters__field)
+  :is(input, select) {
+  color-scheme: dark;
+  color: var(--theme-text);
+}
+
+html[data-site-theme="dark"]
+  .studio-shell
+  :is(.work-catalog__field, .journal-filters__field)
+  input::placeholder {
+  color: var(--muted);
+}
+
+html[data-site-theme="dark"]
+  .studio-shell
+  :is(.work-catalog__field, .journal-filters__field)
+  option {
+  background: var(--theme-raised);
+  color: var(--theme-text);
+}
+
+html[data-site-theme="dark"]
+  .studio-shell
+  .work-exhibition
+  .work-catalog__submit,
+html[data-site-theme="dark"]
+  .studio-shell
+  .work-exhibition
+  .work-exhibition__cover-number {
+  color: #12110e;
+}
+
+html[data-site-theme="dark"]
+  .studio-shell
+  .work-exhibition
+  .work-catalog__submit:hover,
+html[data-site-theme="dark"]
+  .studio-shell
+  .work-exhibition
+  .work-catalog__card:is(:hover, :focus-visible)
+  .work-exhibition__cover-number {
+  background: var(--theme-cream);
+  color: var(--theme-ink);
+  border-color: var(--theme-cream);
+}
+
+html[data-site-theme="dark"]
+  .studio-shell
+  .work-exhibition
+  .work-catalog__frame {
+  background: var(--theme-raised);
+  border-color: var(--line);
+  box-shadow: 7px 9px 0 #0e0c0a;
+}
+
+html[data-site-theme="dark"]
+  .studio-shell
+  .work-exhibition
+  .work-catalog__frame::before {
+  background: #ba937988;
+  border-color: #e8d8bf24;
+}
+
+html[data-site-theme="dark"]
+  .studio-shell
+  .work-exhibition
+  .work-catalog__viewport {
+  border-color: var(--line);
+}
+
+html[data-site-theme="dark"]
+  .studio-shell
+  .work-exhibition
+  .work-catalog__cover.content-cover {
+  background: var(--theme-paper);
+}
+
+html[data-site-theme="dark"]
+  .studio-shell
+  .work-exhibition
+  .work-catalog__card:is(:hover, :focus-visible)
+  .work-catalog__frame {
+  box-shadow: 11px 13px 0 #e6462d40;
+}
+
+html[data-site-theme="dark"]
+  .studio-shell
+  .work-exhibition
+  .work-catalog__placeholder,
+html[data-site-theme="dark"]
+  .studio-shell
+  .work-exhibition
+  .work-catalog__frame.theme-paper
+  .work-catalog__placeholder {
+  background: var(--theme-paper);
+  color: var(--theme-coral);
+}
+
+html[data-site-theme="dark"]
+  .studio-shell
+  .work-exhibition
+  .work-catalog__frame.theme-ink {
+  background: var(--theme-ink);
+}
+
+html[data-site-theme="dark"]
+  .studio-shell
+  .work-exhibition
+  .work-catalog__frame.theme-ink
+  .work-catalog__placeholder {
+  background: #15130f;
+  color: var(--theme-cream);
+}
+
+html[data-site-theme="dark"]
+  .studio-shell
+  .work-exhibition
+  .work-catalog__frame.theme-lime {
+  background: var(--studio-red);
+  border-color: var(--studio-red);
+}
+
+html[data-site-theme="dark"]
+  .studio-shell
+  .work-exhibition
+  .work-catalog__frame.theme-lime
+  .work-catalog__placeholder {
+  background: var(--theme-cream);
+  color: var(--theme-ink);
+}
+
+html[data-site-theme="dark"]
+  .studio-shell
+  .work-exhibition
+  .work-catalog__frame.theme-lime
+  .work-exhibition__cover-label {
+  color: #12110e;
+}
+
+html[data-site-theme="dark"]
+  .studio-shell
+  .work-exhibition
+  .work-catalog__frame.theme-ink
+  .work-exhibition__cover-label,
+html[data-site-theme="dark"] .studio-shell .work-catalog__range,
+html[data-site-theme="dark"]
+  .studio-shell
+  .work-catalog__page-step.is-disabled {
+  color: var(--muted);
+}
+
+html[data-site-theme="dark"]
+  .studio-shell
+  .work-exhibition
+  .work-catalog__card:is(:hover, :focus-visible)
+  .work-catalog__arrow,
+html[data-site-theme="dark"]
+  .studio-shell
+  .work-exhibition
+  .work-catalog__pages
+  a[aria-current="page"] {
+  color: #12110e;
+}
+
+/* A warm gray notebook, with red covers and ivory category slips. */
+html[data-site-theme="dark"] .studio-shell .writing-journal {
+  --journal-accent: var(--theme-coral);
+}
+
+html[data-site-theme="dark"]
+  .studio-shell
+  .writing-journal.journal-exhibition
+  :is(
+    .journal-heading__intro p,
+    .journal-heading__footer,
+    .journal-edition__contents-label,
+    .journal-edition__page-copy > span,
+    .journal-catalog__aside,
+    .journal-filters__field label,
+    .journal-catalog__status p > span + span,
+    .journal-entry__meta,
+    .journal-entry__summary,
+    .journal-entry__foot,
+    .journal-catalog__empty p,
+    .journal-pagination__step.is-disabled,
+    .journal-colophon
+  ) {
+  color: var(--muted);
+}
+
+html[data-site-theme="dark"]
+  .studio-shell
+  .writing-journal.journal-exhibition
+  :is(.journal-edition-stage__annotation, .journal-colophon__hand) {
+  color: var(--theme-coral);
+}
+
+html[data-site-theme="dark"]
+  .studio-shell
+  .writing-journal.journal-exhibition
+  :is(
+    .journal-heading__topline,
+    .journal-heading__index-link,
+    .journal-heading__footer,
+    .journal-edition__pages,
+    .journal-edition__pages li,
+    .journal-edition__all,
+    .journal-filters,
+    .journal-filters__field,
+    .journal-catalog__clear,
+    .journal-entries,
+    .journal-entry,
+    .journal-catalog__empty,
+    .journal-colophon
+  ) {
+  border-color: var(--line);
+}
+
+html[data-site-theme="dark"]
+  .studio-shell
+  .writing-journal.journal-exhibition
+  .journal-edition {
+  background: var(--theme-raised);
+  box-shadow:
+    5px 5px 0 -1px var(--theme-paper),
+    5px 5px 0 0 var(--line),
+    10px 10px 0 -1px var(--theme-raised),
+    10px 10px 0 0 var(--line);
+}
+
+html[data-site-theme="dark"]
+  .studio-shell
+  .writing-journal.journal-exhibition
+  .journal-edition__cover,
+html[data-site-theme="dark"]
+  .studio-shell
+  .writing-journal.journal-exhibition
+  .journal-wordband {
+  color: #12110e;
+  border-color: var(--line);
+}
+
+html[data-site-theme="dark"]
+  .studio-shell
+  .writing-journal.journal-exhibition
+  .journal-edition__pages {
+  color: var(--theme-text);
+  background: var(--theme-raised);
+}
+
+html[data-site-theme="dark"]
+  .studio-shell
+  .writing-journal.journal-exhibition
+  .journal-entry__frame {
+  background: var(--theme-raised);
+  border-color: var(--line);
+  box-shadow: 5px 7px 0 #0e0c0a;
+}
+
+html[data-site-theme="dark"]
+  .studio-shell
+  .writing-journal.journal-exhibition
+  .journal-entry__frame::after {
+  background: transparent;
+  color: var(--muted);
+}
+
+html[data-site-theme="dark"]
+  .studio-shell
+  .writing-journal.journal-exhibition
+  .journal-entry__blank {
+  background: var(--studio-red);
+  color: #12110e;
+}
+
+html[data-site-theme="dark"]
+  .studio-shell
+  .writing-journal.journal-exhibition
+  .journal-entry__meta
+  > span:first-child {
+  background: var(--theme-cream);
+  color: var(--theme-ink);
+  border-color: var(--theme-cream);
+}
+
+html[data-site-theme="dark"]
+  .studio-shell
+  .writing-journal.journal-exhibition
+  .journal-entry
+  h3
+  > span {
+  background-image: linear-gradient(#ff8c753d, #ff8c753d);
+}
+
+html[data-site-theme="dark"]
+  .studio-shell
+  .writing-journal.journal-exhibition
+  .journal-entry__link:hover
+  .journal-entry__frame {
+  box-shadow: 8px 13px 0 #0e0c0a;
+}
+
+html[data-site-theme="dark"]
+  .studio-shell
+  .writing-journal.journal-exhibition
+  .journal-filters__submit,
+html[data-site-theme="dark"]
+  .studio-shell
+  .writing-journal.journal-exhibition
+  .journal-pagination__pages
+  a[aria-current="page"] {
+  color: var(--theme-ink);
+  background: var(--theme-cream);
+  border-color: var(--theme-cream);
+}
+
+html[data-site-theme="dark"]
+  .studio-shell
+  .writing-journal.journal-exhibition
+  .journal-filters__submit:hover {
+  color: #12110e;
+  background: var(--studio-red);
+  border-color: var(--studio-red);
+}
+
+/* Portraits and project covers retain their original pixels. */
+html[data-site-theme="dark"]
+  .studio-shell
+  .about-editorial
+  :is(
+    .about-editorial-specs dt,
+    .about-editorial-section-label,
+    .about-editorial-contact > p
+  ) {
+  color: var(--muted);
+}
+
+html[data-site-theme="dark"]
+  .studio-shell
+  .about-editorial
+  .about-editorial-signature,
+html[data-site-theme="dark"]
+  .studio-shell
+  .about-editorial
+  .about-editorial-contact
+  > a:hover,
+html[data-site-theme="dark"] .studio-shell .project-end .hand-note-inline {
+  color: var(--theme-coral);
+}
+
+html[data-site-theme="dark"]
+  .studio-shell
+  .about-editorial
+  .about-editorial-status
+  > span {
+  background: var(--theme-coral);
+}
+
+html[data-site-theme="dark"]
+  .studio-shell
+  :is(.project-page, .article-page)
+  .back-link {
+  border-color: var(--line);
+}
+
+html[data-site-theme="dark"]
+  .studio-shell
+  :is(.project-page, .article-page)
+  .back-link:hover {
+  color: var(--theme-coral);
+}
+
+html[data-site-theme="dark"]
+  .studio-shell
+  .project-page
+  .theme-ink
+  .project-art {
+  background: var(--theme-ink);
+  color: var(--theme-cream);
+}
+
+html[data-site-theme="dark"]
+  .studio-shell
+  .project-page
+  .theme-paper
+  .project-art {
+  background: var(--theme-cream);
+  color: var(--theme-ink);
+}
+
+html[data-site-theme="dark"]
+  .studio-shell
+  .project-page
+  .theme-lime
+  .project-art {
+  background: var(--studio-red);
+  color: #12110e;
+}
+
+html[data-site-theme="dark"] .studio-shell .author-initial,
+html[data-site-theme="dark"] .studio-shell .article-tags span {
+  background: var(--theme-cream);
+  color: var(--theme-ink);
+}
+
+/* Both Markdown variants share readable ink; manuscript accents remain coral. */
+html[data-site-theme="dark"] .studio-shell .prose {
+  color: var(--theme-text);
+}
+
+html[data-site-theme="dark"] .studio-shell .prose.prose-journal {
+  --manuscript-ink: var(--theme-text);
+  --manuscript-pencil: var(--theme-coral);
+  --manuscript-mark: #ff8c753d;
+}
+
+html[data-site-theme="dark"] .studio-shell .prose:not(.prose-journal) a,
+html[data-site-theme="dark"] .studio-shell .prose.prose-journal a {
+  color: var(--theme-coral);
+  text-decoration-color: var(--theme-coral);
+}
+
+html[data-site-theme="dark"]
+  .studio-shell
+  .prose:not(.prose-journal)
+  a:is(:hover, :focus-visible),
+html[data-site-theme="dark"]
+  .studio-shell
+  .prose.prose-journal
+  a:is(:hover, :focus-visible) {
+  color: var(--theme-cream);
+  text-decoration-color: var(--theme-cream);
+}
+
+html[data-site-theme="dark"]
+  .studio-shell
+  .prose:not(.prose-journal)
+  blockquote,
+html[data-site-theme="dark"] .studio-shell .prose.prose-journal blockquote {
+  color: var(--theme-text);
+  border-color: var(--theme-coral);
+}
+
+html[data-site-theme="dark"]
+  .studio-shell
+  .prose:not(.prose-journal)
+  :not(pre)
+  > code,
+html[data-site-theme="dark"]
+  .studio-shell
+  .prose.prose-journal
+  :not(pre)
+  > code {
+  color: var(--theme-coral);
+  background: var(--theme-raised);
+  border-color: var(--line);
+}
+
+html[data-site-theme="dark"] .studio-shell .prose pre,
+html[data-site-theme="dark"] .studio-shell .prose.prose-journal .markdown-code {
+  background: var(--theme-ink);
+  color: var(--theme-cream);
+}
+
+html[data-site-theme="dark"] .studio-shell .prose pre code {
+  color: inherit;
+  background: transparent;
+}
+
+html[data-site-theme="dark"]
+  .studio-shell
+  .prose.prose-journal
+  .markdown-code
+  figcaption {
+  background: var(--theme-raised);
+  color: var(--muted);
+  border-bottom-color: var(--line);
+}
+
+html[data-site-theme="dark"]
+  .studio-shell
+  .prose.prose-journal
+  .markdown-photo {
+  background: var(--theme-raised);
+  border-color: var(--line);
+  box-shadow: 0 3px 10px #00000030;
+}
+
+html[data-site-theme="dark"]
+  .studio-shell
+  .prose.prose-journal
+  .markdown-divider {
+  color: var(--theme-coral);
+}
+
+html[data-site-theme="dark"]
+  .studio-shell
+  .prose.prose-journal
+  .markdown-table {
+  border-top-color: var(--theme-coral);
+}
+
+html[data-site-theme="dark"] .studio-shell .prose.prose-journal th {
+  background: var(--theme-ink);
+  color: var(--theme-text);
+  border-color: var(--line);
+}
+
+html[data-site-theme="dark"] .studio-shell .prose.prose-journal td {
+  color: var(--theme-text);
+}
+
+html[data-site-theme="dark"]
+  .studio-shell
+  .prose.prose-journal
+  [data-footnote-ref],
+html[data-site-theme="dark"]
+  .studio-shell
+  .prose.prose-journal
+  [data-footnote-ref]:is(:hover, :focus-visible) {
+  background: var(--theme-cream);
+  color: var(--theme-ink);
+}
+
+html[data-site-theme="dark"]
+  .studio-shell
+  .prose.prose-journal
+  .markdown-deletion__trigger {
+  color: var(--theme-coral);
+  border-color: var(--theme-coral);
+}
+
+html[data-site-theme="dark"]
+  .studio-shell
+  .prose.prose-journal
+  .markdown-deletion[data-revealed="true"]
+  .markdown-deletion__trigger {
+  color: var(--theme-ink);
+  background: var(--theme-cream);
+}
+
+html[data-site-theme="dark"]
+  .studio-shell
+  .prose.prose-journal
+  .task-list-item
+  > input[type="checkbox"] {
+  accent-color: var(--theme-coral);
+}
+
+/* The reading sample is a raised warm-gray sheet, rather than a light page. */
+html[data-site-theme="dark"] .studio-shell .reading-lab__paper {
+  background: var(--theme-raised);
+  border-color: var(--line);
+  box-shadow:
+    4px 5px 0 -1px var(--theme-paper),
+    4px 5px 0 0 var(--line);
+}
+
+html[data-site-theme="dark"] .studio-shell .reading-lab__heading h1 > span,
+html[data-site-theme="dark"] .studio-shell .reading-lab__intro > span,
+html[data-site-theme="dark"] .studio-shell .reading-lab__paper-top {
+  color: var(--theme-coral);
+}
+
+html[data-site-theme="dark"] .studio-shell .reading-lab__source pre {
+  background: var(--theme-ink);
+  color: var(--theme-cream);
+  border: 1px solid var(--line);
+}
+
+html[data-site-theme="dark"] .studio-shell .reading-lab__source summary:hover {
+  color: var(--theme-coral);
+}
+
+@media screen {
+  html[data-site-theme="dark"]
+    .studio-shell
+    .prose.prose-journal
+    .markdown-deletion[data-ready="true"][data-revealed="false"]
+    .markdown-deletion__text,
+  html[data-site-theme="dark"]
+    .studio-shell
+    .prose.prose-journal
+    .markdown-deletion[data-ready="true"][data-revealed="false"]
+    .markdown-deletion__text
+    * {
+    color: transparent;
+    text-shadow: 0 0 10px #e8e0d4b3;
+  }
+}

@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { SITE_THEME_BOOTSTRAP } from "@/lib/site-theme";
 import "@fontsource/cormorant-garamond/latin-400.css";
 import "@fontsource/cormorant-garamond/latin-400-italic.css";
 import "@fontsource/cormorant-garamond/latin-500.css";
@@ -28,7 +29,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="zh-CN" data-scroll-behavior="smooth">
+    <html lang="zh-CN" data-scroll-behavior="smooth" suppressHydrationWarning>
+      <head>
+        <script
+          id="site-theme-init"
+          dangerouslySetInnerHTML={{ __html: SITE_THEME_BOOTSTRAP }}
+        />
+      </head>
       <body>{children}</body>
     </html>
   );

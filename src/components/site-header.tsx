@@ -4,6 +4,7 @@ import Link from "@/components/motion-link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { BrandLogo } from "@/components/brand";
+import { SiteThemeControl } from "@/components/site-theme";
 import "./site-chrome.css";
 
 const links = [
@@ -52,6 +53,7 @@ export function SiteHeader({ name }: { name: string; role?: string }) {
           })}
         </div>
       </nav>
+      <SiteThemeControl />
     </header>
   );
 }
