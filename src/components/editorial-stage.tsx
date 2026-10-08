@@ -45,9 +45,6 @@ export function EditorialStage({ children }: { children: ReactNode }) {
     const magnetics = [
       ...element.querySelectorAll<HTMLElement>("[data-magnetic]"),
     ];
-    const progressBar = element.querySelector<HTMLElement>(
-      ".studio-reading-progress",
-    );
     if (!hero || !heroFrame || !control) return;
     const fine = matchMedia("(hover: hover) and (pointer: fine)");
     let frame = 0,
@@ -75,15 +72,6 @@ export function EditorialStage({ children }: { children: ReactNode }) {
         innerWidth > 700
           ? clamp(-rect.top / Math.max(1, rect.height - viewport + 84))
           : 0;
-      progressBar?.style.setProperty(
-        "--reading-progress",
-        String(
-          clamp(
-            scrollY /
-              Math.max(1, document.documentElement.scrollHeight - viewport),
-          ),
-        ),
-      );
       if (manifesto) {
         const bounds = manifesto.getBoundingClientRect();
         const progress = clamp(
@@ -392,7 +380,6 @@ export function EditorialStage({ children }: { children: ReactNode }) {
       notes?.style.removeProperty("--notes-x");
       notes?.style.removeProperty("--notes-turn");
       person?.style.removeProperty("--person-turn");
-      progressBar?.style.removeProperty("--reading-progress");
       element
         .querySelectorAll<HTMLElement>("[data-loop]")
         .forEach((loop) => delete loop.dataset.loopRunning);
@@ -406,7 +393,6 @@ export function EditorialStage({ children }: { children: ReactNode }) {
       data-motion={paused || systemReduced ? "off" : "on"}
     >
       {children}
-      <div className="studio-reading-progress" aria-hidden="true" />
       {!systemReduced && (
         <button
           type="button"

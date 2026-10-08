@@ -2,7 +2,7 @@
 
 import Link from "@/components/motion-link";
 import { usePathname } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { BrandLogo } from "@/components/brand";
 import { SiteThemeControl } from "@/components/site-theme";
 import "./site-chrome.css";
@@ -17,13 +17,42 @@ const links = [
 export function SiteHeader({ name }: { name: string; role?: string }) {
   const pathname = usePathname();
   const [scrolled, setScrolled] = useState(false);
+  const progressBar = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const update = () => setScrolled(window.scrollY > 24);
-    update();
-    window.addEventListener("scroll", update, { passive: true });
-    return () => window.removeEventListener("scroll", update);
-  }, []);
+    let frame = 0;
+    const update = () => {
+      frame = 0;
+      const root = document.documentElement;
+      const distance = root.scrollHeight - root.clientHeight;
+      const progress =
+        distance > 0 ? Math.max(0, Math.min(1, window.scrollY / distance)) : 0;
+      progressBar.current?.style.setProperty(
+        "--reading-progress",
+        String(progress),
+      );
+      setScrolled(window.scrollY > 24);
+    };
+    const schedule = () => {
+      if (!frame) frame = requestAnimationFrame(update);
+    };
+    // Body observation also covers replaced pages, loaded images and expanded details.
+    const resize = new ResizeObserver(schedule);
+    resize.observe(document.body);
+    schedule();
+    window.addEventListener("scroll", schedule, { passive: true });
+    window.addEventListener("resize", schedule);
+    window.addEventListener("pageshow", schedule);
+    document.addEventListener("visibilitychange", schedule);
+    return () => {
+      cancelAnimationFrame(frame);
+      resize.disconnect();
+      window.removeEventListener("scroll", schedule);
+      window.removeEventListener("resize", schedule);
+      window.removeEventListener("pageshow", schedule);
+      document.removeEventListener("visibilitychange", schedule);
+    };
+  }, [pathname]);
 
   return (
     <header
@@ -54,6 +83,11 @@ export function SiteHeader({ name }: { name: string; role?: string }) {
         </div>
       </nav>
       <SiteThemeControl />
+      <div
+        ref={progressBar}
+        className="studio-reading-progress"
+        aria-hidden="true"
+      />
     </header>
   );
 }
