@@ -246,3 +246,13 @@ html[data-site-theme="dark"]
   background: #913628;
   color: #f5f0e7;
 }
+html[data-site-theme="dark"]
+  .studio-shell
+  ~ .site-transition
+  .site-transition__status,
+html[data-site-theme="dark"]
+  .studio-shell
+  ~ .site-transition
+  .site-transition__actions {
+  color: #f5f0e7;
+}

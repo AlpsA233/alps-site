@@ -12,3 +12,5 @@ data/
 /work/
 cloudflare/wrangler.local.jsonc
 cloudflare/.wrangler/
+playwright-report/
+test-results/
