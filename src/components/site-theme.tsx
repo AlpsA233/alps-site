@@ -12,6 +12,7 @@ import {
 } from "react";
 import { usePathname } from "next/navigation";
 import { useSiteMotion } from "@/components/site-motion";
+import { useMotionPreference } from "@/components/use-motion-preference";
 import {
   parseThemePreference,
   resolveSiteTheme,
@@ -40,6 +41,7 @@ export function SiteThemeProvider({ children }: { children: ReactNode }) {
   const transition = useRef<ViewTransition | null>(null);
   const pathname = usePathname();
   const motion = useSiteMotion();
+  const { paused } = useMotionPreference();
 
   const finishTransition = useCallback(() => {
     transition.current?.skipTransition();
@@ -123,10 +125,8 @@ export function SiteThemeProvider({ children }: { children: ReactNode }) {
         resolved !== document.documentElement.dataset.siteTheme &&
         typeof document.startViewTransition === "function" &&
         !motion?.transitioning &&
-        !matchMedia("(prefers-reduced-motion: reduce)").matches &&
-        !document.querySelector(
-          '[data-motion="off"], [data-archive-motion="off"]',
-        );
+        !paused &&
+        !matchMedia("(prefers-reduced-motion: reduce)").matches;
       if (!animate) {
         applyPreference(next);
         return;
@@ -157,7 +157,7 @@ export function SiteThemeProvider({ children }: { children: ReactNode }) {
           root.classList.remove("site-theme-changing");
         });
     },
-    [finishTransition, motion?.transitioning],
+    [finishTransition, motion?.transitioning, paused],
   );
 
   return (

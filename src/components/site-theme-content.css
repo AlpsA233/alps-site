@@ -9,17 +9,6 @@ html[data-site-theme="dark"] .studio-shell .about-photo {
   background: var(--theme-raised);
 }
 
-html[data-site-theme="dark"] .studio-shell .archive-motion-toggle {
-  color: var(--theme-text);
-  background: var(--theme-raised);
-  border-color: var(--line);
-  box-shadow: 0 3px 12px #00000030;
-}
-
-html[data-site-theme="dark"] .studio-shell .archive-motion-toggle::before {
-  background: var(--theme-coral);
-}
-
 html[data-site-theme="dark"] .studio-shell .work-gallery__open {
   background: var(--theme-cream);
   color: var(--theme-ink);

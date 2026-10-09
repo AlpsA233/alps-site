@@ -4,6 +4,7 @@ import { BrandIcon } from "@/components/brand";
 import { EntryCover } from "@/components/entry-cover";
 import { MotionReveal } from "@/components/motion-reveal";
 import { EditorialStage } from "@/components/editorial-stage";
+import { PrintTitle } from "@/components/print-title";
 import { getEntries, getProfile } from "@/lib/db";
 import { readingTime } from "@/lib/content";
 import type { CSSProperties } from "react";
@@ -47,7 +48,7 @@ export default async function Home() {
               }
             >
               {Array.from(name).map((letter, index) => (
-                <span
+                <PrintTitle
                   key={index}
                   data-hero-letter
                   aria-hidden="true"
@@ -60,7 +61,7 @@ export default async function Home() {
                   }
                 >
                   {letter}
-                </span>
+                </PrintTitle>
               ))}
             </h1>
             <div className="poster-cross" aria-hidden="true">

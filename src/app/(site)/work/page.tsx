@@ -11,6 +11,7 @@ import Link from "@/components/motion-link";
 import { BrandIcon } from "@/components/brand";
 import { EntryCover } from "@/components/entry-cover";
 import { ArchiveMotion } from "@/components/archive-motion";
+import { PrintTitle } from "@/components/print-title";
 import "./work.css";
 export const metadata: Metadata = { title: "作品" };
 export default async function Work({
@@ -54,7 +55,8 @@ export default async function Work({
           </div>
           <h1 aria-label="作品 / Selected work">
             <span className="work-exhibition__title">
-              WORK<span className="work-exhibition__period">.</span>
+              <PrintTitle>WORK</PrintTitle>
+              <span className="work-exhibition__period">.</span>
             </span>
           </h1>
           <div className="work-exhibition__hero-bottom">

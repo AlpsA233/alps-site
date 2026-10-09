@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState, type ReactNode } from "react";
+import { useMotionPreference } from "@/components/use-motion-preference";
 import "./archive-motion.css";
 
 const clamp = (value: number, min = 0, max = 1) =>
@@ -10,7 +11,7 @@ const damp = (value: number, target: number, dt: number) =>
 
 export function ArchiveMotion({ children }: { children: ReactNode }) {
   const root = useRef<HTMLDivElement>(null);
-  const [paused, setPaused] = useState(false);
+  const { paused } = useMotionPreference();
   const [reduced, setReduced] = useState(false);
 
   useEffect(() => {
@@ -365,17 +366,6 @@ export function ArchiveMotion({ children }: { children: ReactNode }) {
       data-archive-motion={paused || reduced ? "off" : "on"}
     >
       {children}
-      {!reduced && (
-        <button
-          type="button"
-          className="archive-motion-toggle"
-          aria-pressed={paused}
-          aria-label={paused ? "开启动效" : "暂停动效"}
-          onClick={() => setPaused((value) => !value)}
-        >
-          动效：{paused ? "停" : "开"}
-        </button>
-      )}
     </div>
   );
 }

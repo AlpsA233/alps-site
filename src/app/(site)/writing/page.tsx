@@ -12,6 +12,7 @@ import { readingTime, shortDate } from "@/lib/content";
 import { EntryCover } from "@/components/entry-cover";
 import { BrandIcon } from "@/components/brand";
 import { ArchiveMotion } from "@/components/archive-motion";
+import { PrintTitle } from "@/components/print-title";
 import "./writing.css";
 
 export const metadata: Metadata = {
@@ -60,7 +61,8 @@ export default async function Writing({
             <h1 aria-label="文字 / Side notes">
               <span>SIDE</span>
               <span>
-                NOTES<span className="journal-heading__period">.</span>
+                <PrintTitle>NOTES</PrintTitle>
+                <span className="journal-heading__period">.</span>
               </span>
             </h1>
             <div className="journal-heading__intro">

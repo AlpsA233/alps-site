@@ -1,46 +1,6 @@
-.archive-motion-toggle {
-  position: fixed;
-  bottom: 17px;
-  right: 18px;
-  z-index: 39;
-  border: 1px solid #211f1a30;
-  border-radius: 0;
-  background: var(--studio-cream);
-  color: var(--studio-ink);
-  font-size: 9px;
-  letter-spacing: 0.05em;
-  padding: 7px 10px;
-}
-.archive-motion-toggle::before {
-  content: "";
-  display: inline-block;
-  width: 4px;
-  height: 4px;
-  background: var(--studio-red);
-  margin-right: 6px;
-  vertical-align: 2px;
-}
 .archive-motion [data-archive-control] {
   touch-action: pan-y;
 }
 .archive-motion [data-archive-control]:disabled {
   cursor: default;
-}
-@media (max-width: 700px) {
-  .archive-motion-toggle {
-    right: 12px;
-    bottom: 12px;
-    font-size: 8px;
-    padding: 6px 8px;
-  }
-}
-@media (prefers-reduced-motion: reduce) {
-  .archive-motion-toggle {
-    display: none;
-  }
-}
-@media print {
-  .archive-motion-toggle {
-    display: none;
-  }
 }

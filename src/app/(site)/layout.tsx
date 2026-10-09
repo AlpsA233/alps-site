@@ -4,6 +4,7 @@ import { SiteFooter } from "@/components/site-footer";
 import { getProfile } from "@/lib/db";
 import { SiteMotionProvider } from "@/components/site-motion";
 import { SiteThemeProvider } from "@/components/site-theme";
+import { SitePrintAtmosphere } from "@/components/site-print-atmosphere";
 import { getSiteOrigin } from "@/lib/site-url";
 import "./studio.css";
 import "@/components/site-theme.css";
@@ -33,6 +34,7 @@ export default async function SiteLayout({
           跳转到内容
         </a>
         <div className="site-shell studio-shell">
+          <SitePrintAtmosphere />
           <SiteHeader name={profile.name} role={profile.role} />
           {children}
           <SiteFooter profile={profile} />

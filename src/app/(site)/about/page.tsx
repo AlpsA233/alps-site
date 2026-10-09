@@ -5,6 +5,7 @@ import { Markdown } from "@/components/markdown";
 import { BrandIcon } from "@/components/brand";
 import { MotionReveal } from "@/components/motion-reveal";
 import { MotionMedia } from "@/components/motion-media";
+import { PrintTitle } from "@/components/print-title";
 import "./about.css";
 export const metadata: Metadata = { title: "关于" };
 export default async function About() {
@@ -18,7 +19,9 @@ export default async function About() {
         </div>
         <div className="about-editorial-title">
           <h1>
-            <MotionReveal as="span">{profile.name}</MotionReveal>
+            <MotionReveal as="span">
+              <PrintTitle>{profile.name}</PrintTitle>
+            </MotionReveal>
           </h1>
           <p>
             认识一个名字

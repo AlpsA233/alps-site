@@ -1,0 +1,163 @@
+.studio-shell {
+  position: relative;
+  isolation: isolate;
+  --print-field: #26231f;
+}
+html[data-site-theme="dark"] .studio-shell {
+  --print-field: #d4c8b9;
+}
+.studio-shell .print-atmosphere {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  visibility: hidden;
+}
+.studio-shell[data-print-ready="true"] .print-atmosphere {
+  visibility: visible;
+}
+.print-atmosphere svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+.print-atmosphere__plate {
+  fill: var(--print-field);
+}
+.print-atmosphere__registration {
+  fill: none;
+  stroke: var(--studio-red);
+  stroke-width: 1;
+  vector-effect: non-scaling-stroke;
+  transform: translate(-3px, 5px);
+  opacity: 0.7;
+}
+.studio-shell [data-print-title] {
+  position: relative;
+  display: inline-block;
+}
+.studio-shell .print-title__inverse {
+  position: absolute;
+  inset: 0;
+  display: block;
+  color: var(--paper);
+  clip-path: var(--print-clip, polygon(0 0, 0 0, 0 0));
+  pointer-events: none;
+  user-select: none;
+  visibility: hidden;
+}
+.studio-shell[data-print-ready="true"] .print-title__inverse {
+  visibility: visible;
+}
+.studio-shell .print-grain {
+  position: fixed;
+  inset: 0;
+  z-index: 30;
+  pointer-events: none;
+  opacity: 0.018;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Cpath fill='%23808080' filter='url(%23n)' d='M0 0h140v140H0z'/%3E%3C/svg%3E");
+}
+/* Paper surfaces are intentionally local: the field can cross margins and giant
+   type, while long-form reading and every control keep their original contrast. */
+.studio-shell .editorial-home {
+  background: transparent;
+}
+.studio-shell
+  :is(
+    .work-catalog,
+    .journal-catalog,
+    .project-page,
+    .article-page,
+    .reading-lab,
+    .about-editorial-story,
+    .editorial-manifesto,
+    .editorial-notes,
+    .editorial-person
+  ) {
+  background-color: var(--paper);
+  box-shadow: 0 0 0 24px var(--paper);
+}
+.studio-shell
+  :is(
+    .work-exhibition__statement,
+    .work-exhibition__installation-note,
+    .work-exhibition__colophon,
+    .journal-heading__intro,
+    .journal-heading__index-link,
+    .journal-edition-stage__annotation,
+    .journal-heading__topline,
+    .journal-heading__footer,
+    .work-exhibition__masthead,
+    .work-exhibition__hero-foot,
+    .about-editorial-kicker,
+    .about-editorial-title > p,
+    .about-editorial-landscape figcaption,
+    .poster-topline,
+    .poster-bottomline,
+    .poster-play-note
+  ) {
+  background-color: var(--paper);
+  box-shadow: 0 0 0 8px var(--paper);
+}
+.studio-shell .print-motion-toggle {
+  position: fixed;
+  bottom: 17px;
+  right: 18px;
+  z-index: 39;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  border: 1px solid var(--line);
+  padding: 8px 10px;
+  background: var(--paper);
+  color: var(--ink);
+  font-size: 9px;
+  letter-spacing: 0.05em;
+}
+.print-motion-toggle::before {
+  content: "";
+  width: 4px;
+  height: 4px;
+  background: var(--studio-red);
+}
+.print-motion-toggle[aria-pressed="true"]::before {
+  background: var(--muted);
+}
+@media (max-width: 700px) {
+  /* Phone typography fills the viewport; keep the quieter grain instead. */
+  .studio-shell[data-print-ready="true"] .print-atmosphere {
+    visibility: hidden;
+  }
+  .studio-shell[data-print-ready="true"] .print-title__inverse {
+    visibility: hidden;
+  }
+  .studio-shell .print-motion-toggle {
+    bottom: 12px;
+    right: 12px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .studio-shell .print-motion-toggle {
+    display: none;
+  }
+}
+@media (forced-colors: active) {
+  .studio-shell .print-atmosphere,
+  .studio-shell .print-grain {
+    display: none;
+  }
+  .studio-shell .print-title__inverse {
+    display: none;
+  }
+}
+@media print {
+  .studio-shell .print-atmosphere,
+  .studio-shell .print-grain,
+  .studio-shell .print-motion-toggle {
+    display: none;
+  }
+  .studio-shell .print-title__inverse {
+    display: none;
+  }
+}
