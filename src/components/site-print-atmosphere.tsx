@@ -1,13 +1,13 @@
 "use client";
 
-import { useEffect, useId, useRef } from "react";
+import { useEffect, useId, useRef, type CSSProperties } from "react";
 import { useMotionPreference } from "@/components/use-motion-preference";
 import { useSiteMotion } from "@/components/site-motion";
-import plateGeometry from "./print-plate-v3.json";
+import plateGeometry from "./print-plate-v4.json";
 import "./site-print-atmosphere.css";
 
-// The generated ink image supplies the texture and its traced outer silhouette.
-// Background and glyphs share that silhouette; neither is a smooth stand-in.
+// Display the complete generated print, including its alpha fringe and red ink.
+// Only the neutral ink body is traced, solely for the overlapping type projection.
 type Point = readonly [number, number];
 const PLATE_IMAGE_Y = 0;
 const PLATE: Point[] = plateGeometry.points.map(([x, y]) => [
@@ -56,8 +56,7 @@ function titleGeometry(title: HTMLElement, shell: HTMLElement) {
 export function SitePrintAtmosphere() {
   const ref = useRef<HTMLDivElement>(null);
   const plateRef = useRef<SVGGElement>(null);
-  const registrationRef = useRef<SVGPolygonElement>(null);
-  const clipId = useId();
+  const darkFilterId = useId();
   const phase = useRef(0);
   const { paused, togglePaused } = useMotionPreference();
   const pausedRef = useRef(paused);
@@ -114,12 +113,6 @@ export function SitePrintAtmosphere() {
       plateRef.current?.setAttribute(
         "transform",
         `translate(${(-OVERSCAN_X * 1440) / width} ${(-OVERSCAN_Y * 1000) / height}) scale(${(width + OVERSCAN_X * 2) / width} ${(height + OVERSCAN_Y * 2) / height})`,
-      );
-      // Registration is a fraction of a screen pixel, independent of viewport
-      // aspect ratio and the shared overscan scale.
-      registrationRef.current?.setAttribute(
-        "transform",
-        `translate(${(-0.75 * 1440) / (width + OVERSCAN_X * 2)} ${(0.9 * 1000) / (height + OVERSCAN_Y * 2)})`,
       );
       layer.style.transform = `translate3d(${dx.toFixed(2)}px, ${dy.toFixed(2)}px, 0)`;
       for (const { title, rect, minX, minY, inverse } of positions) {
@@ -241,36 +234,42 @@ export function SitePrintAtmosphere() {
 
   return (
     <>
-      <div ref={ref} className="print-atmosphere" aria-hidden="true">
+      <div
+        ref={ref}
+        className="print-atmosphere"
+        aria-hidden="true"
+        style={
+          { "--print-dark-filter": `url(#${darkFilterId})` } as CSSProperties
+        }
+      >
         <svg
           viewBox="0 0 1440 1000"
           preserveAspectRatio="none"
           focusable="false"
         >
           <defs>
-            <clipPath id={clipId} clipPathUnits="userSpaceOnUse">
-              <polygon points={PLATE_POINTS} />
-            </clipPath>
+            <filter id={darkFilterId} colorInterpolationFilters="sRGB">
+              <feColorMatrix
+                type="matrix"
+                values="0.358 -1.358 0 0 0.9644 -0.586 -0.414 0 0 0.9285 -0.8395 0.8395 -1 0 0.857 0 0 0 1 0"
+              />
+            </filter>
           </defs>
           <g ref={plateRef}>
             <polygon
-              ref={registrationRef}
-              className="print-atmosphere__registration"
-              points={PLATE_POINTS}
-            />
-            <polygon
-              className="print-atmosphere__plate"
+              className="print-atmosphere__geometry"
+              fill="none"
+              stroke="none"
               points={PLATE_POINTS}
             />
             <image
               className="print-atmosphere__texture"
-              href="/backgrounds/print-plate-v3.webp"
+              href="/backgrounds/print-plate-v4.webp"
               x="0"
               y={PLATE_IMAGE_Y}
               width="1440"
               height="1000"
               preserveAspectRatio="none"
-              clipPath={`url(#${clipId})`}
             />
           </g>
         </svg>

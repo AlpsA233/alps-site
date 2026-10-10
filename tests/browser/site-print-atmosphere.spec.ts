@@ -42,17 +42,15 @@ async function assertInversePixels(
       // Read existing nodes only; appending probes would trigger the plate's
       // MutationObserver and could accidentally repair a stale initial clip.
       const inverse = title.querySelector(".print-title__inverse")!;
-      const plate = document.querySelector(".print-atmosphere__plate")!;
       const colors = [
         getComputedStyle(title).color,
         getComputedStyle(inverse).color,
-        getComputedStyle(plate).fill,
       ].map((color) => color.match(/\d+/g)!.map(Number).slice(0, 3));
       return { rect: rect.toJSON(), colors };
     });
-  const [ink, paper, field] = sample.colors as unknown as RGB[];
-  const midpoint = (brightness(field) + brightness(paper)) / 2;
-  const darkerField = brightness(field) < brightness(paper);
+  const [ink, paper] = sample.colors as unknown as RGB[];
+  const midpoint = (brightness(ink) + brightness(paper)) / 2;
+  const darkerField = brightness(ink) < brightness(paper);
   const inField = (pixels: Buffer, offset: number) => {
     const light = pixelBrightness(pixels, offset);
     return darkerField ? light < midpoint - 6 : light > midpoint + 6;
@@ -112,7 +110,8 @@ async function assertInversePixels(
       );
       if (!interior) continue;
       // The plate is textured, so a single flat RGB value is no longer a valid
-      // interior reference. Classify both themes by their paper/field midpoint,
+      // interior reference. Classify both themes by the normal/inverse type
+      // midpoint, without assuming any visible vector fill exists behind it,
       // and require a stable neighborhood away from the clipped ink boundary.
       const fieldInterior = [-1, 0, 1].every((dy) =>
         [-1, 0, 1].every((dx) =>
@@ -200,14 +199,15 @@ test("the print image loads, decodes and supplies real raster texture", async ({
 }, testInfo) => {
   const response = page.waitForResponse(
     (result) =>
-      new URL(result.url()).pathname === "/backgrounds/print-plate-v3.webp",
+      new URL(result.url()).pathname === "/backgrounds/print-plate-v4.webp",
   );
   await openWork(page, "light");
-  expect((await response).status()).toBe(200);
+  const assetResponse = await response;
+  expect(assetResponse.status()).toBe(200);
   const texture = page.locator(".print-atmosphere__texture");
   await expect(texture).toHaveAttribute(
     "href",
-    "/backgrounds/print-plate-v3.webp",
+    "/backgrounds/print-plate-v4.webp",
   );
   const decoded = await texture.evaluate(async (element) => {
     const image = new Image();
@@ -218,9 +218,83 @@ test("the print image loads, decodes and supplies real raster texture", async ({
   expect(decoded.width).toBeGreaterThan(500);
   expect(decoded.height).toBeGreaterThan(300);
 
+  // The registration color and transparent edge must be part of the delivered
+  // bitmap, not a second SVG shape painted over an otherwise black asset.
+  const { data: asset, info: assetInfo } = await sharp(
+    await assetResponse.body(),
+  )
+    .toColourspace("srgb")
+    .ensureAlpha()
+    .raw()
+    .toBuffer({ resolveWithObject: true });
+  let redPixels = 0;
+  let inkPixels = 0;
+  let transparentPixels = 0;
+  let partialAlphaPixels = 0;
+  for (let offset = 0; offset < asset.length; offset += assetInfo.channels) {
+    const [red, green, blue, alpha] = asset.subarray(offset, offset + 4);
+    if (alpha === 0) transparentPixels++;
+    if (alpha > 0 && alpha < 255) partialAlphaPixels++;
+    if (alpha >= 32 && red > 100 && red > green + 32 && red > blue + 24) {
+      redPixels++;
+    }
+    if (alpha >= 200 && red < 90 && green < 90 && blue < 90) inkPixels++;
+  }
+  const assetPixels = {
+    width: assetInfo.width,
+    height: assetInfo.height,
+    redPixels,
+    inkPixels,
+    transparentPixels,
+    partialAlphaPixels,
+  };
+  expect(
+    redPixels,
+    "the bitmap itself must contain the vermilion edge",
+  ).toBeGreaterThan(100);
+  expect(
+    inkPixels,
+    "the bitmap itself must contain the ink body",
+  ).toBeGreaterThan(1_000);
+  expect(
+    transparentPixels,
+    "the asset must leave the page visible outside its ink shape",
+  ).toBeGreaterThan(1_000);
+  expect(
+    partialAlphaPixels,
+    "the raster edge must preserve alpha detail",
+  ).toBeGreaterThan(100);
+  const vectorPaints = await page
+    .locator(".print-atmosphere svg")
+    .evaluate((svg) =>
+      Array.from(
+        svg.querySelectorAll("polygon,path,polyline,line,rect,circle,ellipse"),
+      )
+        .filter((shape) => !shape.closest("defs,clipPath,mask"))
+        .map((shape) => {
+          const style = getComputedStyle(shape);
+          return { fill: style.fill, stroke: style.stroke };
+        }),
+    );
+  expect(vectorPaints.length).toBeGreaterThan(0);
+  for (const paint of vectorPaints) {
+    expect(
+      paint,
+      "only the bitmap may paint the body and registration edge",
+    ).toEqual({
+      fill: "none",
+      stroke: "none",
+    });
+  }
+  await expect(page.locator(".print-atmosphere svg image")).toHaveCount(1);
+  expect(await texture.getAttribute("clip-path")).toBeNull();
+  expect(
+    await texture.evaluate((element) => getComputedStyle(element).clipPath),
+  ).toBe("none");
+
   const assertPlateOverscan = async () => {
     const coverage = await page
-      .locator(".print-atmosphere__plate")
+      .locator(".print-atmosphere__geometry")
       .evaluate((element) => {
         const polygon = element as SVGPolygonElement;
         const group = polygon.closest("g")!;
@@ -253,41 +327,33 @@ test("the print image loads, decodes and supplies real raster texture", async ({
   await page.setViewportSize({ width: 1047, height: 1133 });
   await page.evaluate(() => new Promise(requestAnimationFrame));
 
-  const fieldColor = await page
-    .locator(".print-atmosphere__plate")
-    .evaluate((element) => {
-      const style = getComputedStyle(element);
-      const shell = element.closest(".studio-shell")!;
-      const field = style.fill.match(/\d+/g)!.map(Number).slice(0, 3);
-      const paper = getComputedStyle(
-        shell.querySelector(".work-exhibition__title .print-title__inverse")!,
-      )
-        .color.match(/\d+/g)!
-        .map(Number)
-        .slice(0, 3);
-      const opacity = Number(style.fillOpacity);
-      return field.map((channel, index) =>
-        Math.round(channel * opacity + paper[index] * (1 - opacity)),
-      );
-    });
+  const colors = await page
+    .locator(".work-exhibition__title > [data-print-title]")
+    .evaluate((title) =>
+      [title, title.querySelector(".print-title__inverse")!].map((element) =>
+        getComputedStyle(element).color.match(/\d+/g)!.map(Number).slice(0, 3),
+      ),
+    );
+  const [ink, paper] = colors as unknown as RGB[];
+  const midpoint = (brightness(ink) + brightness(paper)) / 2;
   // Isolate the ink surface from all hero type/art and the site's separate grain.
   const foregroundStyle = await page.addStyleTag({
     content:
       ".work-archive__heading,.work-archive__heading *,.print-grain { visibility:hidden!important }",
   });
   const texturedImage = await page.screenshot();
-  const flatStyle = await page.addStyleTag({
+  const paperStyle = await page.addStyleTag({
     content: ".print-atmosphere__texture { visibility:hidden!important }",
   });
-  const flatImage = await page.screenshot();
-  await flatStyle.evaluate((element) =>
+  const paperImage = await page.screenshot();
+  await paperStyle.evaluate((element) =>
     element.parentNode?.removeChild(element),
   );
   await foregroundStyle.evaluate((element) =>
     element.parentNode?.removeChild(element),
   );
-  const [textured, flat] = await Promise.all(
-    [texturedImage, flatImage].map(async (image) => {
+  const [textured, blank] = await Promise.all(
+    [texturedImage, paperImage].map(async (image) => {
       const { data, info } = await sharp(image)
         .removeAlpha()
         .raw()
@@ -297,23 +363,31 @@ test("the print image loads, decodes and supplies real raster texture", async ({
   );
   const levels: number[] = [];
   let changed = 0;
-  for (let y = 2; y < flat.height - 2; y += 2) {
-    for (let x = 2; x < flat.width - 2; x += 2) {
-      const offset = (y * flat.width + x) * flat.channels;
+  for (let y = 2; y < blank.height - 2; y += 2) {
+    for (let x = 2; x < blank.width - 2; x += 2) {
+      const offset = (y * blank.width + x) * blank.channels;
+      // Independently find ink interiors in the actual image, using the blank
+      // paper render to exclude other page objects. Reject colored registration
+      // pixels and fading edges so those cannot masquerade as body texture.
       const stable = [-1, 0, 1].every((dy) =>
-        [-1, 0, 1].every((dx) =>
-          near(
-            flat.data,
-            ((y + dy) * flat.width + x + dx) * flat.channels,
-            fieldColor as unknown as RGB,
-            3,
-          ),
-        ),
+        [-1, 0, 1].every((dx) => {
+          const position = ((y + dy) * blank.width + x + dx) * blank.channels;
+          const channels = Array.from(
+            textured.data.subarray(position, position + 3),
+          );
+          const level = pixelBrightness(textured.data, position);
+          return (
+            near(blank.data, position, paper, 3) &&
+            level < midpoint - 6 &&
+            Math.abs(level - brightness(ink)) < 32 &&
+            Math.max(...channels) - Math.min(...channels) < 24
+          );
+        }),
       );
       if (!stable) continue;
       const level = pixelBrightness(textured.data, offset);
       levels.push(level);
-      if (Math.abs(level - pixelBrightness(flat.data, offset)) > 1) changed++;
+      if (Math.abs(level - pixelBrightness(blank.data, offset)) > 1) changed++;
     }
   }
   levels.sort((a, b) => a - b);
@@ -327,7 +401,15 @@ test("the print image loads, decodes and supplies real raster texture", async ({
   await testInfo.attach("ink-raster-texture", {
     body: Buffer.from(
       JSON.stringify(
-        { decoded, samples: levels.length, changed, deviation, spread },
+        {
+          decoded,
+          assetPixels,
+          vectorPaints,
+          samples: levels.length,
+          changed,
+          deviation,
+          spread,
+        },
         null,
         2,
       ),

@@ -1,15 +1,19 @@
 # 印刷背景素材
 
-当前前台使用 `print-plate-v3.webp`，由内置 `image_gen` 工具编辑 v2 印版生成，并经无损 WebP 编码保存。保留原来的斜向印版构图，把明显亮斑、粗颗粒和破口改为低对比的微细墨纹。实际素材为 1422×1106；它负责真实的墨层变化。
+最初确认的 UI 参照保存在 [print-background-reference.png](../../docs/design/print-background-reference.png)，便于后续校对材质，页面不读取该 UI 图。
 
-`src/components/print-plate-v3.json` 保存由该图 alpha 通道提取的外轮廓。仅用于提取轮廓的 mask 做一次 3×3 中值处理，使用 alpha 128 的边界，再按 1 源像素误差简化；图片本身不做平滑或重绘。轮廓没有急角或回折。背景裁切、朱红错位边和文字反色共享该轮廓。每帧只做位移与坐标投影，不重新生成材质。深色模式使用同一素材与轮廓进行静态颜色映射。
+当前前台直接显示 `print-plate-v4.webp`。内置 `image_gen` 以最初确认的 UI 图为材质参照，先移除文字、导航、照片与卡片并生成透明印版，再校正墨面颗粒与边缘密度。暖黑墨面、半透明印刷毛边及两侧断续朱红残印一起保存在同一张图片中。最终生成尺寸为 1421×1107，保存为保留 RGBA 的无损 WebP；不通过代码重绘可见轮廓或红线。
 
-素材和轮廓共同延伸到视口外：横向各 48px、纵向各 20px，覆盖缓慢漂移的范围，避免图片裁切边滑入屏内。该余量固定为屏幕像素，缩窄桌面窗口时也保持一致。
+浅色模式以 100% 不透明度直接显示图片，不添加底形，不裁切毛边。深色模式使用 sRGB 颜色矩阵将中性暖黑映射为暖纸色，并保留朱红色相与原始 alpha。每帧只改变整体位置及文字投影坐标，不重新生成材质。
 
-朱红线采用 0.5px 连续细线、圆角连接，错位固定为屏幕坐标 (-0.75px, +0.9px)，避免缩放后出现尖刺和脏厚边。纹理以 72% 强度叠加到稳定墨底，保留细节而不抢眼。原始 PNG 留在本机生成目录，部署只依赖仓库里的 WebP 与轮廓数据。v2 作为历史素材保留，前台不再读取。
+`src/components/print-plate-v4.json` 仅保存黑墨主体的分析轮廓，用于文字局部反色；半透明外沿与朱红残印不计入黑墨主体。这个分析轮廓在页面中没有可见填充或描边，也不用于裁切图片。主体分析使用 alpha 128、中性色与暗度筛选，取最大连通区域并对分析 mask 做一次 3×3 中值处理。文字边界随后按弧长进行 12 源像素窗口、σ=3 的高斯平滑，并按 0.3 源像素误差简化，以免反色文字跟着细颗粒缺口形成尖角。平滑轮廓相对初步分析轮廓最大偏差为 2.13 源像素；图片本身没有进行平滑或重绘。
 
-## 最终编辑提示词
+图像与文字投影共同延伸到视口外：横向各 48px、纵向各 20px，覆盖缓慢漂移范围，避免图片的裁切边进入屏内。部署只依赖仓库中的 WebP 与轮廓数据。v2、v3 作为历史素材保留，前台不再读取。
+
+## 最终校正提示词
+
+输入 1 为最初确认的 UI 图，输入 2 为第一轮透明提取结果；通过内置工具编辑并要求真实透明背景。
 
 ```text
-Use case: precise-object-edit. Edit target: the referenced isolated diagonal charcoal ink slab. Make a refined production-grade high-resolution transparent bitmap for a premium editorial website. Keep its SAME canvas proportions, overall diagonal silhouette, position, rounded lower-left turn and top/right cropped boundaries. The image has NO text, UI, red stripe, photographs, objects, shadow or backdrop. The current material looks coarse, distressed and fabric-like: REPLACE that surface with dense warm-black fine lithographic ink, almost uniform matte #26231f, with extremely subtle stochastic micro-grain in a narrow 2–4 RGB-level range. Remove all pale speckle clusters, scratches, streaks, cloudy mottling, torn-paper chunks, thread/fibers and obvious holes. The ink should feel like a freshly printed high-end art catalogue on smooth uncoated paper, not sandpaper, leather or worn cloth. Refine the outer boundary into a calm straight diagonal, with a smoothly rounded bend; preserve only barely perceptible organic ink edge variation, at most 1–2 source pixels. No sawteeth, triangular dents, deep notches, splintered projections or fringes. Use precise antialiased alpha with a 1-pixel transition, and a fully opaque dense interior. Do NOT add a grey fringe, white halo, embossing, glow, blur or transparency within the main ink body. Preserve true transparent alpha outside the slab. Prioritize impeccable macro/micro edge quality: at normal website display size the silhouette is crisp and quiet; at 200% zoom the edge still looks fine, without large pixel chunks or angular tears. Deliver approximately 3072px wide or higher with matching reference aspect ratio, with genuine additional fine detail, not a visibly enlarged low-resolution image. Change only texture and edge refinement, preserve the reference silhouette/composition.
+Use case: style-transfer. Asset: final transparent website ink background sprite. Input image 1 is the ORIGINAL approved UI and is the sole material reference. Input image 2 is the transparent extraction to EDIT. Keep image 2's transparent background, exact canvas, slab silhouette, position and framing. Make only one correction: match image 1's finer, much quieter print material, replacing image 2's exaggerated gritty finish. The interior is overwhelmingly dense warm charcoal (#24221d); most of its tiny irregular grain varies only 5–13 RGB levels, with very sparse brighter pinholes. Remove the conspicuous white/tan sandpaper speckles. Do not eliminate grain into perfectly flat digital paint. The edge is finely feathered ink with semitransparent pixels and slight low-amplitude erosion, never a thick grey/beige border, stitched seam, torn paper, coarse saw teeth or bright frayed chunks. Reduce the currently broad light grey rim to the delicate soft dry-print fringe visible in image 1, roughly 2–4 source pixels of transition, occasionally finer pale fibers. Retain a faint, broken vermilion misregistered impression just outside the two slanted SIDE edges, matching image 1: faded reddish-orange residue with irregular coverage and narrow pale gap, not an intense bright red glow or continuous smooth vector outline. Red is absent from nearly all of the lower diagonal edge. Black ink, grey feathering and red residual print remain together in this single raster image. Preserve genuine transparent alpha outside the impressions and through edge pinholes. No text, letters, UI, logo, project card, photos, shadow, paper background or checkerboard. Do not redraw the composition. Match the ORIGINAL reference's actual subtle pigment densities and edge softness.
 ```

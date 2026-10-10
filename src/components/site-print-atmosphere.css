@@ -1,10 +1,6 @@
 .studio-shell {
   position: relative;
   isolation: isolate;
-  --print-field: #26231f;
-}
-html[data-site-theme="dark"] .studio-shell {
-  --print-field: #d4c8b9;
 }
 .studio-shell .print-atmosphere {
   position: fixed;
@@ -22,25 +18,13 @@ html[data-site-theme="dark"] .studio-shell {
   height: 100%;
   overflow: visible;
 }
-.print-atmosphere__plate {
-  fill: var(--print-field);
-  fill-opacity: 1;
-}
 .print-atmosphere__texture {
-  opacity: 0.72;
+  opacity: 1;
 }
 html[data-site-theme="dark"] .print-atmosphere__texture {
-  filter: invert(1) sepia(0.16) brightness(0.88);
-}
-.print-atmosphere__registration {
-  fill: none;
-  stroke: var(--studio-red);
-  stroke-width: 0.5;
-  stroke-linejoin: round;
-  stroke-linecap: round;
-  stroke-miterlimit: 1.5;
-  vector-effect: non-scaling-stroke;
-  opacity: 0.62;
+  /* Map neutral ink to warm paper while retaining the baked vermilion pigment.
+     The original alpha and texture geometry are identical in both themes. */
+  filter: var(--print-dark-filter);
 }
 .studio-shell [data-print-ink] {
   position: relative;
