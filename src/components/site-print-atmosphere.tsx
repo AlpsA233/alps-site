@@ -9,12 +9,12 @@ import "./site-print-atmosphere.css";
 // Display the complete generated print, including its alpha fringe and red ink.
 // Only the neutral ink body is traced, solely for the overlapping type projection.
 type Point = readonly [number, number];
-const PLATE_IMAGE_Y = 0;
-const PLATE: Point[] = plateGeometry.points.map(([x, y]) => [
-  (x * 1440) / plateGeometry.width,
-  (y * 1000) / plateGeometry.height + PLATE_IMAGE_Y,
-]);
+const PLATE: Point[] = plateGeometry.points.map(([x, y]) => [x, y]);
 const PLATE_POINTS = PLATE.map((point) => point.join(",")).join(" ");
+const TOP_Y = Math.min(...PLATE.map(([, y]) => y));
+const TOP_ENTRY_X = Math.min(
+  ...PLATE.filter(([, y]) => y === TOP_Y).map(([x]) => x),
+);
 // Keep the cropped image edges outside the viewport throughout its drift.
 // CSS-pixel margins also cover narrow desktop windows without moving the plate
 // farther into the composition than a percentage-based enlargement would.
@@ -105,6 +105,18 @@ export function SitePrintAtmosphere() {
           : 0;
       const dx = x - 2 * jolt;
       const dy = y + jolt;
+      // Native image pixels map to viewport pixels through one uniform scale.
+      // Cover the viewport plus the drift margins, cropping excess rather than
+      // changing the angles, grain proportions or baked registration thickness.
+      const widthScale = (width + OVERSCAN_X * 2) / plateGeometry.width;
+      const scale = Math.max(
+        widthScale,
+        (height + OVERSCAN_Y * 2) / plateGeometry.height,
+      );
+      // Anchor the top ink entry when a tall viewport requires extra scale.
+      // This retains the diagonal's relation to the headline across formats.
+      const originX = -OVERSCAN_X + (widthScale - scale) * TOP_ENTRY_X;
+      const originY = -OVERSCAN_Y;
       // Read together before writing so text and inline shapes share the plate.
       const positions = titles.map((title) => ({
         title,
@@ -112,25 +124,15 @@ export function SitePrintAtmosphere() {
       }));
       plateRef.current?.setAttribute(
         "transform",
-        `translate(${(-OVERSCAN_X * 1440) / width} ${(-OVERSCAN_Y * 1000) / height}) scale(${(width + OVERSCAN_X * 2) / width} ${(height + OVERSCAN_Y * 2) / height})`,
+        `translate(${originX} ${originY}) scale(${scale})`,
       );
       layer.style.transform = `translate3d(${dx.toFixed(2)}px, ${dy.toFixed(2)}px, 0)`;
       for (const { title, rect, minX, minY, inverse } of positions) {
         if (!rect.width || !rect.height || rect.bottom < 0 || rect.top > height)
           continue;
         const clip = PLATE.map(([x, y]) => {
-          const px =
-            (x * (width + OVERSCAN_X * 2)) / 1440 -
-            OVERSCAN_X +
-            dx -
-            rect.left +
-            minX;
-          const py =
-            (y * (height + OVERSCAN_Y * 2)) / 1000 -
-            OVERSCAN_Y +
-            dy -
-            rect.top +
-            minY;
+          const px = x * scale + originX + dx - rect.left + minX;
+          const py = y * scale + originY + dy - rect.top + minY;
           return `${(inverse.a * px + inverse.c * py).toFixed(2)}px ${(inverse.b * px + inverse.d * py).toFixed(2)}px`;
         }).join(",");
         title.style.setProperty("--print-clip", `polygon(${clip})`);
@@ -242,11 +244,7 @@ export function SitePrintAtmosphere() {
           { "--print-dark-filter": `url(#${darkFilterId})` } as CSSProperties
         }
       >
-        <svg
-          viewBox="0 0 1440 1000"
-          preserveAspectRatio="none"
-          focusable="false"
-        >
+        <svg focusable="false">
           <defs>
             <filter id={darkFilterId} colorInterpolationFilters="sRGB">
               <feColorMatrix
@@ -266,10 +264,10 @@ export function SitePrintAtmosphere() {
               className="print-atmosphere__texture"
               href="/backgrounds/print-plate-v4.webp"
               x="0"
-              y={PLATE_IMAGE_Y}
-              width="1440"
-              height="1000"
-              preserveAspectRatio="none"
+              y="0"
+              width={plateGeometry.width}
+              height={plateGeometry.height}
+              preserveAspectRatio="xMinYMin meet"
             />
           </g>
         </svg>

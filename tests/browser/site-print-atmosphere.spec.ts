@@ -434,6 +434,117 @@ test("the print image loads, decodes and supplies real raster texture", async ({
   ).toBeGreaterThan(1);
 });
 
+test("the bitmap keeps its native pixel proportions across viewport shapes", async ({
+  page,
+}, testInfo) => {
+  await page.addInitScript(() => {
+    localStorage.setItem("alps-site-theme", "light");
+    localStorage.setItem("alps-motion-preference", "off");
+  });
+  await page.goto("/", { waitUntil: "networkidle" });
+  await expect(page.locator(".studio-shell")).toHaveAttribute(
+    "data-print-ready",
+    "true",
+  );
+  const samples = [];
+  for (const viewport of [
+    { width: 1047, height: 1133 },
+    { width: 1280, height: 900 },
+    { width: 1600, height: 900 },
+  ]) {
+    await page.setViewportSize(viewport);
+    await page.evaluate(
+      () =>
+        new Promise((resolve) =>
+          requestAnimationFrame(() => requestAnimationFrame(resolve)),
+        ),
+    );
+    samples.push(
+      await page
+        .locator(".print-atmosphere__texture")
+        .evaluate(async (element) => {
+          const image = element as SVGImageElement;
+          const bitmap = new Image();
+          bitmap.src = image.getAttribute("href")!;
+          await bitmap.decode();
+          const matrix = image.getScreenCTM()!;
+          const imageWidth = image.width.baseVal.value;
+          const imageHeight = image.height.baseVal.value;
+          const aspect = image.preserveAspectRatio.baseVal;
+          // getScreenCTM maps SVG units. Include the image's intrinsic-pixel
+          // mapping too, so preserveAspectRatio="none" cannot hide distortion
+          // behind an otherwise uniform group transform.
+          let pixelX = imageWidth / bitmap.naturalWidth;
+          let pixelY = imageHeight / bitmap.naturalHeight;
+          if (
+            aspect.align !== SVGPreserveAspectRatio.SVG_PRESERVEASPECTRATIO_NONE
+          ) {
+            const uniform =
+              aspect.meetOrSlice ===
+              SVGPreserveAspectRatio.SVG_MEETORSLICE_SLICE
+                ? Math.max(pixelX, pixelY)
+                : Math.min(pixelX, pixelY);
+            pixelX = uniform;
+            pixelY = uniform;
+          }
+          const axisX = { x: matrix.a * pixelX, y: matrix.b * pixelX };
+          const axisY = { x: matrix.c * pixelY, y: matrix.d * pixelY };
+          const scaleX = Math.hypot(axisX.x, axisX.y);
+          const scaleY = Math.hypot(axisY.x, axisY.y);
+          const dot =
+            (axisX.x * axisY.x + axisX.y * axisY.y) / (scaleX * scaleY);
+          const axisAngle =
+            (Math.acos(Math.max(-1, Math.min(1, dot))) * 180) / Math.PI;
+          const svg = image.closest("svg")!;
+          const viewBox = svg.viewBox.baseVal;
+          return {
+            viewport: { width: innerWidth, height: innerHeight },
+            natural: {
+              width: bitmap.naturalWidth,
+              height: bitmap.naturalHeight,
+            },
+            imageSize: { width: imageWidth, height: imageHeight },
+            imageAspect: image.getAttribute("preserveAspectRatio"),
+            svgAspect: svg.getAttribute("preserveAspectRatio"),
+            viewBox: {
+              x: viewBox.x,
+              y: viewBox.y,
+              width: viewBox.width,
+              height: viewBox.height,
+            },
+            matrix: {
+              a: matrix.a,
+              b: matrix.b,
+              c: matrix.c,
+              d: matrix.d,
+              e: matrix.e,
+              f: matrix.f,
+            },
+            scaleX,
+            scaleY,
+            scaleRatio: scaleX / scaleY,
+            axisAngle,
+          };
+        }),
+    );
+  }
+  await testInfo.attach("bitmap-native-pixel-proportions", {
+    body: Buffer.from(JSON.stringify(samples, null, 2)),
+    contentType: "application/json",
+  });
+  for (const sample of samples) {
+    const size = `${sample.viewport.width} × ${sample.viewport.height}`;
+    expect(
+      sample.scaleRatio,
+      `${size}: native bitmap pixels must use equal total X/Y screen scaling`,
+    ).toBeCloseTo(1, 3);
+    expect(
+      Math.abs(sample.axisAngle - 90),
+      `${size}: the image must not shear its native pixel axes`,
+    ).toBeLessThan(0.1);
+  }
+});
+
 for (const theme of ["light", "dark"] as const) {
   test(`WORK has real inverse glyphs in ${theme} mode after resize and scroll`, async ({
     page,

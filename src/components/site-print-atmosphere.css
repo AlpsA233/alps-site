@@ -93,7 +93,9 @@ html[data-site-theme="dark"]
     .about-editorial-title > p,
     .about-editorial-landscape figcaption,
     .poster-topline,
-    .poster-bottomline,
+    .poster-intro,
+    .poster-explore,
+    .poster-edition,
     .poster-play-note
   ) {
   background-color: var(--paper);
