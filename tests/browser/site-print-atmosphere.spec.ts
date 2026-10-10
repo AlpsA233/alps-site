@@ -53,13 +53,15 @@ async function assertInversePixels(
       ".print-atmosphere,.print-title__inverse { visibility:hidden!important }",
   });
   const baselineImage = await page.screenshot();
-  await baselineStyle.evaluate((element) => element.remove());
+  await baselineStyle.evaluate((element) =>
+    element.parentNode?.removeChild(element),
+  );
   const fieldStyle = await page.addStyleTag({
     content:
       ".work-archive__heading h1,.work-archive__heading h1 * { visibility:hidden!important }",
   });
   const fieldImage = await page.screenshot();
-  await fieldStyle.evaluate((element) => element.remove());
+  await fieldStyle.evaluate((element) => element.parentNode?.removeChild(element));
   const [actual, baseline, plate] = await Promise.all(
     [actualImage, baselineImage, fieldImage].map(async (image) => {
       const { data, info } = await sharp(image)
