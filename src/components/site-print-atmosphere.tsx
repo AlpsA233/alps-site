@@ -109,7 +109,7 @@ export function SitePrintAtmosphere() {
           : 0;
       const dx = x - 2 * jolt;
       const dy = y + jolt;
-      // Read together before writing: at most four hero glyphs are aligned.
+      // Read together before writing so text and inline shapes share the plate.
       const positions = titles.map((title) => ({
         title,
         ...titleGeometry(title, shell),
@@ -162,7 +162,7 @@ export function SitePrintAtmosphere() {
     };
     const titleResize = new ResizeObserver(refresh);
     const scan = () => {
-      titles = [...shell.querySelectorAll<HTMLElement>("[data-print-title]")];
+      titles = [...shell.querySelectorAll<HTMLElement>("[data-print-ink]")];
       titleResize.disconnect();
       titleResize.observe(layer);
       titles.forEach((title) => titleResize.observe(title));

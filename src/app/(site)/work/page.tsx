@@ -11,7 +11,7 @@ import Link from "@/components/motion-link";
 import { BrandIcon } from "@/components/brand";
 import { EntryCover } from "@/components/entry-cover";
 import { ArchiveMotion } from "@/components/archive-motion";
-import { PrintTitle } from "@/components/print-title";
+import { PrintInk, PrintTitle } from "@/components/print-title";
 import "./work.css";
 export const metadata: Metadata = { title: "作品" };
 export default async function Work({
@@ -61,19 +61,28 @@ export default async function Work({
           </h1>
           <div className="work-exhibition__hero-bottom">
             <div className="work-exhibition__statement">
-              <p className="work-exhibition__edition">一场持续更新的个人展览</p>
+              <p className="work-exhibition__edition">
+                <PrintInk className="print-ink--accent">
+                  一场持续更新的个人展览
+                </PrintInk>
+              </p>
               <h2>
-                Ideas,
+                <PrintInk>Ideas,</PrintInk>
                 <br />
-                <em>made tangible.</em>
+                <em>
+                  <PrintInk>made tangible.</PrintInk>
+                </em>
               </h2>
               <p className="work-archive__intro">
-                一些做出来的想法。
+                <PrintInk>一些做出来的想法。</PrintInk>
                 <br />
-                有可以使用的作品，也有正在长出形状的实验。
+                <PrintInk>有可以使用的作品，也有正在长出形状的实验。</PrintInk>
               </p>
               <a href="#project-catalog" className="work-exhibition__enter">
-                进入作品索引 <BrandIcon name="arrow" size={21} />
+                <PrintInk className="work-exhibition__enter-label">
+                  <span>进入作品索引</span>
+                  <BrandIcon name="arrow" size={21} />
+                </PrintInk>
               </a>
             </div>
             <div className="work-exhibition__installation" data-archive-object>

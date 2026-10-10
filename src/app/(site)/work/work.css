@@ -81,6 +81,12 @@
   color: #a03522;
   border-color: var(--studio-red);
 }
+.studio-shell .work-exhibition__enter-label[data-print-ink],
+.studio-shell .work-exhibition__enter-label > .print-title__inverse {
+  display: inline-flex;
+  align-items: center;
+  gap: 36px;
+}
 .work-exhibition__installation {
   position: relative;
   min-width: 0;

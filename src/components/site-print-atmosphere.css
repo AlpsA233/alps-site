@@ -33,7 +33,7 @@ html[data-site-theme="dark"] .studio-shell {
   transform: translate(-3px, 5px);
   opacity: 0.7;
 }
-.studio-shell [data-print-title] {
+.studio-shell [data-print-ink] {
   position: relative;
   display: inline-block;
 }
@@ -49,6 +49,15 @@ html[data-site-theme="dark"] .studio-shell {
 }
 .studio-shell[data-print-ready="true"] .print-title__inverse {
   visibility: visible;
+}
+.studio-shell .print-ink--accent > .print-title__inverse {
+  color: #ff8c75;
+}
+html[data-site-theme="dark"]
+  .studio-shell
+  .print-ink--accent
+  > .print-title__inverse {
+  color: #9e3424;
 }
 .studio-shell .print-grain {
   position: fixed;
@@ -80,7 +89,6 @@ html[data-site-theme="dark"] .studio-shell {
 }
 .studio-shell
   :is(
-    .work-exhibition__statement,
     .work-exhibition__installation-note,
     .work-exhibition__colophon,
     .journal-heading__intro,
