@@ -3,7 +3,7 @@
 import { useEffect, useId, useRef } from "react";
 import { useMotionPreference } from "@/components/use-motion-preference";
 import { useSiteMotion } from "@/components/site-motion";
-import plateGeometry from "./print-plate-v2.json";
+import plateGeometry from "./print-plate-v3.json";
 import "./site-print-atmosphere.css";
 
 // The generated ink image supplies the texture and its traced outer silhouette.
@@ -56,6 +56,7 @@ function titleGeometry(title: HTMLElement, shell: HTMLElement) {
 export function SitePrintAtmosphere() {
   const ref = useRef<HTMLDivElement>(null);
   const plateRef = useRef<SVGGElement>(null);
+  const registrationRef = useRef<SVGPolygonElement>(null);
   const clipId = useId();
   const phase = useRef(0);
   const { paused, togglePaused } = useMotionPreference();
@@ -113,6 +114,12 @@ export function SitePrintAtmosphere() {
       plateRef.current?.setAttribute(
         "transform",
         `translate(${(-OVERSCAN_X * 1440) / width} ${(-OVERSCAN_Y * 1000) / height}) scale(${(width + OVERSCAN_X * 2) / width} ${(height + OVERSCAN_Y * 2) / height})`,
+      );
+      // Registration is a fraction of a screen pixel, independent of viewport
+      // aspect ratio and the shared overscan scale.
+      registrationRef.current?.setAttribute(
+        "transform",
+        `translate(${(-0.75 * 1440) / (width + OVERSCAN_X * 2)} ${(0.9 * 1000) / (height + OVERSCAN_Y * 2)})`,
       );
       layer.style.transform = `translate3d(${dx.toFixed(2)}px, ${dy.toFixed(2)}px, 0)`;
       for (const { title, rect, minX, minY, inverse } of positions) {
@@ -247,6 +254,7 @@ export function SitePrintAtmosphere() {
           </defs>
           <g ref={plateRef}>
             <polygon
+              ref={registrationRef}
               className="print-atmosphere__registration"
               points={PLATE_POINTS}
             />
@@ -256,7 +264,7 @@ export function SitePrintAtmosphere() {
             />
             <image
               className="print-atmosphere__texture"
-              href="/backgrounds/print-plate-v2.webp"
+              href="/backgrounds/print-plate-v3.webp"
               x="0"
               y={PLATE_IMAGE_Y}
               width="1440"

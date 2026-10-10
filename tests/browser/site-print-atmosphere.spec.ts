@@ -200,14 +200,14 @@ test("the print image loads, decodes and supplies real raster texture", async ({
 }, testInfo) => {
   const response = page.waitForResponse(
     (result) =>
-      new URL(result.url()).pathname === "/backgrounds/print-plate-v2.webp",
+      new URL(result.url()).pathname === "/backgrounds/print-plate-v3.webp",
   );
   await openWork(page, "light");
   expect((await response).status()).toBe(200);
   const texture = page.locator(".print-atmosphere__texture");
   await expect(texture).toHaveAttribute(
     "href",
-    "/backgrounds/print-plate-v2.webp",
+    "/backgrounds/print-plate-v3.webp",
   );
   const decoded = await texture.evaluate(async (element) => {
     const image = new Image();

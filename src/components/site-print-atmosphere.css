@@ -24,10 +24,10 @@ html[data-site-theme="dark"] .studio-shell {
 }
 .print-atmosphere__plate {
   fill: var(--print-field);
-  fill-opacity: 0.92;
+  fill-opacity: 1;
 }
 .print-atmosphere__texture {
-  opacity: 0.95;
+  opacity: 0.72;
 }
 html[data-site-theme="dark"] .print-atmosphere__texture {
   filter: invert(1) sepia(0.16) brightness(0.88);
@@ -35,11 +35,12 @@ html[data-site-theme="dark"] .print-atmosphere__texture {
 .print-atmosphere__registration {
   fill: none;
   stroke: var(--studio-red);
-  stroke-width: 0.7;
-  stroke-dasharray: 23 1.7 61 0.8 37 2.4;
+  stroke-width: 0.5;
+  stroke-linejoin: round;
+  stroke-linecap: round;
+  stroke-miterlimit: 1.5;
   vector-effect: non-scaling-stroke;
-  transform: translate(-1.8px, 2px);
-  opacity: 0.8;
+  opacity: 0.62;
 }
 .studio-shell [data-print-ink] {
   position: relative;
