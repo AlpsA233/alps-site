@@ -50,8 +50,10 @@ export default async function Work({
       <ArchiveMotion>
         <header className="work-archive__heading" data-archive-hero>
           <div className="work-exhibition__masthead">
-            <p className="work-archive__eyebrow">ALPS / INDEPENDENT PRACTICE</p>
-            <span>OBJECTS, IDEAS & EXPERIMENTS</span>
+            <p className="work-archive__eyebrow">
+              <PrintInk>ALPS / INDEPENDENT PRACTICE</PrintInk>
+            </p>
+            <PrintInk>OBJECTS, IDEAS & EXPERIMENTS</PrintInk>
           </div>
           <h1 aria-label="作品 / Selected work">
             <span className="work-exhibition__title">
@@ -155,8 +157,8 @@ export default async function Work({
             </div>
           </div>
           <div className="work-exhibition__hero-foot">
-            <span>SELECTED WORKS, OPEN ENDED.</span>
-            <span>VIEW INDEX ↓</span>
+            <PrintInk>SELECTED WORKS, OPEN ENDED.</PrintInk>
+            <PrintInk>VIEW INDEX ↓</PrintInk>
           </div>
         </header>
         <div

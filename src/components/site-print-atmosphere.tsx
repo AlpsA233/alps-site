@@ -1,31 +1,25 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useId, useRef } from "react";
 import { useMotionPreference } from "@/components/use-motion-preference";
 import { useSiteMotion } from "@/components/site-motion";
+import plateGeometry from "./print-plate-v2.json";
 import "./site-print-atmosphere.css";
 
-// One plate supplies both the fixed field and the inverse ink inside each glyph.
-// Explicit text clipping keeps photographs and vermillion accents in their own colors.
+// The generated ink image supplies the texture and its traced outer silhouette.
+// Background and glyphs share that silhouette; neither is a smooth stand-in.
 type Point = readonly [number, number];
-function curve(start: Point, control: Point, end: Point): Point[] {
-  return Array.from({ length: 20 }, (_, index) => {
-    const t = (index + 1) / 20;
-    return [
-      (1 - t) ** 2 * start[0] + 2 * (1 - t) * t * control[0] + t ** 2 * end[0],
-      (1 - t) ** 2 * start[1] + 2 * (1 - t) * t * control[1] + t ** 2 * end[1],
-    ];
-  });
-}
-const PLATE: Point[] = [
-  [840, -160],
-  [1680, -160],
-  [1680, 550],
-  ...curve([1680, 550], [1560, 830], [1250, 714]),
-  [492, 422],
-  ...curve([492, 422], [434, 400], [463, 350]),
-];
+const PLATE_IMAGE_Y = 0;
+const PLATE: Point[] = plateGeometry.points.map(([x, y]) => [
+  (x * 1440) / plateGeometry.width,
+  (y * 1000) / plateGeometry.height + PLATE_IMAGE_Y,
+]);
 const PLATE_POINTS = PLATE.map((point) => point.join(",")).join(" ");
+// Keep the cropped image edges outside the viewport throughout its drift.
+// CSS-pixel margins also cover narrow desktop windows without moving the plate
+// farther into the composition than a percentage-based enlargement would.
+const OVERSCAN_X = 48;
+const OVERSCAN_Y = 20;
 
 function titleGeometry(title: HTMLElement, shell: HTMLElement) {
   const rect = title.getBoundingClientRect();
@@ -61,6 +55,8 @@ function titleGeometry(title: HTMLElement, shell: HTMLElement) {
 
 export function SitePrintAtmosphere() {
   const ref = useRef<HTMLDivElement>(null);
+  const plateRef = useRef<SVGGElement>(null);
+  const clipId = useId();
   const phase = useRef(0);
   const { paused, togglePaused } = useMotionPreference();
   const pausedRef = useRef(paused);
@@ -114,13 +110,27 @@ export function SitePrintAtmosphere() {
         title,
         ...titleGeometry(title, shell),
       }));
+      plateRef.current?.setAttribute(
+        "transform",
+        `translate(${(-OVERSCAN_X * 1440) / width} ${(-OVERSCAN_Y * 1000) / height}) scale(${(width + OVERSCAN_X * 2) / width} ${(height + OVERSCAN_Y * 2) / height})`,
+      );
       layer.style.transform = `translate3d(${dx.toFixed(2)}px, ${dy.toFixed(2)}px, 0)`;
       for (const { title, rect, minX, minY, inverse } of positions) {
         if (!rect.width || !rect.height || rect.bottom < 0 || rect.top > height)
           continue;
         const clip = PLATE.map(([x, y]) => {
-          const px = (x * width) / 1440 + dx - rect.left + minX;
-          const py = (y * height) / 1000 + dy - rect.top + minY;
+          const px =
+            (x * (width + OVERSCAN_X * 2)) / 1440 -
+            OVERSCAN_X +
+            dx -
+            rect.left +
+            minX;
+          const py =
+            (y * (height + OVERSCAN_Y * 2)) / 1000 -
+            OVERSCAN_Y +
+            dy -
+            rect.top +
+            minY;
           return `${(inverse.a * px + inverse.c * py).toFixed(2)}px ${(inverse.b * px + inverse.d * py).toFixed(2)}px`;
         }).join(",");
         title.style.setProperty("--print-clip", `polygon(${clip})`);
@@ -230,11 +240,31 @@ export function SitePrintAtmosphere() {
           preserveAspectRatio="none"
           focusable="false"
         >
-          <polygon
-            className="print-atmosphere__registration"
-            points={PLATE_POINTS}
-          />
-          <polygon className="print-atmosphere__plate" points={PLATE_POINTS} />
+          <defs>
+            <clipPath id={clipId} clipPathUnits="userSpaceOnUse">
+              <polygon points={PLATE_POINTS} />
+            </clipPath>
+          </defs>
+          <g ref={plateRef}>
+            <polygon
+              className="print-atmosphere__registration"
+              points={PLATE_POINTS}
+            />
+            <polygon
+              className="print-atmosphere__plate"
+              points={PLATE_POINTS}
+            />
+            <image
+              className="print-atmosphere__texture"
+              href="/backgrounds/print-plate-v2.webp"
+              x="0"
+              y={PLATE_IMAGE_Y}
+              width="1440"
+              height="1000"
+              preserveAspectRatio="none"
+              clipPath={`url(#${clipId})`}
+            />
+          </g>
         </svg>
       </div>
       <div className="print-grain" aria-hidden="true" />
