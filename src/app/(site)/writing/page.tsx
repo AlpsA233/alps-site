@@ -12,7 +12,7 @@ import { readingTime, shortDate } from "@/lib/content";
 import { EntryCover } from "@/components/entry-cover";
 import { BrandIcon } from "@/components/brand";
 import { ArchiveMotion } from "@/components/archive-motion";
-import { PrintTitle } from "@/components/print-title";
+import { PrintInk, PrintTitle } from "@/components/print-title";
 import "./writing.css";
 
 export const metadata: Metadata = {
@@ -54,8 +54,12 @@ export default async function Writing({
       <ArchiveMotion>
         <header className="journal-heading" data-archive-hero>
           <div className="journal-heading__topline">
-            <span>ALPS / AN INDEPENDENT PUBLICATION</span>
-            <span>文字，另一种实验。</span>
+            <PrintInk className="journal-heading__line">
+              <span className="journal-heading__line-content">
+                <span>ALPS / AN INDEPENDENT PUBLICATION</span>
+                <span>文字，另一种实验。</span>
+              </span>
+            </PrintInk>
           </div>
           <div className="journal-heading__copy">
             <h1 aria-label="文字 / Side notes">
@@ -66,15 +70,26 @@ export default async function Writing({
               </span>
             </h1>
             <div className="journal-heading__intro">
-              <BrandIcon name="mark" size={28} />
+              <PrintInk
+                className="journal-heading__intro-mark print-ink--accent"
+                aria-hidden="true"
+              >
+                <BrandIcon name="mark" size={28} />
+              </PrintInk>
               <p>
-                一个念头，接着另一个。
-                <br />
-                关于代码、设计，和还没想清楚的事。
+                <PrintInk>
+                  一个念头，接着另一个。
+                  <br />
+                  关于代码、设计，和还没想清楚的事。
+                </PrintInk>
               </p>
             </div>
             <a className="journal-heading__index-link" href="#writing-catalog">
-              直接翻到目录 <BrandIcon name="arrow" size={19} />
+              <PrintInk>
+                <span className="journal-heading__index-copy">
+                  直接翻到目录 <BrandIcon name="arrow" size={19} />
+                </span>
+              </PrintInk>
             </a>
           </div>
           <div className="journal-edition-stage">
@@ -82,7 +97,9 @@ export default async function Writing({
               className="journal-edition-stage__annotation"
               aria-hidden="true"
             >
-              a thought, then another.
+              <PrintInk className="print-ink--accent">
+                a thought, then another.
+              </PrintInk>
             </span>
             <details
               className="journal-edition"
@@ -164,11 +181,15 @@ export default async function Writing({
             </details>
           </div>
           <div className="journal-heading__footer">
-            <span>不是答案，是一个开始。</span>
-            <span>
-              {String(catalog.totalPublished).padStart(2, "0")} STORIES &
-              COUNTING
-            </span>
+            <PrintInk className="journal-heading__line">
+              <span className="journal-heading__line-content">
+                <span>不是答案，是一个开始。</span>
+                <span>
+                  {String(catalog.totalPublished).padStart(2, "0")} STORIES &
+                  COUNTING
+                </span>
+              </span>
+            </PrintInk>
           </div>
         </header>
 

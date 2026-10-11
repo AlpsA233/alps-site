@@ -21,8 +21,22 @@
   letter-spacing: 0.06em;
 }
 .writing-journal.journal-exhibition .journal-heading__topline {
+  padding-bottom: 0;
+}
+.writing-journal.journal-exhibition .journal-heading__line {
+  width: 100%;
+}
+.writing-journal.journal-exhibition .journal-heading__line-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+}
+.writing-journal.journal-exhibition
+  .journal-heading__topline
+  .journal-heading__line-content {
   padding-bottom: 18px;
-  border-bottom: 1px solid var(--studio-ink);
+  border-bottom: 1px solid currentColor;
 }
 .writing-journal.journal-exhibition .journal-heading__copy {
   min-width: 0;
@@ -52,7 +66,7 @@
   gap: 18px;
   margin-top: 30px;
 }
-.writing-journal.journal-exhibition .journal-heading__intro > .brand-icon {
+.writing-journal.journal-exhibition .journal-heading__intro-mark {
   color: var(--studio-red);
   flex-shrink: 0;
   margin-top: 5px;
@@ -65,17 +79,24 @@
 }
 .writing-journal.journal-exhibition .journal-heading__index-link {
   display: inline-flex;
-  align-items: center;
-  gap: 18px;
   margin: 23px 0 0 46px;
-  padding: 8px 0;
-  border-bottom: 1px solid var(--studio-ink);
   font-size: 11px;
 }
+.writing-journal.journal-exhibition .journal-heading__index-copy {
+  display: inline-flex;
+  align-items: center;
+  gap: 18px;
+  padding: 8px 0;
+  border-bottom: 1px solid currentColor;
+}
 .writing-journal.journal-exhibition .journal-heading__footer {
-  border-top: 1px solid var(--studio-ink);
-  padding-top: 18px;
   color: #60564c;
+}
+.writing-journal.journal-exhibition
+  .journal-heading__footer
+  .journal-heading__line-content {
+  border-top: 1px solid currentColor;
+  padding-top: 18px;
 }
 .writing-journal.journal-exhibition .journal-edition-stage {
   position: relative;
@@ -85,12 +106,14 @@
     rotate(calc(var(--archive-turn, 0deg) / 6));
 }
 .writing-journal.journal-exhibition .journal-edition-stage__annotation {
-  position: absolute;
-  top: -10px;
-  right: 16px;
+  position: relative;
+  display: block;
+  width: fit-content;
+  margin: 0 16px 40px auto;
   z-index: 2;
   font-family: var(--hand);
   font-size: 26px;
+  line-height: 1.05;
   color: #9d2c1e;
   transform: rotate(7deg);
 }
@@ -808,10 +831,12 @@
   }
   .writing-journal.journal-exhibition .journal-heading__topline,
   .writing-journal.journal-exhibition .journal-heading__footer {
+    font-size: 8px;
+  }
+  .writing-journal.journal-exhibition .journal-heading__line-content {
     align-items: start;
     flex-wrap: wrap;
     gap: 9px;
-    font-size: 8px;
   }
   .writing-journal.journal-exhibition .journal-heading h1 {
     font-size: clamp(79px, 20.7vw, 139px);
@@ -838,7 +863,7 @@
   }
   .writing-journal.journal-exhibition .journal-edition-stage__annotation {
     font-size: 23px;
-    right: 4px;
+    margin-right: 4px;
   }
   .writing-journal.journal-exhibition .journal-edition {
     transform: rotate(-3deg);

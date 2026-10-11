@@ -84,11 +84,6 @@ html[data-site-theme="dark"]
   :is(
     .work-exhibition__installation-note,
     .work-exhibition__colophon,
-    .journal-heading__intro,
-    .journal-heading__index-link,
-    .journal-edition-stage__annotation,
-    .journal-heading__topline,
-    .journal-heading__footer,
     .about-editorial-kicker,
     .about-editorial-title > p,
     .about-editorial-landscape figcaption,
