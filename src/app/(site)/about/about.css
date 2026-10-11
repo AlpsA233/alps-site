@@ -64,14 +64,21 @@
 }
 
 .about-editorial .about-editorial-landscape figcaption {
+  font-size: 10px;
+  letter-spacing: 0.1em;
+}
+
+.about-editorial .about-editorial-caption-ink {
+  width: 100%;
+}
+
+.about-editorial .about-editorial-caption-content {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 20px;
   padding: 18px 0;
-  border-bottom: 1px solid var(--line);
-  font-size: 10px;
-  letter-spacing: 0.1em;
+  border-bottom: 1px solid currentColor;
 }
 
 .about-editorial .about-editorial-story {
@@ -252,6 +259,9 @@
   .about-editorial .about-editorial-landscape figcaption {
     font-size: 9px;
     letter-spacing: 0.06em;
+  }
+
+  .about-editorial .about-editorial-caption-content {
     padding: 13px 0;
   }
 

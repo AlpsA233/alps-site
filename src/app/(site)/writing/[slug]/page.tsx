@@ -11,6 +11,7 @@ import { Markdown } from "@/components/markdown";
 import { BrandIcon } from "@/components/brand";
 import { EntryCover } from "@/components/entry-cover";
 import { MotionReveal } from "@/components/motion-reveal";
+import { PrintInk, PrintRule } from "@/components/print-title";
 type Props = { params: Promise<{ slug: string }> };
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const entry = await getPublishedEntry("post", (await params).slug);
@@ -26,31 +27,40 @@ export default async function Post({ params }: Props) {
   return (
     <main id="main" className="article-page">
       <Link className="back-link" href="/writing">
-        所有文字
+        <PrintInk className="print-link-copy">所有文字</PrintInk>
       </Link>
       <header className="article-heading">
-        <p className="eyebrow">{entry.category} / NOTES & THOUGHTS</p>
+        <p className="eyebrow">
+          <PrintInk>{entry.category} / NOTES & THOUGHTS</PrintInk>
+        </p>
         <h1>
-          <MotionReveal as="span">{entry.title}</MotionReveal>
+          <MotionReveal as="span">
+            <PrintInk>{entry.title}</PrintInk>
+          </MotionReveal>
         </h1>
-        <p className="article-summary">{entry.summary}</p>
+        <p className="article-summary">
+          <PrintInk>{entry.summary}</PrintInk>
+        </p>
         <div className="article-meta">
           <span className="author-initial">
             {profile.name.slice(0, 1).toUpperCase()}
           </span>
-          <span>{profile.name}</span>
-          <span>·</span>
+          <PrintInk>{profile.name}</PrintInk>
+          <PrintInk>·</PrintInk>
           <time dateTime={entry.createdAt}>
-            {new Date(entry.createdAt).toLocaleDateString("zh-CN", {
-              timeZone: "Asia/Shanghai",
-              year: "numeric",
-              month: "long",
-              day: "numeric",
-            })}
+            <PrintInk>
+              {new Date(entry.createdAt).toLocaleDateString("zh-CN", {
+                timeZone: "Asia/Shanghai",
+                year: "numeric",
+                month: "long",
+                day: "numeric",
+              })}
+            </PrintInk>
           </time>
-          <span>·</span>
-          <span>{readingTime(entry.body)} 分钟阅读</span>
+          <PrintInk>·</PrintInk>
+          <PrintInk>{readingTime(entry.body)} 分钟阅读</PrintInk>
         </div>
+        <PrintRule className="article-heading__rule" />
       </header>
       {entry.coverPath && (
         <EntryCover

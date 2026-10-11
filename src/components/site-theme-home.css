@@ -40,8 +40,11 @@ html[data-site-theme="dark"] .studio-shell .poster-edition {
 }
 
 html[data-site-theme="dark"] .studio-shell .poster-availability i {
-  background: var(--theme-coral);
+  background: currentColor;
   box-shadow: 0 0 0 4px #e6462d26;
+}
+html[data-site-theme="dark"] .studio-shell .poster-status {
+  color: var(--theme-coral);
 }
 
 html[data-site-theme="dark"] .studio-shell .poster-object-button img {

@@ -82,8 +82,10 @@ export default async function Work({
               </p>
               <a href="#project-catalog" className="work-exhibition__enter">
                 <PrintInk className="work-exhibition__enter-label">
-                  <span>进入作品索引</span>
-                  <BrandIcon name="arrow" size={21} />
+                  <span className="work-exhibition__enter-copy">
+                    <span>进入作品索引</span>
+                    <BrandIcon name="arrow" size={21} />
+                  </span>
                 </PrintInk>
               </a>
             </div>
@@ -152,13 +154,17 @@ export default async function Work({
                 <BrandIcon name="arrow" size={18} />
               </button>
               <p className="work-exhibition__installation-note">
-                点击旋转 / 鼠标拖动
+                <PrintInk>点击旋转 / 鼠标拖动</PrintInk>
               </p>
             </div>
           </div>
           <div className="work-exhibition__hero-foot">
-            <PrintInk>SELECTED WORKS, OPEN ENDED.</PrintInk>
-            <PrintInk>VIEW INDEX ↓</PrintInk>
+            <PrintInk className="work-exhibition__hero-foot-ink">
+              <span className="work-exhibition__hero-foot-copy">
+                <span>SELECTED WORKS, OPEN ENDED.</span>
+                <span>VIEW INDEX ↓</span>
+              </span>
+            </PrintInk>
           </div>
         </header>
         <div
@@ -454,12 +460,21 @@ export default async function Work({
           )}
         </section>
         <div className="work-exhibition__colophon">
-          <BrandIcon name="mark" size={42} />
-          <p className="work-archive__sign">More ideas on the way.</p>
-          <span>
-            END OF THIS SELECTION
-            <br />
-            KEEP EXPLORING.
+          <PrintInk
+            className="work-exhibition__colophon-mark print-ink--accent"
+            aria-hidden="true"
+          >
+            <BrandIcon name="mark" size={42} />
+          </PrintInk>
+          <p className="work-archive__sign">
+            <PrintInk>More ideas on the way.</PrintInk>
+          </p>
+          <span className="work-exhibition__colophon-note">
+            <PrintInk>
+              END OF THIS SELECTION
+              <br />
+              KEEP EXPLORING.
+            </PrintInk>
           </span>
         </div>
       </ArchiveMotion>

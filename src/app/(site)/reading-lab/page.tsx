@@ -3,6 +3,7 @@ import Link from "@/components/motion-link";
 import { Markdown } from "@/components/markdown";
 import { BrandIcon } from "@/components/brand";
 import { markdownShowcase } from "@/lib/markdown-showcase";
+import { PrintInk } from "@/components/print-title";
 import "./reading-lab.css";
 
 export const metadata: Metadata = {
@@ -15,19 +16,30 @@ export default function ReadingLab() {
     <main id="main" className="reading-lab">
       <header className="reading-lab__heading">
         <Link href="/writing" className="reading-lab__back">
-          <span aria-hidden="true">←</span> 回到文字目录
+          <PrintInk className="print-link-copy">
+            <span aria-hidden="true">←</span> 回到文字目录
+          </PrintInk>
         </Link>
-        <p className="eyebrow">THE READING ROOM / 阅读样张</p>
+        <p className="eyebrow">
+          <PrintInk>THE READING ROOM / 阅读样张</PrintInk>
+        </p>
         <h1>
-          一张未完成的<span>手稿。</span>
+          <PrintInk>一张未完成的</PrintInk>
+          <PrintInk className="reading-lab__title-accent print-ink--accent">
+            手稿。
+          </PrintInk>
         </h1>
         <div className="reading-lab__intro">
           <p>
-            写下来，也允许改一改。
-            <br />
-            一小段文字，和几种留下想法的方式。
+            <PrintInk>
+              写下来，也允许改一改。
+              <br />
+              一小段文字，和几种留下想法的方式。
+            </PrintInk>
           </p>
-          <span aria-hidden="true">still thinking.</span>
+          <span aria-hidden="true">
+            <PrintInk className="print-ink--accent">still thinking.</PrintInk>
+          </span>
         </div>
       </header>
       <div className="reading-lab__paper">

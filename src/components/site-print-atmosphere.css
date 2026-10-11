@@ -30,7 +30,7 @@ html[data-site-theme="dark"] .print-atmosphere__texture {
   position: relative;
   display: inline-block;
 }
-.studio-shell .print-title__inverse {
+.studio-shell [data-print-ink] > .print-title__inverse {
   position: absolute;
   inset: 0;
   display: block;
@@ -46,6 +46,16 @@ html[data-site-theme="dark"] .print-atmosphere__texture {
 .studio-shell .print-ink--accent > .print-title__inverse {
   color: #ff8c75;
 }
+.studio-shell [data-print-ink].print-rule {
+  display: block;
+  width: 100%;
+  height: 1px;
+}
+.print-rule__stroke {
+  display: block;
+  height: 1px;
+  background: currentColor;
+}
 html[data-site-theme="dark"]
   .studio-shell
   .print-ink--accent
@@ -60,38 +70,59 @@ html[data-site-theme="dark"]
   opacity: 0.018;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Cpath fill='%23808080' filter='url(%23n)' d='M0 0h140v140H0z'/%3E%3C/svg%3E");
 }
-/* Paper surfaces are intentionally local: the field can cross margins and giant
-   type, while long-form reading and every control keep their original contrast. */
+/* Reading sheets and physical cards hold their own paper. Editorial text and
+   captions sit directly on the field, with PrintInk keeping their contrast. */
 .studio-shell .editorial-home {
   background: transparent;
 }
-.studio-shell
-  :is(
-    .work-catalog,
-    .journal-catalog,
-    .project-page,
-    .article-page,
-    .reading-lab,
-    .about-editorial-story,
-    .editorial-manifesto,
-    .editorial-notes,
-    .editorial-person
-  ) {
+.studio-shell :is(.work-catalog, .journal-catalog, .about-editorial-story) {
   background-color: var(--paper);
   box-shadow: 0 0 0 24px var(--paper);
 }
-.studio-shell
-  :is(
-    .work-exhibition__installation-note,
-    .work-exhibition__colophon,
-    .about-editorial-kicker,
-    .about-editorial-title > p,
-    .about-editorial-landscape figcaption,
-    .poster-topline,
-    .poster-play-note
-  ) {
+.studio-shell :is(.article-body, .project-detail-body, .reading-lab__source) {
   background-color: var(--paper);
-  box-shadow: 0 0 0 8px var(--paper);
+  border: 1px solid var(--line);
+  padding: clamp(20px, 3vw, 40px);
+}
+.studio-shell .article-body {
+  max-width: 780px;
+}
+.studio-shell .project-detail-body {
+  margin-top: clamp(34px, 5vw, 70px);
+}
+.studio-shell :is(.project-page, .article-page) .back-link,
+.studio-shell .project-end .text-link,
+.studio-shell .reading-lab__back {
+  border-bottom: 0;
+  padding-bottom: 0;
+}
+.studio-shell .print-link-copy {
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+  padding-bottom: 7px;
+  border-bottom: 1px solid currentColor;
+}
+.studio-shell .article-heading {
+  border-bottom: 0;
+  padding-bottom: 0;
+}
+.studio-shell .article-heading__rule {
+  margin-top: 39px;
+}
+.studio-shell .project-end {
+  position: relative;
+  border-top: 0;
+}
+.studio-shell .project-end > .print-rule {
+  position: absolute;
+  top: 0;
+}
+.studio-shell
+  .reading-lab__heading
+  h1
+  > [data-print-ink]:not(.reading-lab__title-accent) {
+  color: var(--ink);
 }
 .studio-shell .print-motion-toggle {
   position: fixed;

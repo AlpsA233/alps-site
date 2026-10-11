@@ -18,3 +18,11 @@ export function PrintInk({ children, ...props }: PrintInkProps) {
 export function PrintTitle(props: PrintInkProps & { children: string }) {
   return <PrintInk {...props} data-print-title />;
 }
+
+export function PrintRule({ className = "" }: { className?: string }) {
+  return (
+    <PrintInk className={`print-rule ${className}`.trim()} aria-hidden="true">
+      <span className="print-rule__stroke" />
+    </PrintInk>
+  );
+}

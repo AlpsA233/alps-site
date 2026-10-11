@@ -6,6 +6,7 @@ import { Markdown } from "@/components/markdown";
 import { BrandIcon } from "@/components/brand";
 import { EntryCover } from "@/components/entry-cover";
 import { MotionReveal } from "@/components/motion-reveal";
+import { PrintInk, PrintRule } from "@/components/print-title";
 type Props = { params: Promise<{ slug: string }> };
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const entry = await getPublishedEntry("project", (await params).slug);
@@ -17,24 +18,42 @@ export default async function Project({ params }: Props) {
   return (
     <main id="main" className="project-page">
       <Link className="back-link" href="/work">
-        所有作品
+        <PrintInk className="print-link-copy">所有作品</PrintInk>
       </Link>
       <header className="project-detail-heading">
         <div>
-          <p className="eyebrow">A SELECTED PROJECT / {entry.year}</p>
+          <p className="eyebrow">
+            <PrintInk>A SELECTED PROJECT / {entry.year}</PrintInk>
+          </p>
           <h1>
-            <MotionReveal as="span">{entry.title}</MotionReveal>
+            <MotionReveal as="span">
+              <PrintInk>{entry.title}</PrintInk>
+            </MotionReveal>
           </h1>
-          <p>{entry.subtitle}</p>
+          <p>
+            <PrintInk>{entry.subtitle}</PrintInk>
+          </p>
         </div>
         <div className="project-spec">
           <dl>
-            <dt>类型</dt>
-            <dd>{entry.category}</dd>
-            <dt>年份</dt>
-            <dd>{entry.year}</dd>
-            <dt>关键词</dt>
-            <dd>{entry.tags.split(",").join(" / ")}</dd>
+            <dt>
+              <PrintInk>类型</PrintInk>
+            </dt>
+            <dd>
+              <PrintInk>{entry.category}</PrintInk>
+            </dd>
+            <dt>
+              <PrintInk>年份</PrintInk>
+            </dt>
+            <dd>
+              <PrintInk>{entry.year}</PrintInk>
+            </dd>
+            <dt>
+              <PrintInk>关键词</PrintInk>
+            </dt>
+            <dd>
+              <PrintInk>{entry.tags.split(",").join(" / ")}</PrintInk>
+            </dd>
           </dl>
           {entry.url && (
             <a
@@ -90,9 +109,14 @@ export default async function Project({ params }: Props) {
         <Markdown body={entry.body} />
       </section>
       <div className="project-end">
-        <span className="hand-note-inline">On to the next idea.</span>
+        <PrintRule />
+        <span className="hand-note-inline">
+          <PrintInk className="print-ink--accent">
+            On to the next idea.
+          </PrintInk>
+        </span>
         <Link className="text-link" href="/work">
-          回到作品集
+          <PrintInk className="print-link-copy">回到作品集</PrintInk>
         </Link>
       </div>
     </main>

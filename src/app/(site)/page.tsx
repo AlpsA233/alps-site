@@ -29,12 +29,19 @@ export default async function Home() {
         >
           <div className="poster-frame" data-hero-frame>
             <div className="poster-topline">
-              <span>INDEPENDENT MIND. HANDS-ON MAKER.</span>
+              <PrintInk>INDEPENDENT MIND. HANDS-ON MAKER.</PrintInk>
               <span className="poster-availability">
-                <i aria-hidden="true" />
-                {profile.available === "yes"
-                  ? "开放交流与合作"
-                  : "正在创造新东西"}
+                <PrintInk
+                  className="poster-status print-ink--accent"
+                  aria-hidden="true"
+                >
+                  <i />
+                </PrintInk>
+                <PrintInk>
+                  {profile.available === "yes"
+                    ? "开放交流与合作"
+                    : "正在创造新东西"}
+                </PrintInk>
               </span>
             </div>
             <h1
@@ -65,20 +72,22 @@ export default async function Home() {
               ))}
             </h1>
             <div className="poster-cross" aria-hidden="true">
-              <svg viewBox="0 0 80 80" fill="none">
-                <path
-                  d="M40 6v68M6 40h68"
-                  stroke="currentColor"
-                  strokeWidth="1"
-                />
-                <circle
-                  cx="40"
-                  cy="40"
-                  r="32"
-                  stroke="currentColor"
-                  strokeWidth=".5"
-                />
-              </svg>
+              <PrintInk className="print-ink--accent">
+                <svg viewBox="0 0 80 80" fill="none">
+                  <path
+                    d="M40 6v68M6 40h68"
+                    stroke="currentColor"
+                    strokeWidth="1"
+                  />
+                  <circle
+                    cx="40"
+                    cy="40"
+                    r="32"
+                    stroke="currentColor"
+                    strokeWidth=".5"
+                  />
+                </svg>
+              </PrintInk>
             </div>
             <div className="poster-object" data-hero-object>
               <button
@@ -98,10 +107,12 @@ export default async function Home() {
                   draggable={false}
                 />
               </button>
-              <span className="poster-play-note" aria-hidden="true">
-                go on, play a little.
-              </span>
             </div>
+            <span className="poster-play-note" aria-hidden="true">
+              <PrintInk className="print-ink--accent">
+                go on, play a little.
+              </PrintInk>
+            </span>
             <Link className="poster-sticker" href="/about" data-magnetic>
               <BrandIcon name="mark" size={29} />
               <span>
@@ -157,34 +168,43 @@ export default async function Home() {
           aria-labelledby="manifesto-title"
         >
           <div className="editorial-section-label">
-            <span>01 / THE WAY I SEE IT</span>
-            <span>想法，如何发生。</span>
+            <PrintInk>01 / THE WAY I SEE IT</PrintInk>
+            <PrintInk>想法，如何发生。</PrintInk>
           </div>
           <div className="manifesto-layout">
             <p className="manifesto-aside">
-              写代码，做设计。
-              <br />
-              总想多试一种可能。
+              <PrintInk>
+                写代码，做设计。
+                <br />
+                总想多试一种可能。
+              </PrintInk>
             </p>
             <div>
               <h2 id="manifesto-title" className="manifesto-statement">
-                <span data-ink-word>逻辑，</span>
-                <span data-ink-word>也要有直觉。</span>
+                <PrintInk data-ink-word>逻辑，</PrintInk>
+                <PrintInk data-ink-word>也要有直觉。</PrintInk>
                 <br />
-                <span data-ink-word>功能，</span>
-                <span data-ink-word>也可以有性格。</span>
+                <PrintInk data-ink-word>功能，</PrintInk>
+                <PrintInk data-ink-word>也可以有性格。</PrintInk>
                 <br />
-                <span data-ink-word>把好奇心，</span>
-                <span className="manifesto-red" data-ink-word>
+                <PrintInk data-ink-word>把好奇心，</PrintInk>
+                <PrintInk
+                  className="manifesto-red print-ink--accent"
+                  data-ink-word
+                >
                   做成体验。
-                </span>
+                </PrintInk>
               </h2>
               <div className="manifesto-bottom">
-                <p>{profile.intro}</p>
+                <p>
+                  <PrintInk>{profile.intro}</PrintInk>
+                </p>
                 <span>
-                  less expected.
-                  <br />
-                  more you.
+                  <PrintInk className="print-ink--accent">
+                    less expected.
+                    <br />
+                    more you.
+                  </PrintInk>
                 </span>
               </div>
             </div>
@@ -277,16 +297,27 @@ export default async function Home() {
           aria-labelledby="editorial-notes-title"
         >
           <div className="editorial-section-label">
-            <span>03 / NOTES & SIDE THOUGHTS</span>
-            <Link href="/writing" className="editorial-line-link">
-              所有文字 <BrandIcon name="arrow" size={20} />
+            <PrintInk>03 / NOTES & SIDE THOUGHTS</PrintInk>
+            <Link
+              href="/writing"
+              className="editorial-line-link editorial-line-link--print"
+            >
+              <PrintInk>
+                <span className="editorial-line-link-copy">
+                  所有文字 <BrandIcon name="arrow" size={20} />
+                </span>
+              </PrintInk>
             </Link>
           </div>
           <h2 id="editorial-notes-title" className="editorial-notes-title">
-            <span data-notes-word>
+            <PrintInk data-notes-word>
               In <em>between.</em>
+            </PrintInk>
+            <span className="editorial-notes-mark" aria-hidden="true">
+              <PrintInk className="print-ink--accent">
+                <BrandIcon name="mark" size={86} />
+              </PrintInk>
             </span>
-            <BrandIcon name="mark" size={86} />
           </h2>
           <div className="editorial-note-list">
             {posts.map((post, index) => (
@@ -295,17 +326,34 @@ export default async function Home() {
                 className="editorial-note"
                 href={"/writing/" + post.slug}
               >
+                <PrintInk className="editorial-note-rule" aria-hidden="true">
+                  <span className="editorial-note-rule-line" />
+                </PrintInk>
+                {index === posts.length - 1 && (
+                  <PrintInk
+                    className="editorial-note-rule editorial-note-rule--bottom"
+                    aria-hidden="true"
+                  >
+                    <span className="editorial-note-rule-line" />
+                  </PrintInk>
+                )}
                 <span className="editorial-note-number">
-                  {String(index + 1).padStart(2, "0")}
+                  <PrintInk className="print-ink--accent">
+                    {String(index + 1).padStart(2, "0")}
+                  </PrintInk>
                 </span>
                 <div className="editorial-note-copy">
                   <span className="editorial-note-category">
-                    {post.category} / {post.year}
+                    <PrintInk>
+                      {post.category} / {post.year}
+                    </PrintInk>
                   </span>
-                  <h3>{post.title}</h3>
+                  <h3>
+                    <PrintInk>{post.title}</PrintInk>
+                  </h3>
                 </div>
                 <span className="editorial-note-time">
-                  {readingTime(post.body)} MIN READ
+                  <PrintInk>{readingTime(post.body)} MIN READ</PrintInk>
                 </span>
                 {post.coverPath && (
                   <EntryCover
@@ -314,15 +362,17 @@ export default async function Home() {
                     sizes="200px"
                   />
                 )}
-                <BrandIcon
-                  name="arrow"
-                  size={29}
-                  className="editorial-note-arrow"
-                />
+                <span className="editorial-note-arrow" aria-hidden="true">
+                  <PrintInk>
+                    <BrandIcon name="arrow" size={29} />
+                  </PrintInk>
+                </span>
               </Link>
             ))}
             {!posts.length && (
-              <p className="editorial-empty">下一段文字，还在脑海里。</p>
+              <p className="editorial-empty">
+                <PrintInk>下一段文字，还在脑海里。</PrintInk>
+              </p>
             )}
           </div>
         </section>
@@ -341,19 +391,33 @@ export default async function Home() {
             <span className="editorial-person-hand">a work in progress.</span>
           </div>
           <div className="editorial-person-copy">
-            <p className="editorial-section-label">04 / THE HUMAN PART</p>
+            <p className="editorial-section-label">
+              <PrintInk>04 / THE HUMAN PART</PrintInk>
+            </p>
             <h2 id="editorial-person-title">
-              <MotionReveal as="span">一个人，</MotionReveal>
+              <MotionReveal as="span">
+                <PrintInk>一个人，</PrintInk>
+              </MotionReveal>
               <MotionReveal as="span" delay={100}>
-                许多种可能。
+                <PrintInk>许多种可能。</PrintInk>
               </MotionReveal>
             </h2>
             <p>
-              你好，我是 {profile.name}。<br />
-              在代码和设计之间，寻找自己的表达。
+              <PrintInk>
+                你好，我是 {profile.name}。<br />
+                在代码和设计之间，寻找自己的表达。
+              </PrintInk>
             </p>
-            <Link href="/about" className="editorial-line-link" data-magnetic>
-              更多关于我 <BrandIcon name="arrow" size={23} />
+            <Link
+              href="/about"
+              className="editorial-line-link editorial-line-link--print"
+              data-magnetic
+            >
+              <PrintInk>
+                <span className="editorial-line-link-copy">
+                  更多关于我 <BrandIcon name="arrow" size={23} />
+                </span>
+              </PrintInk>
             </Link>
           </div>
         </section>

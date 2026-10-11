@@ -5,7 +5,7 @@ import { Markdown } from "@/components/markdown";
 import { BrandIcon } from "@/components/brand";
 import { MotionReveal } from "@/components/motion-reveal";
 import { MotionMedia } from "@/components/motion-media";
-import { PrintTitle } from "@/components/print-title";
+import { PrintInk, PrintTitle } from "@/components/print-title";
 import "./about.css";
 export const metadata: Metadata = { title: "关于" };
 export default async function About() {
@@ -14,8 +14,10 @@ export default async function About() {
     <main id="main" className="about-editorial">
       <header className="about-editorial-heading">
         <div className="about-editorial-kicker">
-          <p>03 / A HUMAN BEHIND THE SCREEN</p>
-          <span>关于我</span>
+          <p>
+            <PrintInk>03 / A HUMAN BEHIND THE SCREEN</PrintInk>
+          </p>
+          <PrintInk>关于我</PrintInk>
         </div>
         <div className="about-editorial-title">
           <h1>
@@ -24,9 +26,11 @@ export default async function About() {
             </MotionReveal>
           </h1>
           <p>
-            认识一个名字
-            <br />
-            背后的人。
+            <PrintInk>
+              认识一个名字
+              <br />
+              背后的人。
+            </PrintInk>
           </p>
         </div>
       </header>
@@ -42,8 +46,12 @@ export default async function About() {
           />
         </MotionMedia>
         <figcaption>
-          <span>AN OPEN MIND. A WORK IN PROGRESS.</span>
-          <BrandIcon name="ridge" width={52} height={26} />
+          <PrintInk className="about-editorial-caption-ink">
+            <span className="about-editorial-caption-content">
+              <span>AN OPEN MIND. A WORK IN PROGRESS.</span>
+              <BrandIcon name="ridge" width={52} height={26} />
+            </span>
+          </PrintInk>
         </figcaption>
       </figure>
       <section
