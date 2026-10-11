@@ -4,7 +4,7 @@ import { BrandIcon } from "@/components/brand";
 import { EntryCover } from "@/components/entry-cover";
 import { MotionReveal } from "@/components/motion-reveal";
 import { EditorialStage } from "@/components/editorial-stage";
-import { PrintTitle } from "@/components/print-title";
+import { PrintInk, PrintTitle } from "@/components/print-title";
 import { getEntries, getProfile } from "@/lib/db";
 import { readingTime } from "@/lib/content";
 import type { CSSProperties } from "react";
@@ -113,19 +113,27 @@ export default async function Home() {
             </Link>
             <div className="poster-bottomline">
               <div className="poster-intro">
-                <p>{profile.role}</p>
-                <h2>{profile.headline}</h2>
+                <p>
+                  <PrintInk>{profile.role}</PrintInk>
+                </p>
+                <h2>
+                  <PrintInk>{profile.headline}</PrintInk>
+                </h2>
               </div>
               <a className="poster-explore" href="#selected-work" data-magnetic>
-                <span>往下，看看作品</span>
-                <span className="poster-explore-icon">
-                  <BrandIcon name="arrow" size={24} />
-                </span>
+                <PrintInk>往下，看看作品</PrintInk>
+                <PrintInk aria-hidden="true">
+                  <span className="poster-explore-icon">
+                    <BrandIcon name="arrow" size={24} />
+                  </span>
+                </PrintInk>
               </a>
               <span className="poster-edition">
-                PERSONAL SPACE
-                <br />
-                EST. IN CURIOSITY
+                <PrintInk>
+                  PERSONAL SPACE
+                  <br />
+                  EST. IN CURIOSITY
+                </PrintInk>
               </span>
             </div>
           </div>

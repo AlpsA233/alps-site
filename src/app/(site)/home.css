@@ -176,7 +176,7 @@
 .editorial-home .poster-explore-icon {
   width: 50px;
   height: 50px;
-  border: 1px solid var(--studio-ink);
+  border: 1px solid currentColor;
   border-radius: 50%;
   display: grid;
   place-items: center;
@@ -186,7 +186,9 @@
     color 250ms,
     transform 250ms;
 }
-.editorial-home .poster-explore:hover .poster-explore-icon {
+.editorial-home
+  .poster-explore:is(:hover, :focus-visible)
+  .poster-explore-icon {
   background: var(--studio-red);
   border-color: var(--studio-red);
   color: var(--studio-cream);

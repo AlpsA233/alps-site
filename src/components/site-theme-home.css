@@ -67,8 +67,8 @@ html[data-site-theme="dark"]
 }
 
 html[data-site-theme="dark"] .studio-shell .poster-explore-icon {
-  border-color: #897963;
-  color: var(--theme-text);
+  border-color: currentColor;
+  color: inherit;
 }
 
 html[data-site-theme="dark"]
