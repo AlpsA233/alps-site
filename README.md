@@ -1,6 +1,6 @@
 # Alps · Personal Space
 
-一个基于 **Next.js 16.3.8 / React 19.3 / TypeScript / SQLite（本地）与 Turso libSQL（云端）** 的个人网站，带可直接使用的单人内容后台，可部署到 Vercel。
+一个基于 **Next.js 16.4.6 / React 19.3 / TypeScript / SQLite（本地）与 Turso libSQL（云端）** 的个人网站，带可直接使用的单人内容后台，可部署到 Vercel。
 
 视觉采用实验编辑与拼贴排版：奶油白 `#f5f0e7`、朱红 `#e6462d` 和墨黑 `#211f1a`，以巨幅无衬线文字、错位卡片、细线和手写批注建立节奏。Manrope 用于拉丁正文与大字，Cormorant Garamond 用于少量展示文字，中文使用系统字体，Caveat 用于手写批注。字体随项目本地打包，不依赖 Google Fonts 网络请求。
 
@@ -203,4 +203,4 @@ tests/          安全与初始化回归测试
 data/           运行期数据（Git 忽略）
 ```
 
-依赖版本依据 npm registry 与 [Next.js 官方 2026 年 9 月安全更新](https://nextjs.org/blog/september-2026-security-release)核对。认证与 Server Actions 实现参考 [官方认证文档](https://nextjs.org/docs/app/guides/authentication)、[数据安全文档](https://nextjs.org/docs/app/guides/data-security)。
+依赖版本依据 npm registry 与 [Next.js 官方 2026 年 9 月安全更新](https://nextjs.org/blog/september-2026-security-release)核对，并已升级到修复 2026 年 10 月公告的 Next.js 16.4.6（[图片优化 RCE](https://github.com/advisories/GHSA-2464-fhr4-w9xw)、[Server Actions 拒绝服务](https://github.com/advisories/GHSA-p3m5-59mp-jv5r)、[`use cache` RCE](https://github.com/advisories/GHSA-673q-mjm6-r5xr)）与 zod 4.6.7（[受限集合内存耗尽](https://github.com/advisories/GHSA-mrhx-c7xc-m3w5)）。认证与 Server Actions 实现参考 [官方认证文档](https://nextjs.org/docs/app/guides/authentication)、[数据安全文档](https://nextjs.org/docs/app/guides/data-security)。
