@@ -55,6 +55,14 @@ export function SiteFooter({ profile }: { profile: Profile }) {
         </Link>
         <p>
           © {new Date().getFullYear()} {profile.name}
+          <a
+            className="contact-footer-credit"
+            href="https://open-meteo.com/"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            WEATHER BY OPEN-METEO
+          </a>
         </p>
         <span className="contact-footer-signature">ALWAYS IN THE MAKING.</span>
         <a className="contact-footer-top" href="#main">

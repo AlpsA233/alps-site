@@ -30,7 +30,9 @@ const config: NextConfig = {
           { key: "X-Frame-Options", value: "DENY" },
           {
             key: "Permissions-Policy",
-            value: "camera=(), microphone=(), geolocation=()",
+            // The home page weather desk asks the visitor for a one-time coarse
+            // position; camera and microphone stay unavailable.
+            value: "camera=(), microphone=(), geolocation=(self)",
           },
         ],
       },

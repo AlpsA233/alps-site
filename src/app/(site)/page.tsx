@@ -5,6 +5,7 @@ import { EntryCover } from "@/components/entry-cover";
 import { MotionReveal } from "@/components/motion-reveal";
 import { EditorialStage } from "@/components/editorial-stage";
 import { PrintInk, PrintTitle } from "@/components/print-title";
+import { WeatherDesk } from "@/components/weather-desk";
 import { getEntries, getProfile } from "@/lib/db";
 import { readingTime } from "@/lib/content";
 import type { CSSProperties } from "react";
@@ -30,6 +31,7 @@ export default async function Home() {
           <div className="poster-frame" data-hero-frame>
             <div className="poster-topline">
               <PrintInk>INDEPENDENT MIND. HANDS-ON MAKER.</PrintInk>
+              <WeatherDesk variant="hero" />
               <span className="poster-availability">
                 <PrintInk
                   className="poster-status print-ink--accent"

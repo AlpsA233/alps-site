@@ -291,6 +291,20 @@
   margin: 0;
 }
 
+.studio-shell .contact-footer-credit {
+  margin-left: 10px;
+  padding-bottom: 1px;
+  border-bottom: 1px solid var(--line);
+  letter-spacing: 0.08em;
+  color: var(--muted);
+}
+
+.studio-shell .contact-footer-credit:hover,
+.studio-shell .contact-footer-credit:focus-visible {
+  color: var(--ink);
+  border-color: currentColor;
+}
+
 .studio-shell .contact-footer-signature {
   letter-spacing: 0.04em;
 }
